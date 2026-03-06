@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Exclude error pages
+Disallow: /404
+Disallow: /*?*
+
+# Location of the sitemap
+Sitemap: https://afnanpropertycare.ae/sitemap.xml
