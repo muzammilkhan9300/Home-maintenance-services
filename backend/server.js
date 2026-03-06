@@ -65,7 +65,8 @@ Sent from afnanpropertycare.ae contact form`,
         res.status(200).json({ success: true, message: 'Message sent successfully!' });
     } catch (error) {
         console.error('Error sending email:', error);
-        res.status(500).json({ error: 'Failed to send the email.' });
+        // Expose the raw exact error message so we can debug Hostinger SMTP
+        res.status(500).json({ error: error.message || 'Failed to send the email.' });
     }
 });
 
