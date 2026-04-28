@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, CheckCircle, Upload, FileText, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -118,7 +119,7 @@ const CareerModal = ({ open, onClose }) => {
     }, 300);
   };
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {open && (
         <>
@@ -353,7 +354,8 @@ const CareerModal = ({ open, onClose }) => {
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 
