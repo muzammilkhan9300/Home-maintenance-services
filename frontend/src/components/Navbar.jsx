@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, BriefcaseBusiness } from "lucide-react";
 import { useState, useEffect } from "react";
+import CareerModal from "@/components/CareerModal";
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About Us" },
@@ -10,6 +11,7 @@ const navLinks = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [careerOpen, setCareerOpen] = useState(false);
   const location = useLocation();
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -56,6 +58,16 @@ const Navbar = () => {
         >
           <Phone className="w-4 h-4" /> Book Now
         </Link>
+        <button
+          onClick={() => setCareerOpen(true)}
+          className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-md border text-sm font-semibold transition-all ${
+            scrolledOrNotHome
+              ? "border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+              : "border-white/60 text-white hover:bg-white/10"
+          }`}
+        >
+          <BriefcaseBusiness className="w-4 h-4" /> Careers
+        </button>
       </div>
 
       <button onClick={() => setOpen(!open)} className={`md:hidden ${menuBtnColor}`}>
@@ -79,7 +91,14 @@ const Navbar = () => {
       >
         Book Now
       </Link>
+      <button
+        onClick={() => { setOpen(false); setCareerOpen(true); }}
+        className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-md border border-accent text-accent text-sm font-semibold hover:bg-accent hover:text-accent-foreground transition-all"
+      >
+        <BriefcaseBusiness className="w-4 h-4" /> Careers
+      </button>
     </div>}
+    <CareerModal open={careerOpen} onClose={() => setCareerOpen(false)} />
   </nav>;
 };
 export default Navbar;
