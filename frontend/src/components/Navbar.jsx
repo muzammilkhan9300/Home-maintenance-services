@@ -1,104 +1,120 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, BriefcaseBusiness } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { useState, useEffect } from "react";
 import CareerModal from "@/components/CareerModal";
+
 const navLinks = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About Us" },
   { to: "/services", label: "Services" },
   { to: "/contact", label: "Contact" }
 ];
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [careerOpen, setCareerOpen] = useState(false);
   const location = useLocation();
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
   const isHome = location.pathname === "/";
   const scrolledOrNotHome = scrolled || !isHome;
-  const navBg = scrolledOrNotHome ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border" : "bg-transparent";
-
+  const navBg = scrolledOrNotHome
+    ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"
+    : "bg-transparent";
   const logoColor = scrolledOrNotHome ? "text-primary" : "text-white";
-  const subLogoColor = scrolledOrNotHome ? "text-muted-foreground" : "text-white/80";
   const linkColor = (path) => {
     if (path === location.pathname) return "text-accent";
-    return scrolledOrNotHome ? "text-foreground/80 hover:text-accent" : "text-white/90 hover:text-white";
+    return scrolledOrNotHome
+      ? "text-foreground/80 hover:text-accent"
+      : "text-white/90 hover:text-white";
   };
+  const careerLinkColor = scrolledOrNotHome
+    ? "text-foreground/80 hover:text-accent"
+    : "text-white/90 hover:text-white";
   const menuBtnColor = scrolledOrNotHome ? "text-foreground" : "text-white";
 
-  return <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBg}`}>
-    <div className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
-      <Link to="/" className="flex flex-col">
-        <span className={`text-lg font-bold font-['Montserrat'] tracking-tight leading-tight transition-colors ${logoColor}`}>
-          AFNAN PROPERTY CARE
-        </span>
-        <span className={`text-lg font-bold font-['Montserrat'] tracking-[0.1em] uppercase transition-colors text-gradient-gold`}>
-          Services L.L.C
-        </span>
-      </Link>
-
-      {
-        /* Desktop */
-      }
-      <div className="hidden md:flex items-center gap-8">
-        {navLinks.map((l) => <Link
-          key={l.to}
-          to={l.to}
-          className={`text-sm font-medium transition-colors ${linkColor(l.to)}`}
-        >
-          {l.label}
-        </Link>)}
-        <Link
-          to="/contact"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-accent-foreground text-sm font-semibold hover:brightness-110 transition-all shadow-gold"
-        >
-          <Phone className="w-4 h-4" /> Book Now
+  return (
+    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBg}`}>
+      <div className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
+        <Link to="/" className="flex flex-col">
+          <span className={`text-lg font-bold font-['Montserrat'] tracking-tight leading-tight transition-colors ${logoColor}`}>
+            AFNAN PROPERTY CARE
+          </span>
+          <span className="text-lg font-bold font-['Montserrat'] tracking-[0.1em] uppercase transition-colors text-gradient-gold">
+            Services L.L.C
+          </span>
         </Link>
-        <button
-          onClick={() => setCareerOpen(true)}
-          className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-md border text-sm font-semibold transition-all ${
-            scrolledOrNotHome
-              ? "border-accent text-accent hover:bg-accent hover:text-accent-foreground"
-              : "border-white/60 text-white hover:bg-white/10"
-          }`}
-        >
-          <BriefcaseBusiness className="w-4 h-4" /> Careers
+
+        {/* Desktop nav */}
+        <div className="hidden md:flex items-center gap-8">
+          {navLinks.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className={`text-sm font-medium transition-colors ${linkColor(l.to)}`}
+            >
+              {l.label}
+            </Link>
+          ))}
+          {/* Careers — plain link style, opens modal */}
+          <button
+            onClick={() => setCareerOpen(true)}
+            className={`text-sm font-medium transition-colors ${careerLinkColor}`}
+          >
+            Careers
+          </button>
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-accent-foreground text-sm font-semibold hover:brightness-110 transition-all shadow-gold"
+          >
+            <Phone className="w-4 h-4" /> Book Now
+          </Link>
+        </div>
+
+        {/* Mobile hamburger */}
+        <button onClick={() => setOpen(!open)} className={`md:hidden ${menuBtnColor}`}>
+          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
-      <button onClick={() => setOpen(!open)} className={`md:hidden ${menuBtnColor}`}>
-        {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-      </button>
-    </div>
+      {/* Mobile menu */}
+      {open && (
+        <div className="md:hidden bg-background border-t border-border px-4 py-4 space-y-3">
+          {navLinks.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              onClick={() => setOpen(false)}
+              className="block text-sm font-medium text-foreground/80 hover:text-accent py-2"
+            >
+              {l.label}
+            </Link>
+          ))}
+          {/* Careers — plain link style, opens modal */}
+          <button
+            onClick={() => { setOpen(false); setCareerOpen(true); }}
+            className="block w-full text-left text-sm font-medium text-foreground/80 hover:text-accent py-2"
+          >
+            Careers
+          </button>
+          <Link
+            to="/contact"
+            onClick={() => setOpen(false)}
+            className="block text-center px-5 py-2.5 rounded-md bg-accent text-accent-foreground text-sm font-semibold"
+          >
+            Book Now
+          </Link>
+        </div>
+      )}
 
-    {open && <div className="md:hidden bg-background border-t border-border px-4 py-4 space-y-3">
-      {navLinks.map((l) => <Link
-        key={l.to}
-        to={l.to}
-        onClick={() => setOpen(false)}
-        className="block text-sm font-medium text-foreground/80 hover:text-accent py-2"
-      >
-        {l.label}
-      </Link>)}
-      <Link
-        to="/contact"
-        onClick={() => setOpen(false)}
-        className="block text-center px-5 py-2.5 rounded-md bg-accent text-accent-foreground text-sm font-semibold"
-      >
-        Book Now
-      </Link>
-      <button
-        onClick={() => { setOpen(false); setCareerOpen(true); }}
-        className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-md border border-accent text-accent text-sm font-semibold hover:bg-accent hover:text-accent-foreground transition-all"
-      >
-        <BriefcaseBusiness className="w-4 h-4" /> Careers
-      </button>
-    </div>}
-    <CareerModal open={careerOpen} onClose={() => setCareerOpen(false)} />
-  </nav>;
+      <CareerModal open={careerOpen} onClose={() => setCareerOpen(false)} />
+    </nav>
+  );
 };
 export default Navbar;
