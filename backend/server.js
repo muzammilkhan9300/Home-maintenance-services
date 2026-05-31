@@ -242,9 +242,19 @@ app.post('/api/career', cvUpload.single('cv'), async (req, res) => {
 // ── Health Check Endpoint ──────────────────────────────────────────────────
 app.get('/api/healthcheck', (req, res) => {
   const mongoose = require('mongoose');
+  const fs = require('fs');
+  const path = require('path');
+  const backendEnv = path.join(__dirname, '.env');
+  const rootEnv = path.join(__dirname, '..', '.env');
   res.json({
     status: 'ok',
     database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    paths: {
+      backendEnv,
+      backendEnvExists: fs.existsSync(backendEnv),
+      rootEnv,
+      rootEnvExists: fs.existsSync(rootEnv)
+    },
     env: {
       MONGODB_URI: process.env.MONGODB_URI ? 'Defined' : 'Undefined',
       SMTP_HOST: process.env.SMTP_HOST ? 'Defined' : 'Undefined',
