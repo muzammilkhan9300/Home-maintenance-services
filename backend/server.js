@@ -239,6 +239,23 @@ app.post('/api/career', cvUpload.single('cv'), async (req, res) => {
   }
 });
 
+// ── Health Check Endpoint ──────────────────────────────────────────────────
+app.get('/api/healthcheck', (req, res) => {
+  const mongoose = require('mongoose');
+  res.json({
+    status: 'ok',
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
+    env: {
+      MONGODB_URI: process.env.MONGODB_URI ? 'Defined' : 'Undefined',
+      SMTP_HOST: process.env.SMTP_HOST ? 'Defined' : 'Undefined',
+      SMTP_PORT: process.env.SMTP_PORT ? 'Defined' : 'Undefined',
+      SMTP_USER: process.env.SMTP_USER ? 'Defined' : 'Undefined',
+      SMTP_PASS: process.env.SMTP_PASS ? 'Defined' : 'Undefined',
+      OWNER_EMAIL: process.env.OWNER_EMAIL ? 'Defined' : 'Undefined',
+    }
+  });
+});
+
 // ── Serve React Frontend (catch-all) ──────────────────────────────────────
 const frontendPath = path.join(__dirname, '../frontend/dist');
 app.use(express.static(frontendPath));
