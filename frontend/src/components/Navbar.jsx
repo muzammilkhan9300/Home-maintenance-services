@@ -14,6 +14,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [careerOpen, setCareerOpen] = useState(false);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -21,6 +22,10 @@ const Navbar = () => {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    setIsAdminLoggedIn(!!localStorage.getItem('adminToken'));
+  }, [location.pathname]);
 
   const isHome = location.pathname === "/";
   const scrolledOrNotHome = scrolled || !isHome;
@@ -71,7 +76,7 @@ const Navbar = () => {
           </button>
           {/* Admin Panel — subtle icon link */}
           <Link
-            to="/admin/login"
+            to={isAdminLoggedIn ? "/admin/dashboard" : "/admin/login"}
             title="Admin Panel"
             className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border transition-all ${
               scrolledOrNotHome
@@ -124,7 +129,7 @@ const Navbar = () => {
             Book Now
           </Link>
           <Link
-            to="/admin/login"
+            to={isAdminLoggedIn ? "/admin/dashboard" : "/admin/login"}
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 text-sm font-medium text-foreground/40 hover:text-accent py-2 border-t border-border/50 mt-2 pt-3"
           >

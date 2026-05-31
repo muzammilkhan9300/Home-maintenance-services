@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, Mail, Eye, EyeOff, Shield } from 'lucide-react';
 import { adminApi } from '@/lib/adminApi';
@@ -9,6 +9,14 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('adminToken');
+    const raw   = localStorage.getItem('adminData');
+    if (token && raw) {
+      navigate('/admin/dashboard', { replace: true });
+    }
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
