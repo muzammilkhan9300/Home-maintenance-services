@@ -184,7 +184,12 @@ app.post('/api/contact', async (req, res) => {
     res.status(200).json({ success: true, message: 'Message sent successfully!' });
   } catch (error) {
     console.error('Email error (contact):', error);
-    res.status(500).json({ error: 'Failed to send message. Please try again or contact us directly.' });
+    res.status(500).json({
+      error: 'Failed to send message.',
+      message: error.message,
+      code: error.code,
+      stack: error.stack
+    });
   }
 });
 
@@ -225,7 +230,12 @@ app.post('/api/career', cvUpload.single('cv'), async (req, res) => {
     res.status(200).json({ success: true, message: 'Application submitted successfully!' });
   } catch (error) {
     console.error('Email error (career):', error);
-    res.status(500).json({ error: 'Failed to submit application. Please try again.' });
+    res.status(500).json({
+      error: 'Failed to submit application.',
+      message: error.message,
+      code: error.code,
+      stack: error.stack
+    });
   }
 });
 
