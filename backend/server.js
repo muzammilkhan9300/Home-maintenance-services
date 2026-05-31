@@ -1,5 +1,16 @@
 const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+const fs = require('fs');
+
+const backendEnv = path.join(__dirname, '.env');
+const rootEnv = path.join(__dirname, '..', '.env');
+
+if (fs.existsSync(backendEnv)) {
+  require('dotenv').config({ path: backendEnv });
+} else if (fs.existsSync(rootEnv)) {
+  require('dotenv').config({ path: rootEnv });
+} else {
+  require('dotenv').config();
+}
 
 const express = require('express');
 const nodemailer = require('nodemailer');
