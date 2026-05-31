@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, MessageSquare, FileText, Megaphone,
-  Star, Bell, BarChart2, Settings, LogOut, ChevronRight, Shield,
+  Star, Bell, BarChart2, Settings, LogOut, ChevronRight, Shield, X,
 } from 'lucide-react';
 
 const navItems = [
@@ -15,11 +15,21 @@ const navItems = [
   { icon: Settings,        label: 'Settings',       path: '/admin/settings' },
 ];
 
-const AdminSidebar = ({ admin, onLogout }) => {
+const AdminSidebar = ({ admin, onLogout, onClose }) => {
   const location = useLocation();
 
   return (
-    <aside className="w-64 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col h-full">
+    <aside className="w-64 shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col h-full relative">
+      {/* Mobile close button */}
+      {onClose && (
+        <button 
+          onClick={onClose}
+          className="absolute right-4 top-5 w-8 h-8 flex items-center justify-center rounded-lg bg-slate-800 text-slate-400 hover:text-white border border-slate-700 md:hidden transition-colors"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      )}
+
       {/* Logo */}
       <div className="px-6 py-5 border-b border-slate-800">
         <div className="flex items-center gap-3">
