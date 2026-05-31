@@ -4,6 +4,7 @@ import { ArrowRight, Shield, Clock, Award, CheckCircle, Phone } from "lucide-rea
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServiceCard from "@/components/ServiceCard";
+import AdBanner from "@/components/AdBanner";
 import { services } from "@/data/services";
 import heroImage from "@/assets/hero-dubai-villa.jpg";
 import SEO from "@/components/SEO";
@@ -47,6 +48,8 @@ const Landing = () => {
       description="Afnan Property Care offers premium residential property maintenance in Dubai. Expert AC repair, plumbing, electrical, and handyman services."
       canonicalUrl=""
     />
+    {/* Promotional banner — only shows when an active hero_banner ad exists */}
+    <AdBanner placement="hero_banner" />
     <Navbar />
 
     {
@@ -225,6 +228,8 @@ const Landing = () => {
       </div>
     </section>
 
+    {/* Footer promotional strip */}
+    <AdBanner placement="footer_strip" />
     <Footer />
   </div>;
 };
