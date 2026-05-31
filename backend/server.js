@@ -16,7 +16,6 @@ const express = require('express');
 const nodemailer = require('nodemailer');
 const cors = require('cors');
 const multer = require('multer');
-const fs = require('fs');
 
 // ── Connect MongoDB ────────────────────────────────────────────────────────
 require('./config/db')();
