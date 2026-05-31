@@ -62,6 +62,14 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+transporter.verify((err, success) => {
+  if (err) {
+    console.error('❌ SMTP Connection Error:', err.message);
+  } else {
+    console.log('✅ SMTP connection is verified and ready');
+  }
+});
+
 // ── Models (for public endpoints) ─────────────────────────────────────────
 const ContactSubmission = require('./models/ContactSubmission');
 const CareerApplication = require('./models/CareerApplication');
