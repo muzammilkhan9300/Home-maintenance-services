@@ -196,7 +196,15 @@ app.post('/api/contact', async (req, res) => {
 // ─────────────────────────────────────────────────────────────────────────────
 // Career Form → save to DB + send email with CV attachment
 // ─────────────────────────────────────────────────────────────────────────────
-app.post('/api/career', cvUpload.single('cv'), async (req, res) => {
+app.post('/api/career', (req, res, next) => {
+  cvUpload.single('cv')(req, res, (err) => {
+    if (err) {
+      console.error('Multer upload error:', err.message);
+      return res.status(400).json({ error: err.message || 'File upload failed' });
+    }
+    next();
+  });
+}, async (req, res) => {
   const { firstName, lastName, phone, email, jobTitle, message } = req.body;
   if (!firstName || !lastName || !phone || !email || !jobTitle || !message) {
     return res.status(400).json({ error: 'All fields are required' });
