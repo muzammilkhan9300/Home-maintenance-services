@@ -154,6 +154,19 @@ app.get('/api/notices', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
+// PUBLIC: Active Custom Plugins / Scripts
+// ─────────────────────────────────────────────────────────────────────────────
+const Plugin = require('./models/Plugin');
+app.get('/api/plugins', async (req, res) => {
+  try {
+    const active = await Plugin.find({ isActive: true }).select('name code placement');
+    res.json(active);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to load custom scripts' });
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Contact Form → save to DB + send email
 // ─────────────────────────────────────────────────────────────────────────────
 app.post('/api/contact', async (req, res) => {

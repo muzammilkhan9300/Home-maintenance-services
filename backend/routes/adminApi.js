@@ -10,6 +10,7 @@ const Ad = require('../models/Ad');
 const Testimonial = require('../models/Testimonial');
 const Notice = require('../models/Notice');
 const Settings = require('../models/Settings');
+const Plugin = require('../models/Plugin');
 
 const router = express.Router();
 
@@ -49,6 +50,7 @@ router.get('/stats', async (req, res) => {
       totalApplications, newApplications,
       activeAds, totalAds,
       publishedTestimonials, activeNotices,
+      activePlugins, totalPlugins,
     ] = await Promise.all([
       ContactSubmission.countDocuments(),
       ContactSubmission.countDocuments({ createdAt: { $gte: today } }),
@@ -60,6 +62,8 @@ router.get('/stats', async (req, res) => {
       Ad.countDocuments(),
       Testimonial.countDocuments({ isPublished: true }),
       Notice.countDocuments({ isActive: true }),
+      Plugin.countDocuments({ isActive: true }),
+      Plugin.countDocuments(),
     ]);
 
     res.json({
@@ -67,6 +71,7 @@ router.get('/stats', async (req, res) => {
       totalApplications, newApplications,
       activeAds, totalAds,
       publishedTestimonials, activeNotices,
+      activePlugins, totalPlugins,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -317,6 +322,46 @@ router.patch('/notices/:id', async (req, res) => {
 router.delete('/notices/:id', async (req, res) => {
   try {
     await Notice.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PLUGINS
+// ─────────────────────────────────────────────────────────────────────────────
+router.get('/plugins', async (req, res) => {
+  try {
+    const plugins = await Plugin.find().sort({ createdAt: -1 });
+    res.json(plugins);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.post('/plugins', async (req, res) => {
+  try {
+    const p = await Plugin.create(req.body);
+    res.status(201).json(p);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.patch('/plugins/:id', async (req, res) => {
+  try {
+    const p = await Plugin.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!p) return res.status(404).json({ error: 'Not found' });
+    res.json(p);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.delete('/plugins/:id', async (req, res) => {
+  try {
+    await Plugin.findByIdAndDelete(req.params.id);
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });

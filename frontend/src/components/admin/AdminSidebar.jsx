@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, MessageSquare, FileText, Megaphone,
-  Star, Bell, BarChart2, Settings, LogOut, ChevronRight, Shield, X,
+  Star, Bell, BarChart2, Settings, LogOut, ChevronRight, Shield, X, Plug,
 } from 'lucide-react';
 
 const navItems = [
@@ -12,6 +12,7 @@ const navItems = [
   { icon: Star,            label: 'Testimonials',   path: '/admin/testimonials' },
   { icon: Bell,            label: 'Notices',        path: '/admin/notices' },
   { icon: BarChart2,       label: 'Analytics',      path: '/admin/analytics' },
+  { icon: Plug,            label: 'Plugins',        path: '/admin/plugins' },
   { icon: Settings,        label: 'Settings',       path: '/admin/settings' },
 ];
 

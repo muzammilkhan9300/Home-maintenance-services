@@ -22,7 +22,9 @@ import AdminAds         from "./pages/admin/AdminAds";
 import AdminTestimonials from "./pages/admin/AdminTestimonials";
 import AdminNotices     from "./pages/admin/AdminNotices";
 import AdminAnalytics   from "./pages/admin/AdminAnalytics";
+import AdminPlugins     from "./pages/admin/AdminPlugins";
 import AdminSettings    from "./pages/admin/AdminSettings";
+import ScriptInjector   from "./components/ScriptInjector";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +35,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScriptInjector />
           <Routes>
             {/* ── Public Routes ───────────────────────────────────── */}
             <Route path="/"         element={<Landing />} />
@@ -51,6 +54,7 @@ const App = () => (
               <Route path="testimonials"  element={<AdminTestimonials />} />
               <Route path="notices"       element={<AdminNotices />} />
               <Route path="analytics"     element={<AdminAnalytics />} />
+              <Route path="plugins"       element={<AdminPlugins />} />
               <Route path="settings"      element={<AdminSettings />} />
             </Route>
 

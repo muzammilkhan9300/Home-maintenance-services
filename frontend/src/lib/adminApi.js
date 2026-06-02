@@ -122,6 +122,23 @@ export const adminApi = {
   getAnalytics: (period = 30) =>
     fetch(`${API_BASE}/api/admin/analytics?period=${period}`, { headers: getHeaders() }).then(handle),
 
+  // ── Plugins ───────────────────────────────────────────────────────────────
+  getPlugins: () =>
+    fetch(`${API_BASE}/api/admin/plugins`, { headers: getHeaders() }).then(handle),
+
+  createPlugin: (data) =>
+    fetch(`${API_BASE}/api/admin/plugins`, {
+      method: 'POST', headers: getHeaders(), body: JSON.stringify(data),
+    }).then(handle),
+
+  updatePlugin: (id, data) =>
+    fetch(`${API_BASE}/api/admin/plugins/${id}`, {
+      method: 'PATCH', headers: getHeaders(), body: JSON.stringify(data),
+    }).then(handle),
+
+  deletePlugin: (id) =>
+    fetch(`${API_BASE}/api/admin/plugins/${id}`, { method: 'DELETE', headers: getHeaders() }).then(handle),
+
   // ── Settings ──────────────────────────────────────────────────────────────
   getSettings: () =>
     fetch(`${API_BASE}/api/admin/settings`, { headers: getHeaders() }).then(handle),
