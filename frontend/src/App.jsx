@@ -25,6 +25,7 @@ import AdminAnalytics   from "./pages/admin/AdminAnalytics";
 import AdminPlugins     from "./pages/admin/AdminPlugins";
 import AdminSettings    from "./pages/admin/AdminSettings";
 import ScriptInjector   from "./components/ScriptInjector";
+import AnalyticsTracker from "./components/AnalyticsTracker";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <ScriptInjector />
+          <AnalyticsTracker />
           <Routes>
             {/* ── Public Routes ───────────────────────────────────── */}
             <Route path="/"         element={<Landing />} />

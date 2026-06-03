@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Send, CheckCircle, Upload, FileText, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { trackApplication } from "@/lib/analytics";
 
 const ACCEPTED_TYPES = [
   "image/jpeg",
@@ -95,6 +96,12 @@ const CareerModal = ({ open, onClose }) => {
       if (!response.ok) throw new Error(data.error || "Failed to submit application");
 
       setSubmitted(true);
+      trackApplication({
+        firstName: form.firstName,
+        lastName: form.lastName,
+        email: form.email,
+        jobTitle: form.jobTitle
+      });
       toast({ title: "Application submitted!", description: "We'll review your application and get back to you." });
     } catch (error) {
       console.error("Career form error:", error);

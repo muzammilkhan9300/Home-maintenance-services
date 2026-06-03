@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { services } from "@/data/services";
 import { useToast } from "@/hooks/use-toast";
 import SEO from "@/components/SEO";
+import { trackLead } from "@/lib/analytics";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100),
@@ -80,6 +81,11 @@ const Contact = () => {
       }
 
       setSubmitted(true);
+      trackLead({
+        name: result.data.name,
+        email: result.data.email,
+        service: result.data.service
+      });
       toast({ title: "Request sent!", description: "We'll get back to you shortly." });
     } catch (error) {
       console.error("Contact form error:", error);

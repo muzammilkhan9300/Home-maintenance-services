@@ -260,6 +260,22 @@ app.post('/api/career', (req, res, next) => {
   }
 });
 
+// ── PUBLIC: Public settings (for contact info, Meta Pixel & GA4 IDs) ─────────
+const Settings = require('./models/Settings');
+app.get('/api/settings/public', async (req, res) => {
+  try {
+    let settings = await Settings.findOne().select(
+      'businessName phone email address whatsappNumber workingHours tradeLicense googleAnalyticsId metaPixelId'
+    );
+    if (!settings) {
+      settings = await Settings.create({});
+    }
+    res.json(settings);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to load public settings' });
+  }
+});
+
 // ── Health Check Endpoint ──────────────────────────────────────────────────
 app.get('/api/healthcheck', (req, res) => {
   const mongoose = require('mongoose');

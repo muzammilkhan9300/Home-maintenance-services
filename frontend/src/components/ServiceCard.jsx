@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Snowflake, Droplets, Zap, TreePine, Paintbrush, Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall } from "lucide-react";
-
+import { trackWhatsAppClick } from "@/lib/analytics";
 // ✅ Update this number anytime — no other changes needed
 const WHATSAPP_NUMBER = "971504200736";
 
@@ -34,6 +34,7 @@ const ServiceCard = ({ service, index }) => {
     const message = encodeURIComponent(
       `Hi! I'm interested in your *${service.title}* service. Can you please provide more details and availability?`
     );
+    trackWhatsAppClick('Service Card', service.title);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank", "noopener,noreferrer");
   };
 

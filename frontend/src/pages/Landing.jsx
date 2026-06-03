@@ -8,6 +8,7 @@ import AdBanner from "@/components/AdBanner";
 import { services } from "@/data/services";
 import heroImage from "@/assets/hero-dubai-villa.jpg";
 import SEO from "@/components/SEO";
+import { trackWhatsAppClick } from "@/lib/analytics";
 
 // ✅ Same number as ServiceCard — update here too if you change it
 const WHATSAPP_NUMBER = "971504200736";
@@ -82,6 +83,7 @@ const Landing = () => {
                 const msg = encodeURIComponent(
                   "Hi! I'm interested in your property care services. Can you please provide more details?"
                 );
+                trackWhatsAppClick('Hero Floating Button');
                 window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank", "noopener,noreferrer");
               }}
               aria-label="Chat with us on WhatsApp"
