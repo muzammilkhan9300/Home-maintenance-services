@@ -231,7 +231,7 @@ const CareerModal = ({ open, onClose }) => {
                           value={form.phone}
                           onChange={handleChange}
                           className={inputClass}
-                          placeholder="+971-504200736"
+                          placeholder="+971-505387736"
                         />
                         {errors.phone && (
                           <p className="text-xs text-destructive mt-1 flex items-center gap-1">

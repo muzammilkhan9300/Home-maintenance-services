@@ -11,7 +11,7 @@ import SEO from "@/components/SEO";
 import { trackWhatsAppClick } from "@/lib/analytics";
 
 // ✅ Same number as ServiceCard — update here too if you change it
-const WHATSAPP_NUMBER = "971504200736";
+const WHATSAPP_NUMBER = "971505387736";
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6" aria-hidden="true">

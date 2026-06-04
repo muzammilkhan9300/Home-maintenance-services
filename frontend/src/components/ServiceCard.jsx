@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Snowflake, Droplets, Zap, TreePine, Paintbrush, Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall } from "lucide-react";
 import { trackWhatsAppClick } from "@/lib/analytics";
 // ✅ Update this number anytime — no other changes needed
-const WHATSAPP_NUMBER = "971504200736";
+const WHATSAPP_NUMBER = "971505387736";
 
 const iconMap = {
   Snowflake,

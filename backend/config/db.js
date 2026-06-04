@@ -33,10 +33,24 @@ const seedAdmin = async () => {
 const seedSettings = async () => {
   try {
     const Settings = require('../models/Settings');
-    const count = await Settings.countDocuments();
-    if (count === 0) {
+    const settings = await Settings.findOne();
+    if (!settings) {
       await Settings.create({});
       console.log('✅ Default settings seeded');
+    } else {
+      let updated = false;
+      if (settings.phone === '+971-504200736' || settings.phone === '+971504200736') {
+        settings.phone = '+971-505387736';
+        updated = true;
+      }
+      if (settings.whatsappNumber === '971504200736') {
+        settings.whatsappNumber = '971505387736';
+        updated = true;
+      }
+      if (updated) {
+        await settings.save();
+        console.log('✅ Settings phone/WhatsApp numbers migrated to +971505387736');
+      }
     }
   } catch (err) {
     console.error('Seed settings error:', err.message);

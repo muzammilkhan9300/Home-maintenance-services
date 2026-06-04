@@ -131,7 +131,7 @@ const Contact = () => {
               <div className="space-y-4">
                 {[
                   { icon: MapPin, text: "Rolex Twin Tower - 33 Baniyas Rd - Al Rigga - Deira - Dubai" },
-                  { icon: Phone, text: "+971-504200736" },
+                  { icon: Phone, text: "+971-505387736" },
                   { icon: Mail, text: "info@maresidentialpropertycareservicellc.com" }
                 ].map((c) => <div key={c.text} className="flex items-center gap-3">
                   <c.icon className="w-5 h-5 text-accent shrink-0" />
@@ -181,7 +181,7 @@ const Contact = () => {
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">Phone *</label>
-                  <input name="phone" value={form.phone} onChange={handleChange} className={inputClass} placeholder="+971-504200736" />
+                  <input name="phone" value={form.phone} onChange={handleChange} className={inputClass} placeholder="+971-505387736" />
                   {errors.phone && <p className="text-xs text-destructive mt-1">{errors.phone}</p>}
                 </div>
                 <div>

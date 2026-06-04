@@ -72,8 +72,8 @@ const AdminSettings = () => {
         <Section title="Business Information">
           <Field label="Business Name" name="businessName" value={form.businessName} onChange={handleChange} placeholder="Afnan Property Care Services" />
           <div className="grid grid-cols-2 gap-3">
-            <Field label="Phone Number" name="phone" value={form.phone} onChange={handleChange} placeholder="+971-504200736" />
-            <Field label="WhatsApp Number" name="whatsappNumber" value={form.whatsappNumber} onChange={handleChange} placeholder="971504200736" />
+            <Field label="Phone Number" name="phone" value={form.phone} onChange={handleChange} placeholder="+971-505387736" />
+            <Field label="WhatsApp Number" name="whatsappNumber" value={form.whatsappNumber} onChange={handleChange} placeholder="971505387736" />
           </div>
           <Field label="Business Email" name="email" type="email" value={form.email} onChange={handleChange} placeholder="info@example.com" />
           <Field label="Address" name="address" value={form.address} onChange={handleChange} placeholder="Building, Street, Dubai" />

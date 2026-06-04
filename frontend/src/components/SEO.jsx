@@ -20,7 +20,7 @@ const SEO = ({
         "image": "https://afnanpropertycare.ae/og-image.jpg",
         "@id": "https://afnanpropertycare.ae",
         "url": "https://afnanpropertycare.ae",
-        "telephone": "+971504200736",
+        "telephone": "+971505387736",
         "address": {
             "@type": "PostalAddress",
             "streetAddress": "Rolex Twin Tower, 33 Baniyas Rd, Al Rigga, Deira",
