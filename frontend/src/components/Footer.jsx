@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Facebook, Instagram } from "lucide-react";
 import { useState } from "react";
 import CareerModal from "@/components/CareerModal";
+
+const TiktokIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4.5 h-4.5">
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 const Footer = () => {
   const [careerOpen, setCareerOpen] = useState(false);
@@ -15,9 +21,37 @@ const Footer = () => {
             <p className="text-sm text-primary-foreground/60 mb-4">
               Licensed residential property maintenance company in Dubai, UAE. Trade License No. 1571076.
             </p>
-            <p className="text-xs text-primary-foreground/40">
+            <p className="text-xs text-primary-foreground/40 mb-6">
               MUHAMMAD AFNAN RESIDENTIAL PROPERTY CARE SERVICES L.L.C
             </p>
+            <div className="flex items-center gap-3">
+              <a
+                href="https://www.facebook.com/AfnanPropertyCare"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-primary-foreground/10 hover:bg-gold hover:text-navy flex items-center justify-center transition-all duration-300 text-primary-foreground"
+                aria-label="Facebook"
+              >
+                <Facebook className="w-4.5 h-4.5" />
+              </a>
+              <a
+                href="https://instagram.com/afnan_propertycareservices"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-primary-foreground/10 hover:bg-gold hover:text-navy flex items-center justify-center transition-all duration-300 text-primary-foreground"
+                aria-label="Instagram"
+              >
+                <Instagram className="w-4.5 h-4.5" />
+              </a>
+              <a
+                href="#"
+                onClick={(e) => e.preventDefault()}
+                className="w-9 h-9 rounded-full bg-primary-foreground/10 hover:bg-gold hover:text-navy flex items-center justify-center transition-all duration-300 text-primary-foreground opacity-60 hover:opacity-100"
+                aria-label="TikTok"
+              >
+                <TiktokIcon />
+              </a>
+            </div>
           </div>
 
           <div>
