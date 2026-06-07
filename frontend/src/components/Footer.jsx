@@ -44,9 +44,10 @@ const Footer = () => {
                 <Instagram className="w-4.5 h-4.5" />
               </a>
               <a
-                href="#"
-                onClick={(e) => e.preventDefault()}
-                className="w-9 h-9 rounded-full bg-primary-foreground/10 hover:bg-gold hover:text-navy flex items-center justify-center transition-all duration-300 text-primary-foreground opacity-60 hover:opacity-100"
+                href="https://tiktok.com/@afnanpropertycare"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-primary-foreground/10 hover:bg-gold hover:text-navy flex items-center justify-center transition-all duration-300 text-primary-foreground"
                 aria-label="TikTok"
               >
                 <TiktokIcon />
