@@ -1,32 +1,30 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { initAnalytics, trackPageView } from "@/lib/analytics";
+import { getBootstrapData } from "@/lib/bootstrap";
 
-const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
-
+/**
+ * AnalyticsTracker — loads GA4 / Meta Pixel IDs from the shared bootstrap
+ * cache (no extra network request) and fires page-view events on navigation.
+ */
 const AnalyticsTracker = () => {
   const location = useLocation();
 
+  // On first mount: load settings from bootstrap and initialize analytics
   useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const res = await fetch(`${API_BASE}/api/settings/public`);
-        if (res.ok) {
-          const settings = await res.json();
-          initAnalytics(settings);
-          // Fire initial pageview on load
-          trackPageView(location.pathname + location.search);
-        }
-      } catch (err) {
-        console.error("Failed to load public settings for analytics:", err);
-      }
-    };
-    fetchSettings();
-  }, []); // Run once on mount
+    getBootstrapData()
+      .then((data) => {
+        const settings = data.settings || {};
+        initAnalytics(settings);
+        trackPageView(location.pathname + location.search);
+      })
+      .catch((err) => {
+        console.error("Failed to load analytics settings:", err);
+      });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // On subsequent route changes: fire page-view if analytics is already ready
   useEffect(() => {
-    // Skip firing on first load since the mount effect handles that after setting fetch
-    // Actually, trackPageView handles settings checking, so firing it on subsequent navigation is correct.
     const settings = window.analyticsSettings;
     if (settings) {
       trackPageView(location.pathname + location.search);

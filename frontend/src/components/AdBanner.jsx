@@ -1,10 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
+import { getBootstrapData } from '@/lib/bootstrap';
 
 const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
 
 /**
- * AdBanner — fetches active ads for a given placement and renders them.
+ * AdBanner — reads active ads for a given placement from the shared bootstrap
+ * cache. No individual /api/ads network request is made — the data is already
+ * available from the single /api/bootstrap call made on page load.
+ *
  * placement: 'hero_banner' | 'services_section' | 'footer_strip' | 'popup' | 'sidebar_card'
  */
 const AdBanner = ({ placement, className = '' }) => {
@@ -13,9 +17,18 @@ const AdBanner = ({ placement, className = '' }) => {
   const trackedAds          = useRef(new Set());
 
   useEffect(() => {
-    fetch(`${API_BASE}/api/ads?placement=${placement}`)
-      .then(r => r.json())
-      .then(data => { if (Array.isArray(data)) setAds(data); })
+    getBootstrapData()
+      .then((data) => {
+        const now = new Date();
+        const active = (data.ads || []).filter((ad) => {
+          if (!ad.isActive) return false;
+          if (ad.placement && ad.placement !== placement) return false;
+          if (ad.startDate && new Date(ad.startDate) > now) return false;
+          if (ad.endDate   && new Date(ad.endDate)   < now) return false;
+          return true;
+        });
+        setAds(active);
+      })
       .catch(() => {});
   }, [placement]);
 
@@ -33,9 +46,7 @@ const AdBanner = ({ placement, className = '' }) => {
   const visible = ads.filter(a => !dismissed[a._id]);
 
   useEffect(() => {
-    visible.forEach(ad => {
-      trackView(ad._id);
-    });
+    visible.forEach(ad => trackView(ad._id));
   }, [ads, dismissed]);
 
   if (!visible.length) return null;

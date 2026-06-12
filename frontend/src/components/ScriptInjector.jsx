@@ -1,88 +1,76 @@
 import { useEffect } from 'react';
+import { getBootstrapData } from '@/lib/bootstrap';
 
-const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
-
+/**
+ * ScriptInjector — reads active plugins from the shared bootstrap cache
+ * and injects their custom scripts/tags into the DOM exactly once per page load.
+ */
 const ScriptInjector = () => {
   useEffect(() => {
-    const loadedScripts = [];
+    const loadedElements = [];
 
-    const loadScripts = async () => {
-      try {
-        const res = await fetch(`${API_BASE}/api/plugins`);
-        if (!res.ok) return;
-        const plugins = await res.json();
+    const injectPlugins = (plugins) => {
+      plugins.forEach((plugin) => {
+        // Parse the HTML code block
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(plugin.code, 'text/html');
+        const elements = [
+          ...Array.from(doc.head.childNodes),
+          ...Array.from(doc.body.childNodes),
+        ];
 
-        plugins.forEach((plugin) => {
-          // Parse the HTML code block
-          const parser = new DOMParser();
-          const doc = parser.parseFromString(plugin.code, 'text/html');
-          const elements = Array.from(doc.body.childNodes).concat(Array.from(doc.head.childNodes));
+        elements.forEach((el) => {
+          if (el.tagName && el.tagName.toLowerCase() === 'script') {
+            const script = document.createElement('script');
 
-          elements.forEach((el) => {
-            // Check if element is a script tag
-            if (el.tagName && el.tagName.toLowerCase() === 'script') {
-              const script = document.createElement('script');
-              
-              // Copy all attributes (src, async, defer, type, etc.)
-              Array.from(el.attributes).forEach((attr) => {
-                script.setAttribute(attr.name, attr.value);
-              });
-              
-              // Copy the inner script content
-              script.text = el.textContent;
-              script.setAttribute('data-plugin-tag', plugin.name);
+            // Copy all attributes (src, async, defer, type, etc.)
+            Array.from(el.attributes).forEach((attr) => {
+              script.setAttribute(attr.name, attr.value);
+            });
+            script.text = el.textContent;
+            script.setAttribute('data-plugin-tag', plugin.name);
 
-              // Set placement target
-              let target = document.head;
-              if (plugin.placement === 'body_start') {
-                target = document.body;
-              } else if (plugin.placement === 'body_end') {
-                target = document.body;
-              }
-
-              // Append to DOM
-              if (plugin.placement === 'body_start' && target.firstChild) {
-                target.insertBefore(script, target.firstChild);
-              } else {
-                target.appendChild(script);
-              }
-              
-              loadedScripts.push(script);
-            } 
-            // For other elements (noscript, div widgets, style tags, etc.)
-            else if (el.nodeType === Node.ELEMENT_NODE) {
-              const clone = el.cloneNode(true);
-              clone.setAttribute('data-plugin-tag', plugin.name);
-
-              let target = document.body;
-              if (plugin.placement === 'head') {
-                target = document.head;
-              }
-
-              if (plugin.placement === 'body_start' && target.firstChild) {
-                target.insertBefore(clone, target.firstChild);
-              } else {
-                target.appendChild(clone);
-              }
-
-              loadedScripts.push(clone);
+            let target = document.head;
+            if (plugin.placement === 'body_start' || plugin.placement === 'body_end') {
+              target = document.body;
             }
-          });
+
+            if (plugin.placement === 'body_start' && target.firstChild) {
+              target.insertBefore(script, target.firstChild);
+            } else {
+              target.appendChild(script);
+            }
+
+            loadedElements.push(script);
+          } else if (el.nodeType === Node.ELEMENT_NODE) {
+            const clone = el.cloneNode(true);
+            clone.setAttribute('data-plugin-tag', plugin.name);
+
+            let target = document.body;
+            if (plugin.placement === 'head') target = document.head;
+
+            if (plugin.placement === 'body_start' && target.firstChild) {
+              target.insertBefore(clone, target.firstChild);
+            } else {
+              target.appendChild(clone);
+            }
+
+            loadedElements.push(clone);
+          }
         });
-      } catch (err) {
-        console.error('Failed to load custom script plugins:', err);
-      }
+      });
     };
 
-    loadScripts();
+    getBootstrapData()
+      .then((data) => injectPlugins(data.plugins || []))
+      .catch((err) => console.error('Failed to load custom script plugins:', err));
 
-    // Clean up injected elements on unmount or reload
     return () => {
-      loadedScripts.forEach((el) => {
+      loadedElements.forEach((el) => {
         try { el.remove(); } catch {}
       });
     };
-  }, []);
+  }, []); // Run once on mount — bootstrap data is shared & cached
 
   return null;
 };

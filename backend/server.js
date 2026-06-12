@@ -73,13 +73,48 @@ transporter.verify((err, success) => {
 const ContactSubmission = require('./models/ContactSubmission');
 const CareerApplication = require('./models/CareerApplication');
 const Ad               = require('./models/Ad');
+const Settings         = require('./models/Settings');
+const Plugin           = require('./models/Plugin');
+const cache            = require('./config/cache');
 
 // ── Admin Routes ───────────────────────────────────────────────────────────
 app.use('/api/admin/auth', require('./routes/adminAuth'));
 app.use('/api/admin',      require('./routes/adminApi'));
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PUBLIC: Active Ads (used by the frontend to display promotions)
+// PUBLIC: Unified Bootstrap — settings + plugins + ads in ONE request
+// Cached in Node.js memory after first DB hit → subsequent calls < 5ms
+// ─────────────────────────────────────────────────────────────────────────────
+app.get('/api/bootstrap', async (req, res) => {
+  try {
+    const cached = cache.getCache();
+    if (cached) return res.json(cached);
+
+    const now = new Date();
+    const [settings, plugins, ads] = await Promise.all([
+      Settings.findOne().select(
+        'businessName phone email address whatsappNumber workingHours tradeLicense googleAnalyticsId metaPixelId'
+      ),
+      Plugin.find({ isActive: true }).select('name code placement'),
+      Ad.find({
+        isActive: true,
+        $and: [
+          { $or: [{ startDate: null }, { startDate: { $lte: now } }] },
+          { $or: [{ endDate:   null }, { endDate:   { $gte: now } }] },
+        ],
+      }).select('-__v'),
+    ]);
+
+    const data = { settings: settings || {}, plugins: plugins || [], ads: ads || [] };
+    cache.setCache(data);
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to load bootstrap configuration' });
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PUBLIC: Active Ads (legacy endpoint — kept for backwards compatibility)
 // ─────────────────────────────────────────────────────────────────────────────
 app.get('/api/ads', async (req, res) => {
   try {
@@ -261,7 +296,7 @@ app.post('/api/career', (req, res, next) => {
 });
 
 // ── PUBLIC: Public settings (for contact info, Meta Pixel & GA4 IDs) ─────────
-const Settings = require('./models/Settings');
+// Kept as legacy endpoint — frontend now uses /api/bootstrap instead
 app.get('/api/settings/public', async (req, res) => {
   try {
     let settings = await Settings.findOne().select(

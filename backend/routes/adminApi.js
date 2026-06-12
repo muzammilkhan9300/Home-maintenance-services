@@ -3,6 +3,7 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const adminAuth = require('../middleware/adminAuth');
+const cache = require('../config/cache');
 
 const ContactSubmission = require('../models/ContactSubmission');
 const CareerApplication = require('../models/CareerApplication');
@@ -213,6 +214,7 @@ router.post('/ads', adImageUpload.single('image'), async (req, res) => {
     if (data.startDate === '') data.startDate = null;
     if (data.endDate === '') data.endDate = null;
     const ad = await Ad.create(data);
+    cache.clearCache();
     res.status(201).json(ad);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -228,6 +230,7 @@ router.patch('/ads/:id', adImageUpload.single('image'), async (req, res) => {
     if (data.endDate === '') data.endDate = null;
     const ad = await Ad.findByIdAndUpdate(req.params.id, data, { new: true });
     if (!ad) return res.status(404).json({ error: 'Not found' });
+    cache.clearCache();
     res.json(ad);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -242,6 +245,7 @@ router.delete('/ads/:id', async (req, res) => {
       if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     }
     await Ad.findByIdAndDelete(req.params.id);
+    cache.clearCache();
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -343,6 +347,7 @@ router.get('/plugins', async (req, res) => {
 router.post('/plugins', async (req, res) => {
   try {
     const p = await Plugin.create(req.body);
+    cache.clearCache();
     res.status(201).json(p);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -353,6 +358,7 @@ router.patch('/plugins/:id', async (req, res) => {
   try {
     const p = await Plugin.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!p) return res.status(404).json({ error: 'Not found' });
+    cache.clearCache();
     res.json(p);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -362,6 +368,7 @@ router.patch('/plugins/:id', async (req, res) => {
 router.delete('/plugins/:id', async (req, res) => {
   try {
     await Plugin.findByIdAndDelete(req.params.id);
+    cache.clearCache();
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -429,6 +436,7 @@ router.post('/settings', async (req, res) => {
     } else {
       settings = await Settings.create(req.body);
     }
+    cache.clearCache();
     res.json(settings);
   } catch (err) {
     res.status(500).json({ error: err.message });
