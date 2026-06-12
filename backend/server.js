@@ -189,9 +189,8 @@ app.get('/api/notices', async (req, res) => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// PUBLIC: Active Custom Plugins / Scripts
+// PUBLIC: Active Custom Plugins / Scripts (legacy — bootstrap is preferred)
 // ─────────────────────────────────────────────────────────────────────────────
-const Plugin = require('./models/Plugin');
 app.get('/api/plugins', async (req, res) => {
   try {
     const active = await Plugin.find({ isActive: true }).select('name code placement');
