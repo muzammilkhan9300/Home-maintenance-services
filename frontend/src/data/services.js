@@ -13,7 +13,25 @@ export const services = [
     description: "Complete HVAC solutions guaranteeing pristine air quality and cooling efficiency for residential and commercial spaces.",
     features: ["Split & Central AC Repair", "Ventilation System Cleaning", "Air Filter Replacement", "New Unit Installation", "Periodic Maintenance"],
     image: serviceAc,
-    icon: "Fan"
+    icon: "Fan",
+    keyBenefits: [
+      { icon: "Zap", title: "Fast Response", desc: "Same-day AC repair across all Dubai areas — no more sweating in the heat." },
+      { icon: "Shield", title: "Certified Technicians", desc: "DEWA-compliant engineers trained on all major AC brands and systems." },
+      { icon: "Leaf", title: "Energy Efficient", desc: "Optimized maintenance reduces electricity bills by up to 30%." },
+    ],
+    processSteps: [
+      { step: "01", title: "Book Online or Call", desc: "Contact us via form or WhatsApp. We respond within 30 minutes." },
+      { step: "02", title: "Free Site Inspection", desc: "Our technician visits, diagnoses the issue, and provides a transparent quote." },
+      { step: "03", title: "Repair or Service", desc: "Work begins immediately using genuine spare parts and tools." },
+      { step: "04", title: "Quality Check", desc: "System tested, cleaned, and handed over with a satisfaction guarantee." },
+    ],
+    faqs: [
+      { q: "How often should I service my AC in Dubai?", a: "At minimum twice a year — before summer (April) and at the start of winter (October). Dubai's dusty climate clogs filters fast, reducing efficiency and air quality." },
+      { q: "What AC brands do you service?", a: "We service all major brands including Daikin, Mitsubishi, LG, Samsung, Carrier, Hitachi, Gree, and more. Our technicians carry parts for the most common models." },
+      { q: "Do you offer annual maintenance contracts?", a: "Yes. Our AMC packages cover unlimited visits, priority scheduling, and discounted parts for a fixed annual fee — great value for villas and apartments." },
+      { q: "Can you install a new AC unit?", a: "Absolutely. We supply and install split units, cassette ACs, and central systems with full DEWA-compliant wiring and drainage." },
+    ],
+    stats: [{ label: "Units Serviced", value: "2,000+" }, { label: "Rating", value: "4.9★" }, { label: "Response Time", value: "<1 hr" }],
   },
   {
     id: "building-cleaning",
@@ -21,7 +39,25 @@ export const services = [
     description: "Professional cleaning services delivering spotless exteriors and interiors for office buildings, luxury villas, and apartments.",
     features: ["Deep Cleaning", "Window & Facade Washing", "Post-Construction Cleanup", "Regular Maintenance", "Sanitization Services"],
     image: serviceCleaning,
-    icon: "Sparkles"
+    icon: "Sparkles",
+    keyBenefits: [
+      { icon: "Sparkles", title: "Spotless Results", desc: "Hospital-grade cleaning standards applied to every room and surface." },
+      { icon: "Shield", title: "Safe Products", desc: "Eco-friendly, child-safe, and pet-safe cleaning agents used throughout." },
+      { icon: "Clock", title: "Flexible Scheduling", desc: "Available 7 days a week including public holidays to fit your routine." },
+    ],
+    processSteps: [
+      { step: "01", title: "Choose Your Package", desc: "Select from one-time deep clean, regular maintenance, or post-construction cleanup." },
+      { step: "02", title: "Quote & Scheduling", desc: "We provide a fixed price upfront — no surprises. Pick a date that works for you." },
+      { step: "03", title: "Professional Cleaning", desc: "Our trained team arrives with all equipment and eco-friendly products." },
+      { step: "04", title: "Inspection & Sign-off", desc: "You inspect the work and sign off only when fully satisfied." },
+    ],
+    faqs: [
+      { q: "Do I need to be home during cleaning?", a: "Not necessarily. Many clients provide a key or building access. We take full responsibility for the security of your property during the service." },
+      { q: "What's included in deep cleaning?", a: "Deep cleaning covers every surface: inside kitchen cabinets, behind appliances, bathroom descaling, window interiors, balconies, ceiling fans, and floor-to-ceiling scrubbing." },
+      { q: "Do you clean post-construction properties?", a: "Yes — post-construction cleanup is one of our specialties. We remove cement dust, paint splatter, adhesive residue, and construction debris from all surfaces." },
+      { q: "How long does a villa deep clean take?", a: "A standard 3-bedroom villa takes 4–6 hours with a 2-person team. Larger properties are quoted individually." },
+    ],
+    stats: [{ label: "Properties Cleaned", value: "1,500+" }, { label: "Rating", value: "4.8★" }, { label: "Hours/Week", value: "200+" }],
   },
   {
     id: "painting",
@@ -29,7 +65,25 @@ export const services = [
     description: "High-quality, durable interior and exterior painting services executed by skilled professionals for a flawless finish.",
     features: ["Interior Wall Painting", "Exterior Villa Painting", "Texture & Feature Walls", "Waterproofing", "Epoxy Floor Coatings"],
     image: servicePainting,
-    icon: "Paintbrush"
+    icon: "Paintbrush",
+    keyBenefits: [
+      { icon: "Paintbrush", title: "Premium Finishes", desc: "We use Dulux, Jotun, and Sigma paints — internationally certified brands for lasting results." },
+      { icon: "Shield", title: "Zero Mess Guarantee", desc: "Full furniture protection, floor covering, and daily site cleanup included." },
+      { icon: "Clock", title: "On-Time Delivery", desc: "We commit to a project timeline and deliver on schedule — every time." },
+    ],
+    processSteps: [
+      { step: "01", title: "Color Consultation", desc: "Our experts help you choose the perfect palette for every room." },
+      { step: "02", title: "Surface Preparation", desc: "Walls are filled, sanded, primed, and protected before any paint is applied." },
+      { step: "03", title: "Professional Painting", desc: "Two coats minimum, clean lines, no drips — every detail handled meticulously." },
+      { step: "04", title: "Final Inspection", desc: "Walk through with our supervisor before we pack up and leave." },
+    ],
+    faqs: [
+      { q: "How long does painting a 3-bedroom apartment take?", a: "Typically 2–3 days for interior painting of a standard apartment, depending on the number of coats, texture work, and wall condition." },
+      { q: "Can you match existing paint colors?", a: "Yes. We can color-match existing wall paint using digital spectrophotometers at our paint suppliers for a seamless finish." },
+      { q: "Do you do exterior villa painting?", a: "Yes. We use weather-resistant, UV-protected exterior paints specifically formulated for Dubai's harsh sun and humidity conditions." },
+      { q: "What is epoxy floor coating?", a: "Epoxy is a hard, glossy, seamless floor coating ideal for garages, warehouses, and commercial spaces. It's durable, easy to clean, and available in many colors." },
+    ],
+    stats: [{ label: "Projects Completed", value: "800+" }, { label: "Rating", value: "4.9★" }, { label: "Paint Brands", value: "10+" }],
   },
   {
     id: "electrical",
@@ -37,7 +91,25 @@ export const services = [
     description: "Safe, compliant, and reliable electrical services handled by certified technicians for all building types.",
     features: ["Wiring & Rewiring", "Distribution Board Repair", "Lighting Installation", "Fault Finding", "Safety Inspections"],
     image: serviceElectrical,
-    icon: "Zap"
+    icon: "Zap",
+    keyBenefits: [
+      { icon: "Shield", title: "DEWA Certified", desc: "All work is compliant with DEWA regulations and UAE electrical standards." },
+      { icon: "Zap", title: "Emergency Callouts", desc: "24/7 emergency electrical support — power cuts and faults handled within the hour." },
+      { icon: "CheckCircle", title: "Safety First", desc: "Every job includes a full safety inspection and certification upon completion." },
+    ],
+    processSteps: [
+      { step: "01", title: "Report the Issue", desc: "Call or message us with the problem. We'll advise immediately over the phone." },
+      { step: "02", title: "Technician Dispatch", desc: "A certified electrician is dispatched with full tools and testing equipment." },
+      { step: "03", title: "Diagnosis & Repair", desc: "Fault is identified, explained to you, then fixed safely and efficiently." },
+      { step: "04", title: "Testing & Certification", desc: "All circuits tested and documented. DEWA-compliant completion certificate issued." },
+    ],
+    faqs: [
+      { q: "Are your electricians DEWA-certified?", a: "Yes. All our electricians hold valid DEWA contractor licenses and follow UAE wiring standards (BS 7671 as adopted in Dubai)." },
+      { q: "Can you upgrade my distribution board?", a: "Absolutely. We can upgrade your DB from older fuse-based systems to modern MCB/RCCB boards for better safety and capacity." },
+      { q: "Do you handle smart home electrical work?", a: "Yes — including smart switches, automated lighting, EV charger installation, and smart panel integration." },
+      { q: "What are signs I need rewiring?", a: "Frequent circuit trips, flickering lights, burning smell from sockets, or a property over 20 years old are all warning signs." },
+    ],
+    stats: [{ label: "Electrical Jobs", value: "3,000+" }, { label: "Rating", value: "4.9★" }, { label: "Emergency SLA", value: "<1 hr" }],
   },
   {
     id: "plumbing",
@@ -45,7 +117,25 @@ export const services = [
     description: "Expert plumbing solutions ranging from routine maintenance to full-scale sanitary and water network installations.",
     features: ["Leak Detection & Repair", "Water Heater Services", "Pump Installation", "Bathroom & Kitchen Fixtures", "Drain Unblocking"],
     image: servicePlumbing,
-    icon: "Droplet"
+    icon: "Droplet",
+    keyBenefits: [
+      { icon: "Droplets", title: "Leak-Free Guarantee", desc: "We fix leaks permanently — backed by a 90-day workmanship warranty." },
+      { icon: "Zap", title: "Emergency Plumbers", desc: "Burst pipes and flooding handled 24/7 with a guaranteed response within 60 minutes." },
+      { icon: "Shield", title: "No Hidden Charges", desc: "Fixed quotes before any work begins. You approve — we proceed." },
+    ],
+    processSteps: [
+      { step: "01", title: "Describe the Problem", desc: "Call or WhatsApp us — describe the issue and we'll estimate cost on the spot." },
+      { step: "02", title: "Inspection & Quote", desc: "Plumber arrives, inspects the issue, and gives you a fixed written quote." },
+      { step: "03", title: "Repair or Install", desc: "Work completed using quality fittings from trusted UAE suppliers." },
+      { step: "04", title: "Pressure Test", desc: "All pipes pressure-tested for leaks. Area cleaned up and signed off." },
+    ],
+    faqs: [
+      { q: "Do you fix water heater issues?", a: "Yes. We repair and replace all types of water heaters including instant, storage, and solar water heaters. We carry stock of common sizes for same-day replacement." },
+      { q: "Can you detect concealed water leaks?", a: "Yes. We use acoustic leak detectors and thermal imaging to locate hidden leaks within walls and floors without unnecessary demolition." },
+      { q: "How quickly can you respond to a burst pipe?", a: "We guarantee to be on-site within 60 minutes for emergency plumbing anywhere in Dubai — 24 hours a day, 7 days a week." },
+      { q: "Do you install bathroom fixtures?", a: "Absolutely. From taps and showers to full bathroom renovations including toilet replacement, vanity installation, and shower tray fitting." },
+    ],
+    stats: [{ label: "Leaks Fixed", value: "5,000+" }, { label: "Rating", value: "4.8★" }, { label: "Emergency SLA", value: "<1 hr" }],
   },
   {
     id: "sanitary-pipes",
@@ -53,7 +143,25 @@ export const services = [
     description: "Comprehensive installation and repair of structural sanitary networks, drainage systems, and external water piping.",
     features: ["PVC & Copper Pipe Repair", "Drainage System Setup", "Sewer Line Maintenance", "Underground Piping", "Valve Replacements"],
     image: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=800&auto=format&fit=crop",
-    icon: "Wrench"
+    icon: "Wrench",
+    keyBenefits: [
+      { icon: "Wrench", title: "Full Network Repairs", desc: "From single valve replacements to complete underground piping networks." },
+      { icon: "Shield", title: "Durable Materials", desc: "We use only uPVC, CPVC, and copper pipes rated for Dubai's high-pressure systems." },
+      { icon: "Clock", title: "Minimal Disruption", desc: "Precision work minimizes breakage of tiles and finishes during pipe access." },
+    ],
+    processSteps: [
+      { step: "01", title: "Site Assessment", desc: "We map your existing pipe network and identify problem areas." },
+      { step: "02", title: "Detailed Proposal", desc: "Full scope of work with materials list and fixed cost provided upfront." },
+      { step: "03", title: "Installation & Repair", desc: "Work executed by specialist plumbing technicians with minimal site disruption." },
+      { step: "04", title: "System Testing", desc: "Full pressure and flow test confirming all connections are sealed and compliant." },
+    ],
+    faqs: [
+      { q: "What pipe materials do you work with?", a: "We work with all types: uPVC, CPVC, PPR, copper, GI, and HDPE pipes — for both hot and cold water systems." },
+      { q: "Can you fix slow-draining sinks and showers?", a: "Yes. We use hydro-jetting equipment to clear stubborn blockages in drains, grease traps, and sewer lines without damaging pipes." },
+      { q: "Do you handle underground pipe leaks?", a: "Yes. Using leak detection equipment, we locate the exact leak point and repair it with minimal excavation." },
+      { q: "Is pipe replacement covered by insurance?", a: "Many home insurance policies cover sudden pipe damage. We provide detailed invoices and reports to support your claim." },
+    ],
+    stats: [{ label: "Pipe Jobs", value: "1,200+" }, { label: "Rating", value: "4.7★" }, { label: "Materials", value: "All Types" }],
   },
   {
     id: "tiling",
@@ -61,7 +169,25 @@ export const services = [
     description: "Precision installation of premium ceramic, porcelain, and marble tiles for stunning and durable floors and walls.",
     features: ["Ceramic & Porcelain Laying", "Marble Installation", "Grout Restoration", "Bathroom Wall Tiling", "Outdoor Pavers"],
     image: serviceTiling,
-    icon: "LayoutGrid"
+    icon: "LayoutGrid",
+    keyBenefits: [
+      { icon: "Star", title: "Premium Finishes", desc: "Laser-leveled, perfectly aligned tiles — zero lippage guaranteed on every project." },
+      { icon: "Shield", title: "Waterproof Guarantee", desc: "Full waterproofing membrane applied beneath all wet area tiles." },
+      { icon: "Wrench", title: "All Tile Types", desc: "Marble, porcelain, ceramic, mosaic, outdoor pavers — we handle everything." },
+    ],
+    processSteps: [
+      { step: "01", title: "Design Consultation", desc: "We help you choose tile patterns, layouts, and grout colors to match your vision." },
+      { step: "02", title: "Surface Preparation", desc: "Substrate leveled, waterproofed, and primed for a perfect adhesion bond." },
+      { step: "03", title: "Precision Laying", desc: "Laser-guided tile installation ensures perfectly straight lines and even spacing." },
+      { step: "04", title: "Grouting & Sealing", desc: "Premium grout applied and sealed to resist staining and moisture." },
+    ],
+    faqs: [
+      { q: "How long does tiling a bathroom take?", a: "A standard bathroom (5–8 sqm of wall + floor tiling) takes 2–3 days including drying time for adhesive and grout." },
+      { q: "Can you remove and replace existing tiles?", a: "Yes. We carefully break out old tiles, prepare the substrate, and lay new tiles cleanly. We try to minimize damage to surrounding areas." },
+      { q: "Do you supply tiles or should I buy them?", a: "Both options are available. We can source tiles through our supplier network at trade prices, or work with tiles you've already purchased." },
+      { q: "What's the difference between ceramic and porcelain?", a: "Porcelain is denser, less porous, and more durable — ideal for heavy-traffic and wet areas. Ceramic is lighter and easier to cut — good for walls and low-traffic floors." },
+    ],
+    stats: [{ label: "sqm Laid", value: "50,000+" }, { label: "Rating", value: "4.9★" }, { label: "Tile Types", value: "All" }],
   },
   {
     id: "property-care",
@@ -69,7 +195,25 @@ export const services = [
     description: "All-encompassing care for your home ensuring longevity, aesthetic appeal, and structural integrity year-round.",
     features: ["Annual Maintenance Contracts", "Routine Inspections", "General Handyman", "Preventative Care", "Emergency Callouts"],
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop",
-    icon: "Home"
+    icon: "Home",
+    keyBenefits: [
+      { icon: "Home", title: "All-in-One Care", desc: "One point of contact for every maintenance need — AC, electrical, plumbing, and more." },
+      { icon: "Shield", title: "AMC Packages", desc: "Annual Maintenance Contracts with unlimited callouts and priority scheduling." },
+      { icon: "Clock", title: "Preventive First", desc: "Regular inspections catch problems before they become expensive emergencies." },
+    ],
+    processSteps: [
+      { step: "01", title: "Property Assessment", desc: "We conduct a full inspection of your property and document all maintenance needs." },
+      { step: "02", title: "Custom Care Plan", desc: "A personalized maintenance schedule is created based on your property type." },
+      { step: "03", title: "Regular Visits", desc: "Scheduled visits keep everything running — AC, plumbing, electrical, and structure." },
+      { step: "04", title: "Monthly Reports", desc: "Full reports of completed work, findings, and upcoming maintenance needs." },
+    ],
+    faqs: [
+      { q: "What is an Annual Maintenance Contract (AMC)?", a: "An AMC is a full-year service agreement covering scheduled maintenance visits, priority emergency response, and reduced rates on all parts and additional work." },
+      { q: "What properties do you cover?", a: "We cover villas, apartments, townhouses, and small commercial properties across all areas of Dubai." },
+      { q: "How many visits does the AMC include?", a: "Our standard AMC includes quarterly inspections (4 visits/year) plus unlimited emergency callouts for covered issues." },
+      { q: "What's NOT covered by an AMC?", a: "Major structural repairs, full system replacements, and damage caused by misuse are typically excluded. We provide a clear contract outlining exactly what's included." },
+    ],
+    stats: [{ label: "AMC Clients", value: "300+" }, { label: "Rating", value: "4.8★" }, { label: "Response SLA", value: "<2 hrs" }],
   },
   {
     id: "systems-maintenance",
@@ -77,7 +221,25 @@ export const services = [
     description: "Modern integration and upkeep of smart home systems, security panels, and intricate property management setups.",
     features: ["Smart Home Automation", "Security System Setup", "CCTV Installation", "Intercoms", "Control Panel Calibration"],
     image: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=800&auto=format&fit=crop",
-    icon: "Server"
+    icon: "Server",
+    keyBenefits: [
+      { icon: "Shield", title: "Security Experts", desc: "CCTV, access control, and alarm systems installed by certified security engineers." },
+      { icon: "Zap", title: "Smart Integration", desc: "Voice-controlled lighting, automated blinds, and smart climate control — all connected." },
+      { icon: "Wrench", title: "Ongoing Support", desc: "Remote monitoring setup and ongoing technical support for all installed systems." },
+    ],
+    processSteps: [
+      { step: "01", title: "Needs Analysis", desc: "We assess your security and automation requirements and recommend the right systems." },
+      { step: "02", title: "System Design", desc: "A custom layout plan is drawn showing camera positions, sensor placements, and cabling routes." },
+      { step: "03", title: "Professional Installation", desc: "Neat, concealed cabling with all devices configured and tested on-site." },
+      { step: "04", title: "Training & Handover", desc: "You're shown how to use every system before we leave. Remote support always available." },
+    ],
+    faqs: [
+      { q: "What CCTV systems do you install?", a: "We install Hikvision, Dahua, and Axis IP cameras with NVR/DVR storage, mobile viewing apps, and night vision. Indoor and outdoor cameras available." },
+      { q: "Can you add a smart home system to an existing property?", a: "Yes — we retrofit smart switches, dimmers, thermostats, and video doorbells into existing properties with minimal wall work." },
+      { q: "Do you install intercoms and access control?", a: "Yes. Video intercoms, keypad entry, card readers, and biometric access systems for villas, apartments, and offices." },
+      { q: "How long does CCTV installation take?", a: "A standard 4-camera outdoor system for a villa takes approximately 4–6 hours. Larger systems are quoted by site visit." },
+    ],
+    stats: [{ label: "Systems Installed", value: "500+" }, { label: "Rating", value: "4.8★" }, { label: "Brands", value: "15+" }],
   },
   {
     id: "plaster-works",
@@ -85,6 +247,24 @@ export const services = [
     description: "Professional plastering and skimming services delivering perfectly smooth walls ready for premium paint or wallpaper.",
     features: ["Wall Skimming", "Crack Repairs", "Decorative Plastering", "Ceiling Repairs", "Drywall Installation"],
     image: servicePlaster,
-    icon: "BrickWall"
-  }
+    icon: "BrickWall",
+    keyBenefits: [
+      { icon: "Star", title: "Mirror-Smooth Finish", desc: "Multi-coat skim plaster ground to a perfectly smooth surface — no bumps, no lines." },
+      { icon: "Wrench", title: "All Wall Types", desc: "Blockwork, concrete, drywall, and lightweight partitions — all plastered to perfection." },
+      { icon: "Shield", title: "Crack-Free Guarantee", desc: "We use reinforcing mesh at all joints to prevent future cracking." },
+    ],
+    processSteps: [
+      { step: "01", title: "Wall Assessment", desc: "We check for damp, structural cracks, and substrate quality before starting." },
+      { step: "02", title: "Surface Priming", desc: "Walls are bonded and primed to ensure the plaster adheres perfectly." },
+      { step: "03", title: "Multi-Coat Application", desc: "Base coat applied, then skimmed with fine finishing plaster in smooth layers." },
+      { step: "04", title: "Sanding & Handover", desc: "Once dry, walls are lightly sanded for a flawless paint-ready finish." },
+    ],
+    faqs: [
+      { q: "What's the difference between plastering and skimming?", a: "Plastering is applying a thick base coat to rough walls. Skimming is a thin, smooth finishing coat applied over existing plaster to create a paint-ready surface." },
+      { q: "How long does plaster take to dry?", a: "Base coats need 24–48 hours. Skim finish needs at least 5–7 days before painting to fully cure — longer in humid conditions." },
+      { q: "Can you repair cracks in existing plaster?", a: "Yes. We cut out the crack, fill with fibre-reinforced filler, tape, and skim over — creating a permanent repair that won't re-crack." },
+      { q: "Do you install drywall (gypsum board) partitions?", a: "Yes. We design, frame, and install gypsum board partitions and ceilings, including fire-rated systems for commercial properties." },
+    ],
+    stats: [{ label: "sqm Plastered", value: "30,000+" }, { label: "Rating", value: "4.8★" }, { label: "Wall Types", value: "All" }],
+  },
 ];

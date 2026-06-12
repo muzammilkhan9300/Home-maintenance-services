@@ -31,14 +31,23 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    // Raise the warning threshold — vendor.js is intentionally large
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
-        }
-      }
-    }
-  }
+          // Separate framer-motion (animation library) — only needed on public pages
+          if (id.includes("framer-motion")) return "framer";
+          // Separate react-router — small, shared across all pages
+          if (id.includes("react-router") || id.includes("@remix-run")) return "router";
+          // Separate Radix UI — used primarily in admin/UI components
+          if (id.includes("@radix-ui")) return "radix";
+          // Separate Lucide icons — tree-shaken but still notable
+          if (id.includes("lucide-react")) return "icons";
+          // Everything else from node_modules
+          if (id.includes("node_modules")) return "vendor";
+        },
+      },
+    },
+  },
 }));
