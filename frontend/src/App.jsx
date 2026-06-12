@@ -6,11 +6,12 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
 // Public pages
-import Landing  from "./pages/Landing";
-import About    from "./pages/About";
-import Services from "./pages/Services";
-import Contact  from "./pages/Contact";
-import NotFound from "./pages/NotFound";
+import Landing      from "./pages/Landing";
+import About        from "./pages/About";
+import Services     from "./pages/Services";
+import ServiceDetail from "./pages/ServiceDetail";
+import Contact      from "./pages/Contact";
+import NotFound     from "./pages/NotFound";
 
 // Admin pages
 import AdminLayout      from "./components/admin/AdminLayout";
@@ -40,10 +41,11 @@ const App = () => (
           <AnalyticsTracker />
           <Routes>
             {/* ── Public Routes ───────────────────────────────────── */}
-            <Route path="/"         element={<Landing />} />
-            <Route path="/about"    element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/contact"  element={<Contact />} />
+            <Route path="/"              element={<Landing />} />
+            <Route path="/about"         element={<About />} />
+            <Route path="/services"      element={<Services />} />
+            <Route path="/services/:id"  element={<ServiceDetail />} />
+            <Route path="/contact"       element={<Contact />} />
 
             {/* ── Admin Routes ─────────────────────────────────────── */}
             <Route path="/admin/login" element={<AdminLogin />} />

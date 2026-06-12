@@ -2,23 +2,13 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Snowflake, Droplets, Zap, TreePine, Paintbrush, Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall } from "lucide-react";
 import { trackWhatsAppClick } from "@/lib/analytics";
+
 // ✅ Update this number anytime — no other changes needed
 const WHATSAPP_NUMBER = "971505387736";
 
 const iconMap = {
-  Snowflake,
-  Droplets,
-  Zap,
-  TreePine,
-  Paintbrush,
-  Wrench,
-  Fan,
-  Sparkles,
-  Droplet,
-  LayoutGrid,
-  Home,
-  Server,
-  BrickWall
+  Snowflake, Droplets, Zap, TreePine, Paintbrush,
+  Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall,
 };
 
 const WhatsAppIcon = () => (
@@ -30,11 +20,14 @@ const WhatsAppIcon = () => (
 const ServiceCard = ({ service, index }) => {
   const Icon = iconMap[service.icon] || Wrench;
 
-  const handleWhatsApp = () => {
+  const handleWhatsApp = (e) => {
+    // Prevent the card's Link from triggering
+    e.preventDefault();
+    e.stopPropagation();
     const message = encodeURIComponent(
       `Hi! I'm interested in your *${service.title}* service. Can you please provide more details and availability?`
     );
-    trackWhatsAppClick('Service Card', service.title);
+    trackWhatsAppClick("Service Card", service.title);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank", "noopener,noreferrer");
   };
 
@@ -44,52 +37,54 @@ const ServiceCard = ({ service, index }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className="group bg-card rounded-lg overflow-hidden shadow-premium hover:shadow-gold transition-all duration-500 border border-border"
     >
-      <div className="relative h-52 overflow-hidden">
-        <img
-          src={service.image}
-          alt={service.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          loading="lazy"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
-        <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2">
-          <div className="w-10 h-10 rounded-md bg-accent flex items-center justify-center shrink-0">
-            <Icon className="w-5 h-5 text-accent-foreground" />
+      {/* Entire card is a link to the service detail page */}
+      <Link
+        to={`/services/${service.id}`}
+        id={`service-card-${service.id}`}
+        className="group block bg-card rounded-lg overflow-hidden shadow-premium hover:shadow-gold transition-all duration-500 border border-border hover:border-accent/40 h-full"
+      >
+        {/* Image + overlay */}
+        <div className="relative h-52 overflow-hidden">
+          <img
+            src={service.image}
+            alt={service.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
+          <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2">
+            <div className="w-10 h-10 rounded-md bg-accent flex items-center justify-center shrink-0">
+              <Icon className="w-5 h-5 text-accent-foreground" />
+            </div>
+            <h3 className="text-base font-bold text-primary-foreground font-['Montserrat'] leading-tight flex-1 min-w-0">
+              {service.title}
+            </h3>
+            {/* WhatsApp button — stops propagation so card link doesn't fire */}
+            <button
+              onClick={handleWhatsApp}
+              aria-label={`Chat on WhatsApp about ${service.title}`}
+              className="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center text-white shrink-0 hover:bg-[#1ebe5d] hover:scale-110 transition-all duration-200 shadow-lg"
+            >
+              <WhatsAppIcon />
+            </button>
           </div>
-          <h3 className="text-base font-bold text-primary-foreground font-['Montserrat'] leading-tight flex-1 min-w-0">
-            {service.title}
-          </h3>
-          {/* WhatsApp icon on the image overlay */}
-          <button
-            onClick={handleWhatsApp}
-            aria-label={`Chat on WhatsApp about ${service.title}`}
-            className="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center text-white shrink-0 hover:bg-[#1ebe5d] hover:scale-110 transition-all duration-200 shadow-lg"
-          >
-            <WhatsAppIcon />
-          </button>
         </div>
-      </div>
-      <div className="p-5">
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{service.description}</p>
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <Link
-            to={`/contact?service=${service.id}`}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-accent hover:text-accent/80 transition-colors"
-          >
-            Book Service <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-          <button
-            onClick={handleWhatsApp}
-            aria-label={`WhatsApp enquiry for ${service.title}`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#25D366] hover:text-[#1ebe5d] transition-colors"
-          >
-            <WhatsAppIcon />
-            <span>WhatsApp</span>
-          </button>
+
+        {/* Card body */}
+        <div className="p-5">
+          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{service.description}</p>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
+              View Details <ArrowRight className="w-4 h-4" />
+            </span>
+            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#25D366]">
+              <WhatsAppIcon />
+              <span>WhatsApp</span>
+            </span>
+          </div>
         </div>
-      </div>
+      </Link>
     </motion.div>
   );
 };
