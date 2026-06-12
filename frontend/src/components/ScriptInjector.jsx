@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 
 const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
 
 const ScriptInjector = () => {
-  const location = useLocation();
-
   useEffect(() => {
     const loadedScripts = [];
 
@@ -85,7 +82,7 @@ const ScriptInjector = () => {
         try { el.remove(); } catch {}
       });
     };
-  }, [location.pathname]); // Re-run or re-evaluate on path changes if needed, but usually just once on mount. Since SPAs don't hard reload, running once is sufficient. If scripts rely on route changes (like pageview tracking), they listen to the history API or dataLayer pushes. So running once on mount is standard.
+  }, []);
 
   return null;
 };

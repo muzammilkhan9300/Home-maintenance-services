@@ -6,6 +6,12 @@ const getHeaders = () => ({
 });
 
 const handle = async (res) => {
+  if (res.status === 401 && !res.url.includes('/api/admin/auth/login')) {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminData');
+    window.location.href = '/admin/login';
+    throw new Error('Session expired. Please log in again.');
+  }
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Request failed');
   return data;

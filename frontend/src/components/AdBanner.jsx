@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 
 const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
@@ -10,6 +10,7 @@ const API_BASE = import.meta.env.PROD ? '' : 'http://localhost:5000';
 const AdBanner = ({ placement, className = '' }) => {
   const [ads, setAds]       = useState([]);
   const [dismissed, setDis] = useState({});
+  const trackedAds          = useRef(new Set());
 
   useEffect(() => {
     fetch(`${API_BASE}/api/ads?placement=${placement}`)
@@ -23,12 +24,20 @@ const AdBanner = ({ placement, className = '' }) => {
     catch {}
   };
 
-  const trackView = async (id) => {
-    try { await fetch(`${API_BASE}/api/ads/${id}/view`, { method: 'POST' }); }
-    catch {}
+  const trackView = (id) => {
+    if (trackedAds.current.has(id)) return;
+    trackedAds.current.add(id);
+    fetch(`${API_BASE}/api/ads/${id}/view`, { method: 'POST' }).catch(() => {});
   };
 
   const visible = ads.filter(a => !dismissed[a._id]);
+
+  useEffect(() => {
+    visible.forEach(ad => {
+      trackView(ad._id);
+    });
+  }, [ads, dismissed]);
+
   if (!visible.length) return null;
 
   // ── Hero / Footer strip ────────────────────────────────────────────────
@@ -36,7 +45,7 @@ const AdBanner = ({ placement, className = '' }) => {
     return (
       <div className={`w-full ${className}`}>
         {visible.map(ad => (
-          <div key={ad._id} ref={() => trackView(ad._id)}
+          <div key={ad._id}
             className={`relative flex items-center gap-4 px-6 py-3 ${placement === 'footer_strip' ? 'bg-amber-500/10 border-t border-amber-500/20' : 'bg-gradient-to-r from-yellow-900/40 to-amber-800/30 border-b border-yellow-500/20'}`}>
             {ad.imageUrl && (
               <img src={ad.imageUrl.startsWith('/uploads') ? `${API_BASE}${ad.imageUrl}` : ad.imageUrl} alt={ad.title} className="h-10 w-10 rounded-lg object-cover shrink-0" />
@@ -66,7 +75,7 @@ const AdBanner = ({ placement, className = '' }) => {
   if (placement === 'sidebar_card') {
     const ad = visible[0];
     return (
-      <div key={ad._id} ref={() => trackView(ad._id)} className={`rounded-2xl overflow-hidden border border-yellow-500/20 bg-gradient-to-br from-yellow-900/20 to-amber-900/20 ${className}`}>
+      <div key={ad._id} className={`rounded-2xl overflow-hidden border border-yellow-500/20 bg-gradient-to-br from-yellow-900/20 to-amber-900/20 ${className}`}>
         {ad.imageUrl && (
           <img src={ad.imageUrl.startsWith('/uploads') ? `${API_BASE}${ad.imageUrl}` : ad.imageUrl} alt={ad.title} className="w-full h-32 object-cover" />
         )}
@@ -90,7 +99,7 @@ const AdBanner = ({ placement, className = '' }) => {
   if (placement === 'popup') {
     const ad = visible[0];
     return (
-      <div ref={() => trackView(ad._id)} className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setDis(d=>({...d,[ad._id]:true}))}>
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={() => setDis(d=>({...d,[ad._id]:true}))}>
         <div className="bg-slate-900 border border-yellow-500/30 rounded-2xl overflow-hidden max-w-sm w-full shadow-2xl" onClick={e=>e.stopPropagation()}>
           {ad.imageUrl && <img src={ad.imageUrl.startsWith('/uploads') ? `${API_BASE}${ad.imageUrl}` : ad.imageUrl} alt={ad.title} className="w-full h-48 object-cover" />}
           <div className="p-5">
