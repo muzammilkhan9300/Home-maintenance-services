@@ -92,3 +92,7 @@
     box-shadow: 0 4px 25px -5px hsl(40 70% 50% / 0.3);
   }
 }
+
+/* Hide scrollbar but keep scrolling */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

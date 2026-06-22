@@ -14,6 +14,18 @@ export const services = [
     features: ["Split & Central AC Repair", "Ventilation System Cleaning", "Air Filter Replacement", "New Unit Installation", "Periodic Maintenance"],
     image: serviceAc,
     icon: "Fan",
+    warningSigns: [
+      { icon: "Snowflake", title: "Weak Cooling", desc: "Your AC runs constantly but the air coming out isn't cold enough to cool the room." },
+      { icon: "Fan", title: "Bad Smell", desc: "Musty or unpleasant odors from your AC vents every time you switch it on." },
+      { icon: "Droplet", title: "Water Leakage", desc: "Water dripping or pooling around the indoor unit, risking damage to walls and ceilings." },
+      { icon: "Zap", title: "High Electricity Bills", desc: "A sudden spike in DEWA bills due to an inefficient, dirty, or malfunctioning AC." },
+      { icon: "Sparkles", title: "Dusty Air", desc: "Visible dust particles blowing out of the vents and settling on your furniture." },
+      { icon: "Wrench", title: "Noisy Operation", desc: "Unusual rattling, buzzing, or grinding sounds when your AC is running." },
+    ],
+    beforeAfter: {
+      before: ["Weak airflow from vents", "Higher DEWA bills every month", "Dust and allergens in the air", "Unpleasant odor from AC"],
+      after: ["Strong, consistent cooling", "Better indoor air quality", "Lower energy usage & bills", "Fresh, clean air throughout"],
+    },
     keyBenefits: [
       { icon: "Zap", title: "Fast Response", desc: "Same-day AC repair across all Dubai areas — no more sweating in the heat." },
       { icon: "Shield", title: "Certified Technicians", desc: "DEWA-compliant engineers trained on all major AC brands and systems." },
@@ -40,6 +52,18 @@ export const services = [
     features: ["Deep Cleaning", "Window & Facade Washing", "Post-Construction Cleanup", "Regular Maintenance", "Sanitization Services"],
     image: serviceCleaning,
     icon: "Sparkles",
+    warningSigns: [
+      { icon: "Sparkles", title: "Accumulated Dust", desc: "Thick dust on surfaces, shelves, and behind furniture affecting health and air quality." },
+      { icon: "Droplets", title: "Stained Windows", desc: "Grimy, smeared windows blocking natural light and harming the building's appearance." },
+      { icon: "Leaf", title: "Mold & Mildew", desc: "Visible mold spots or musty smell in bathrooms, kitchens, or walls." },
+      { icon: "Wrench", title: "Post-Construction Mess", desc: "Cement dust, paint residue, and construction debris left after renovation work." },
+      { icon: "Shield", title: "Unhygienic Spaces", desc: "Germs, bacteria, and allergens building up in uncleaned, overlooked areas." },
+      { icon: "Clock", title: "Long Neglected Areas", desc: "Deep cleaning hasn't been done in months — visible buildup everywhere." },
+    ],
+    beforeAfter: {
+      before: ["Dusty surfaces and shelves", "Grimy windows and fixtures", "Unpleasant lingering odors", "Visible stains on floors & tiles"],
+      after: ["Spotlessly clean every surface", "Crystal-clear windows & glass", "Fresh, clean-smelling environment", "Gleaming floors and polished tiles"],
+    },
     keyBenefits: [
       { icon: "Sparkles", title: "Spotless Results", desc: "Hospital-grade cleaning standards applied to every room and surface." },
       { icon: "Shield", title: "Safe Products", desc: "Eco-friendly, child-safe, and pet-safe cleaning agents used throughout." },
@@ -66,6 +90,18 @@ export const services = [
     features: ["Interior Wall Painting", "Exterior Villa Painting", "Texture & Feature Walls", "Waterproofing", "Epoxy Floor Coatings"],
     image: servicePainting,
     icon: "Paintbrush",
+    warningSigns: [
+      { icon: "BrickWall", title: "Peeling Paint", desc: "Paint peeling or bubbling off walls — a sign of moisture or old adhesion failure." },
+      { icon: "Sparkles", title: "Faded Colors", desc: "Sun-bleached, dull walls that have lost their original vibrancy and depth." },
+      { icon: "Droplets", title: "Water Stains", desc: "Yellow or brown water stains on walls indicating leaks or humidity damage." },
+      { icon: "Wrench", title: "Cracks in Walls", desc: "Hairline or structural cracks that need proper filling before repainting." },
+      { icon: "Clock", title: "Outdated Interiors", desc: "Old paint scheme that no longer matches your taste, décor, or property value." },
+      { icon: "Shield", title: "Surface Damage", desc: "Chipped, scratched, or scuffed walls from daily wear and tear." },
+    ],
+    beforeAfter: {
+      before: ["Faded, chipped, and peeling paint", "Visible cracks and water stains", "Dull, uninspiring color scheme", "Uneven and patchy wall surfaces"],
+      after: ["Fresh, vibrant professional finish", "Smooth, crack-free, pristine walls", "Modern palette that transforms the space", "Even, consistent coverage throughout"],
+    },
     keyBenefits: [
       { icon: "Paintbrush", title: "Premium Finishes", desc: "We use Dulux, Jotun, and Sigma paints — internationally certified brands for lasting results." },
       { icon: "Shield", title: "Zero Mess Guarantee", desc: "Full furniture protection, floor covering, and daily site cleanup included." },
@@ -92,6 +128,18 @@ export const services = [
     features: ["Wiring & Rewiring", "Distribution Board Repair", "Lighting Installation", "Fault Finding", "Safety Inspections"],
     image: serviceElectrical,
     icon: "Zap",
+    warningSigns: [
+      { icon: "Zap", title: "Frequent Tripping", desc: "Circuit breakers tripping repeatedly — a sign of overloaded or faulty circuits." },
+      { icon: "Sparkles", title: "Flickering Lights", desc: "Lights flickering or dimming unexpectedly, indicating a loose or faulty connection." },
+      { icon: "Shield", title: "Burning Smell", desc: "A burning or plastic smell from outlets or switches — a serious fire hazard warning." },
+      { icon: "Wrench", title: "Outdated DB Board", desc: "Old fuse-based distribution board that can't safely handle modern power loads." },
+      { icon: "Clock", title: "Hot Switch Plates", desc: "Outlets or switch plates that feel warm to the touch — dangerously abnormal." },
+      { icon: "BrickWall", title: "No Earthing", desc: "Absence of proper earthing can cause severe electric shock risks throughout the property." },
+    ],
+    beforeAfter: {
+      before: ["Frequent power trips and outages", "Flickering lights and dead sockets", "Outdated, unsafe wiring throughout", "No safety certifications or earthing"],
+      after: ["Stable, reliable power throughout", "Fully functional lighting & outlets", "Safe, up-to-code electrical system", "DEWA-certified and fully documented"],
+    },
     keyBenefits: [
       { icon: "Shield", title: "DEWA Certified", desc: "All work is compliant with DEWA regulations and UAE electrical standards." },
       { icon: "Zap", title: "Emergency Callouts", desc: "24/7 emergency electrical support — power cuts and faults handled within the hour." },
@@ -118,6 +166,18 @@ export const services = [
     features: ["Leak Detection & Repair", "Water Heater Services", "Pump Installation", "Bathroom & Kitchen Fixtures", "Drain Unblocking"],
     image: servicePlumbing,
     icon: "Droplet",
+    warningSigns: [
+      { icon: "Droplets", title: "Dripping Faucets", desc: "Constant dripping wastes hundreds of liters daily and significantly inflates DEWA bills." },
+      { icon: "Wrench", title: "Slow Drains", desc: "Sinks, showers, or bathtubs draining very slowly — a clear sign of a blockage." },
+      { icon: "Zap", title: "Low Water Pressure", desc: "Weak water flow from taps or showerheads affecting daily use and comfort." },
+      { icon: "BrickWall", title: "Water Stains on Walls", desc: "Yellow or brown wall stains indicating a concealed, ongoing pipe leak." },
+      { icon: "Clock", title: "Running Toilet", desc: "Toilet that keeps running after flushing — wasting thousands of liters monthly." },
+      { icon: "Shield", title: "No Hot Water", desc: "Water heater failure suddenly leaving you without hot water." },
+    ],
+    beforeAfter: {
+      before: ["Dripping taps wasting water all day", "Slow, smelly, blocked drains", "Low water pressure in all areas", "Concealed leaks damaging walls & floors"],
+      after: ["All taps sealed, zero water wastage", "Free-flowing, odor-free drains", "Full water pressure fully restored", "Leaks fixed with 90-day guarantee"],
+    },
     keyBenefits: [
       { icon: "Droplets", title: "Leak-Free Guarantee", desc: "We fix leaks permanently — backed by a 90-day workmanship warranty." },
       { icon: "Zap", title: "Emergency Plumbers", desc: "Burst pipes and flooding handled 24/7 with a guaranteed response within 60 minutes." },
@@ -144,15 +204,27 @@ export const services = [
     features: ["PVC & Copper Pipe Repair", "Drainage System Setup", "Sewer Line Maintenance", "Underground Piping", "Valve Replacements"],
     image: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=800&auto=format&fit=crop",
     icon: "Wrench",
+    warningSigns: [
+      { icon: "Droplets", title: "Sewage Smells", desc: "Foul odors from drains or around the property indicating a sewer blockage or break." },
+      { icon: "Wrench", title: "Gurgling Drains", desc: "Gurgling sounds from multiple drains simultaneously — sign of a main line blockage." },
+      { icon: "BrickWall", title: "Wet Spots Outside", desc: "Unexplained wet patches in the garden or on external walls above ground level." },
+      { icon: "Zap", title: "Multiple Blockages", desc: "More than one drain blocked at the same time — likely a primary sewer line issue." },
+      { icon: "Droplet", title: "Slow-Flushing Toilets", desc: "Toilets flushing weakly or backing up — classic sign of a sewer line problem." },
+      { icon: "Shield", title: "Aging Pipe Network", desc: "Old galvanized or cast-iron pipes prone to corrosion, scaling, and pinhole leaks." },
+    ],
+    beforeAfter: {
+      before: ["Sewage smells throughout the property", "Multiple slow or blocked drains", "Recurring pipe leaks and water damage", "Aging, corroded pipe network"],
+      after: ["Fresh, odor-free plumbing everywhere", "Free-flowing drainage in all areas", "Zero leaks with new sealed joints", "New durable pipes rated for 25+ years"],
+    },
     keyBenefits: [
       { icon: "Wrench", title: "Full Network Repairs", desc: "From single valve replacements to complete underground piping networks." },
       { icon: "Shield", title: "Durable Materials", desc: "We use only uPVC, CPVC, and copper pipes rated for Dubai's high-pressure systems." },
       { icon: "Clock", title: "Minimal Disruption", desc: "Precision work minimizes breakage of tiles and finishes during pipe access." },
     ],
     processSteps: [
-      { step: "01", title: "Site Assessment", desc: "We map your existing pipe network and identify problem areas." },
+      { step: "01", title: "Site Assessment", desc: "We map your existing pipe network and identify all problem areas." },
       { step: "02", title: "Detailed Proposal", desc: "Full scope of work with materials list and fixed cost provided upfront." },
-      { step: "03", title: "Installation & Repair", desc: "Work executed by specialist plumbing technicians with minimal site disruption." },
+      { step: "03", title: "Installation & Repair", desc: "Work executed by specialist technicians with minimal site disruption." },
       { step: "04", title: "System Testing", desc: "Full pressure and flow test confirming all connections are sealed and compliant." },
     ],
     faqs: [
@@ -170,6 +242,18 @@ export const services = [
     features: ["Ceramic & Porcelain Laying", "Marble Installation", "Grout Restoration", "Bathroom Wall Tiling", "Outdoor Pavers"],
     image: serviceTiling,
     icon: "LayoutGrid",
+    warningSigns: [
+      { icon: "BrickWall", title: "Cracked Tiles", desc: "Cracked or broken tiles that are a tripping hazard and look unsightly." },
+      { icon: "Droplets", title: "Stained Grout", desc: "Discolored grout that won't clean — it's time for restoration or full replacement." },
+      { icon: "Shield", title: "Hollow-Sounding Tiles", desc: "Tiles that sound hollow when tapped — they've debonded from the substrate." },
+      { icon: "Droplet", title: "Water Seeping Through", desc: "Water seeping through tile joints in wet areas causing dampness and damage." },
+      { icon: "Sparkles", title: "Outdated Design", desc: "Old-fashioned tiles that make your space look dated and reduce property value." },
+      { icon: "Wrench", title: "Uneven Surfaces", desc: "Noticeable height differences between adjacent tiles creating an unsafe floor." },
+    ],
+    beforeAfter: {
+      before: ["Cracked, chipped, and hollow tiles", "Stained, deteriorated grout lines", "Water leaking through wet areas", "Uneven floor with noticeable lippage"],
+      after: ["Pristine, zero-lippage tile installation", "Clean, sealed, professional grout lines", "Fully waterproofed wet areas", "Laser-level smooth, even surfaces throughout"],
+    },
     keyBenefits: [
       { icon: "Star", title: "Premium Finishes", desc: "Laser-leveled, perfectly aligned tiles — zero lippage guaranteed on every project." },
       { icon: "Shield", title: "Waterproof Guarantee", desc: "Full waterproofing membrane applied beneath all wet area tiles." },
@@ -196,6 +280,18 @@ export const services = [
     features: ["Annual Maintenance Contracts", "Routine Inspections", "General Handyman", "Preventative Care", "Emergency Callouts"],
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop",
     icon: "Home",
+    warningSigns: [
+      { icon: "Wrench", title: "Small Issues Ignored", desc: "Minor problems like dripping taps or flickering lights left unattended for months." },
+      { icon: "Shield", title: "No Maintenance Plan", desc: "No scheduled upkeep — problems only discovered when they completely break down." },
+      { icon: "Clock", title: "High Emergency Bills", desc: "Paying premium emergency call-out rates for problems that could have been prevented." },
+      { icon: "BrickWall", title: "Structural Cracks", desc: "Small cracks in walls or ceilings growing unnoticed into serious structural issues." },
+      { icon: "Zap", title: "Aging Systems", desc: "Old AC units, water heaters, and pumps working inefficiently and costing more." },
+      { icon: "Home", title: "Declining Property Value", desc: "Poor maintenance visibly reducing your property's condition and market value." },
+    ],
+    beforeAfter: {
+      before: ["Reactive repairs costing a fortune", "Multiple ongoing issues causing stress", "No maintenance history or records", "Property value declining with neglect"],
+      after: ["Proactive care saving thousands yearly", "All systems running perfectly", "Full maintenance log & reports provided", "Property value protected and enhanced"],
+    },
     keyBenefits: [
       { icon: "Home", title: "All-in-One Care", desc: "One point of contact for every maintenance need — AC, electrical, plumbing, and more." },
       { icon: "Shield", title: "AMC Packages", desc: "Annual Maintenance Contracts with unlimited callouts and priority scheduling." },
@@ -222,6 +318,18 @@ export const services = [
     features: ["Smart Home Automation", "Security System Setup", "CCTV Installation", "Intercoms", "Control Panel Calibration"],
     image: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=800&auto=format&fit=crop",
     icon: "Server",
+    warningSigns: [
+      { icon: "Shield", title: "No Security System", desc: "Your property has no CCTV or alarm — leaving it vulnerable to intrusion." },
+      { icon: "Server", title: "Outdated CCTV", desc: "Old, low-resolution cameras that provide no useful footage when needed." },
+      { icon: "Zap", title: "Faulty Intercom", desc: "Broken intercom or door access system causing daily inconvenience." },
+      { icon: "Wrench", title: "Manual Controls", desc: "Still using manual switches when smart automation could save time and energy." },
+      { icon: "Clock", title: "Systems Going Offline", desc: "Security panels or smart systems constantly losing connection or going offline." },
+      { icon: "Home", title: "No Remote Access", desc: "Can't check or control your property remotely when you're away from home." },
+    ],
+    beforeAfter: {
+      before: ["No visibility of who enters or exits", "Manual, inconvenient system controls", "Security blind spots and vulnerabilities", "Systems offline with no monitoring"],
+      after: ["Full HD CCTV coverage 24/7", "Smart, automated home control", "Complete security from every angle", "Remote monitoring from anywhere"],
+    },
     keyBenefits: [
       { icon: "Shield", title: "Security Experts", desc: "CCTV, access control, and alarm systems installed by certified security engineers." },
       { icon: "Zap", title: "Smart Integration", desc: "Voice-controlled lighting, automated blinds, and smart climate control — all connected." },
@@ -248,6 +356,18 @@ export const services = [
     features: ["Wall Skimming", "Crack Repairs", "Decorative Plastering", "Ceiling Repairs", "Drywall Installation"],
     image: servicePlaster,
     icon: "BrickWall",
+    warningSigns: [
+      { icon: "BrickWall", title: "Visible Cracks", desc: "Hairline or growing cracks in walls and ceilings — a structural or moisture warning." },
+      { icon: "Droplets", title: "Damp Patches", desc: "Wet or discolored patches on plaster indicating water ingress or condensation issues." },
+      { icon: "Sparkles", title: "Bumpy Walls", desc: "Uneven or textured surfaces that show through paint and look highly unprofessional." },
+      { icon: "Shield", title: "Hollow Plaster", desc: "Sections that sound hollow when tapped — plaster has separated from the wall behind." },
+      { icon: "Wrench", title: "Peeling Plaster", desc: "Chunks of plaster falling away — a safety hazard and damage to surrounding finishes." },
+      { icon: "Clock", title: "Post-Renovation Gaps", desc: "Rough gaps and exposed areas left after electrical or plumbing work inside walls." },
+    ],
+    beforeAfter: {
+      before: ["Cracked and uneven wall surfaces", "Hollow, peeling, or damp plaster", "Rough finishes showing through paint", "Post-renovation gaps and patchwork"],
+      after: ["Mirror-smooth, paint-ready surfaces", "Solid, fully bonded plaster throughout", "Invisible repairs that last for years", "Seamless, professional finish top to bottom"],
+    },
     keyBenefits: [
       { icon: "Star", title: "Mirror-Smooth Finish", desc: "Multi-coat skim plaster ground to a perfectly smooth surface — no bumps, no lines." },
       { icon: "Wrench", title: "All Wall Types", desc: "Blockwork, concrete, drywall, and lightweight partitions — all plastered to perfection." },

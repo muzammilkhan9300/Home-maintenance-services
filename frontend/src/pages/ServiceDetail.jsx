@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, CheckCircle, Phone, ArrowLeft, ChevronDown,
   Snowflake, Droplets, Zap, TreePine, Paintbrush, Star, Leaf,
-  Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall, Clock, Shield,
+  Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall, Clock, Shield, MapPin,
+  AlertTriangle, ArrowLeftRight, Quote,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -14,11 +15,39 @@ import { services } from "@/data/services";
 import { trackWhatsAppClick } from "@/lib/analytics";
 
 const WHATSAPP_NUMBER = "971505387736";
+const CALL_NUMBER = "971505387736";
 
 const iconMap = {
   Snowflake, Droplets, Zap, TreePine, Paintbrush, Star, Leaf,
   Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall, Clock, Shield, CheckCircle,
 };
+
+const DUBAI_AREAS = [
+  "Dubai Marina", "JVC", "Palm Jumeirah", "Downtown",
+  "Business Bay", "Jumeirah", "DIFC", "Al Barsha",
+  "Mirdif", "Deira", "Bur Dubai", "JLT",
+];
+
+const TESTIMONIALS = [
+  {
+    name: "Ahmed Al Rashid",
+    area: "Dubai Marina",
+    rating: 5,
+    review: "Excellent service! The team arrived on time, were very professional and resolved everything quickly. Highly recommend Afnan Property Care.",
+  },
+  {
+    name: "Sarah Johnson",
+    area: "JVC",
+    rating: 5,
+    review: "Outstanding work. Very clean, respectful of our home, and the quality was exceptional. Will definitely use them again.",
+  },
+  {
+    name: "Mohammed Al Zaabi",
+    area: "Palm Jumeirah",
+    rating: 5,
+    review: "Best maintenance company in Dubai! Fast response, fair pricing, and the technicians really know their stuff. Five stars.",
+  },
+];
 
 const WhatsAppIcon = ({ className = "w-5 h-5" }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -26,77 +55,15 @@ const WhatsAppIcon = ({ className = "w-5 h-5" }) => (
   </svg>
 );
 
-const BookingCard = ({ service, Icon, handleWhatsApp, isMobile }) => {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: isMobile ? 0.15 : 0.35, duration: 0.5 }}
-      className="rounded-2xl overflow-hidden border border-amber-500/30 shadow-xl"
-      style={{ background: "linear-gradient(135deg, rgba(30,27,20,0.95) 0%, rgba(15,12,8,0.98) 100%)" }}
-    >
-      {/* Card header */}
-      <div className="px-6 py-5 border-b border-amber-500/20 bg-gradient-to-r from-amber-500/15 to-transparent">
-        <div className="flex items-center gap-3 mb-1">
-          <div className="w-9 h-9 rounded-lg bg-amber-500 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/30">
-            <Icon className="w-4 h-4 text-slate-900" />
-          </div>
-          <span className="text-amber-400 text-xs font-bold tracking-widest uppercase">Book This Service</span>
-        </div>
-        <p className="text-white/50 text-xs mt-2">
-          Get a free quote in under 30 minutes. Available 24/7.
-        </p>
-      </div>
-
-      {/* Buttons */}
-      <div className="p-6 space-y-3">
-        <Link
-          to={`/contact?service=${service.id}`}
-          id={isMobile ? `book-service-mob-${service.id}` : `book-service-${service.id}`}
-          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-slate-900 text-sm hover:brightness-110 active:scale-95 transition-all"
-          style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)" }}
-        >
-          <Phone className="w-4 h-4" />
-          Get a Free Quote
-        </Link>
-
-        <button
-          onClick={handleWhatsApp}
-          id={isMobile ? `whatsapp-service-mob-${service.id}` : `whatsapp-service-${service.id}`}
-          className="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#25D366] text-white font-bold hover:bg-[#1ebe5d] active:scale-95 transition-all text-sm"
-        >
-          <WhatsAppIcon />
-          Chat on WhatsApp
-        </button>
-
-        {/* Trust signals */}
-        <div className="pt-3 border-t border-white/10 space-y-2.5">
-          {[
-            { emoji: "✅", text: "Trade License No. 1571076" },
-            { emoji: "⏰", text: "24/7 Emergency Availability" },
-            { emoji: "📍", text: "All areas of Dubai covered" },
-            { emoji: "🛡️", text: "Fully insured & DEWA certified" },
-          ].map((item) => (
-            <div key={item.text} className="flex items-center gap-2 text-xs text-white/50">
-              <span>{item.emoji}</span>
-              <span>{item.text}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </motion.div>
-  );
-};
-
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 24 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,
-    transition: { delay: i * 0.08, duration: 0.5, ease: "easeOut" },
+    transition: { delay: i * 0.08, duration: 0.45, ease: "easeOut" },
   }),
 };
 
-// ── FAQ Item ────────────────────────────────────────────────────────────────
+// ── FAQ Item ─────────────────────────────────────────────────────────────────
 const FAQItem = ({ q, a, index }) => {
   const [open, setOpen] = useState(false);
   return (
@@ -137,7 +104,76 @@ const FAQItem = ({ q, a, index }) => {
   );
 };
 
-// ── Main Component ───────────────────────────────────────────────────────────
+// ── Desktop Booking Card ──────────────────────────────────────────────────────
+const DesktopBookingCard = ({ service, Icon, handleWhatsApp }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.35, duration: 0.5 }}
+    className="rounded-2xl overflow-hidden border border-amber-500/30 shadow-xl"
+    style={{ background: "linear-gradient(135deg, rgba(30,27,20,0.95) 0%, rgba(15,12,8,0.98) 100%)" }}
+  >
+    <div className="px-6 py-5 border-b border-amber-500/20 bg-gradient-to-r from-amber-500/15 to-transparent">
+      <div className="flex items-center gap-3 mb-1">
+        <div className="w-9 h-9 rounded-lg bg-amber-500 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/30">
+          <Icon className="w-4 h-4 text-slate-900" />
+        </div>
+        <span className="text-amber-400 text-xs font-bold tracking-widest uppercase">Book This Service</span>
+      </div>
+      <p className="text-white/50 text-xs mt-2">Get a free quote in under 30 minutes. Available 24/7.</p>
+    </div>
+    <div className="p-6 space-y-3">
+      <Link
+        to={`/contact?service=${service.id}`}
+        id={`book-service-${service.id}`}
+        className="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-bold text-slate-900 text-sm hover:brightness-110 active:scale-95 transition-all"
+        style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)" }}
+      >
+        <Phone className="w-4 h-4" />
+        Get a Free Quote
+      </Link>
+      <button
+        onClick={handleWhatsApp}
+        id={`whatsapp-service-${service.id}`}
+        className="w-full flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl bg-[#25D366] text-white font-bold hover:bg-[#1ebe5d] active:scale-95 transition-all text-sm"
+      >
+        <WhatsAppIcon />
+        Chat on WhatsApp
+      </button>
+      <div className="pt-3 border-t border-white/10 space-y-2.5">
+        {[
+          { emoji: "✅", text: "Trade License No. 1571076" },
+          { emoji: "⏰", text: "24/7 Emergency Availability" },
+          { emoji: "📍", text: "All areas of Dubai covered" },
+          { emoji: "🛡️", text: "Fully insured & DEWA certified" },
+        ].map((item) => (
+          <div key={item.text} className="flex items-center gap-2 text-xs text-white/50">
+            <span>{item.emoji}</span>
+            <span>{item.text}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </motion.div>
+);
+
+// ── Section Badge ─────────────────────────────────────────────────────────────
+const SectionBadge = ({ icon: BadgeIcon, label, color = "amber" }) => {
+  const colorMap = {
+    amber: "bg-amber-500/10 border-amber-500/20 text-amber-400",
+    red:   "bg-red-500/10 border-red-500/20 text-red-400",
+    green: "bg-green-500/10 border-green-500/20 text-green-400",
+    blue:  "bg-blue-500/10 border-blue-500/20 text-blue-400",
+  };
+  return (
+    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] font-bold tracking-widest uppercase mb-3 ${colorMap[color]}`}>
+      <BadgeIcon className="w-3 h-3" />
+      {label}
+    </span>
+  );
+};
+
+// ── Main Component ────────────────────────────────────────────────────────────
 const ServiceDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -155,7 +191,11 @@ const ServiceDetail = () => {
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, "_blank", "noopener,noreferrer");
   };
 
-  // ── Not Found ──────────────────────────────────────────────────────────────
+  const handleCall = () => {
+    window.location.href = `tel:+${CALL_NUMBER}`;
+  };
+
+  // ── Not Found ───────────────────────────────────────────────────────────────
   if (!service) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
@@ -191,107 +231,328 @@ const ServiceDetail = () => {
       <Navbar />
 
       {/* ═══════════════════════════════════════════════════════════════════
-          HERO — full-width image with stats bar
+          MOBILE HERO — text-first, conversion-focused
       ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-[60vh] flex items-end overflow-hidden">
-        {/* Background image — fetchpriority for LCP */}
-        <img
-          src={service.image}
-          alt={service.title}
-          width="1920"
-          height="1080"
-          fetchpriority="high"
-          loading="eager"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-900/60 to-slate-900/20" />
+      <section className="lg:hidden pt-20 pb-6 px-4" style={{ background: "linear-gradient(160deg, #0f172a 0%, #1e1b12 60%, #0c0a06 100%)" }}>
+        {/* Availability badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 mb-5"
+        >
+          <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+          <span className="text-amber-400 text-xs font-semibold">Available Today Across Dubai</span>
+        </motion.div>
 
-        {/* Decorative gold glow */}
+        {/* Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+          className="text-3xl font-extrabold text-white font-['Montserrat'] leading-tight mb-3"
+        >
+          {service.title}
+        </motion.h1>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+          className="text-white/60 text-sm leading-relaxed mb-5"
+        >
+          {service.description}
+        </motion.p>
+
+        {/* 2×2 Trust checkmarks */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.4 }}
+          className="grid grid-cols-2 gap-x-4 gap-y-2.5 mb-6"
+        >
+          {["Same-Day Service", "Licensed LLC", "Fully Insured", "All Dubai Areas"].map((item) => (
+            <div key={item} className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-amber-400 shrink-0" />
+              <span className="text-white/80 text-sm font-medium">{item}</span>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* CTA Buttons */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.45 }}
+          className="flex gap-3 mb-6"
+        >
+          <Link
+            to={`/contact?service=${service.id}`}
+            id={`book-mob-${service.id}`}
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl font-bold text-slate-900 text-sm active:scale-95 transition-all"
+            style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)" }}
+          >
+            <Phone className="w-4 h-4" />
+            Get Free Quote
+          </Link>
+          <button
+            onClick={handleWhatsApp}
+            id={`wa-mob-${service.id}`}
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl bg-[#25D366] text-white font-bold hover:bg-[#1ebe5d] active:scale-95 transition-all text-sm"
+          >
+            <WhatsAppIcon />
+            WhatsApp Now
+          </button>
+        </motion.div>
+
+        {/* Stats row */}
+        {service.stats && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35, duration: 0.4 }}
+            className="flex flex-wrap gap-x-5 gap-y-2"
+          >
+            {service.stats.map((stat) => (
+              <div key={stat.label} className="flex items-center gap-1.5">
+                <span className="text-amber-400 font-extrabold text-sm">{stat.value}</span>
+                <span className="text-white/40 text-xs">{stat.label}</span>
+              </div>
+            ))}
+          </motion.div>
+        )}
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          DESKTOP HERO — parallax bg image with overlay
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section
+        className="hidden lg:flex relative min-h-[60vh] items-end overflow-hidden"
+        style={{
+          backgroundImage: `url(${service.image})`,
+          backgroundAttachment: "fixed",
+          backgroundPosition: "center",
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-900/60 to-slate-900/20" />
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-48 bg-amber-500/10 blur-3xl rounded-full pointer-events-none" />
 
-        <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-28 pb-10">
-          {/* Breadcrumb */}
-          <motion.nav
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4 }}
-            aria-label="Breadcrumb"
-            className="flex items-center gap-2 text-white/50 text-xs mb-6"
-          >
+        <div className="container mx-auto px-8 relative z-10 pt-28 pb-10">
+          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-white/50 text-xs mb-6">
             <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <span>/</span>
             <Link to="/services" className="hover:text-white transition-colors">Services</Link>
             <span>/</span>
             <span className="text-white/80 line-clamp-1">{service.title}</span>
-          </motion.nav>
-
-          <motion.div initial="hidden" animate="visible" className="max-w-3xl">
-            {/* Badge */}
-            <motion.div variants={fadeUp} custom={0} className="flex items-center gap-3 mb-4">
+          </nav>
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-3 mb-4">
               <div className="w-11 h-11 rounded-xl bg-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/30">
                 <Icon className="w-5 h-5 text-slate-900" />
               </div>
               <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 text-xs font-bold tracking-wider uppercase border border-amber-500/30">
                 Professional Service — Dubai, UAE
               </span>
-            </motion.div>
-
-            {/* Title */}
-            <motion.h1
-              variants={fadeUp}
-              custom={1}
-              className="text-3xl md:text-5xl font-extrabold text-white font-['Montserrat'] leading-tight mb-8"
-            >
+            </div>
+            <h1 className="text-3xl md:text-5xl font-extrabold text-white font-['Montserrat'] leading-tight mb-8">
               {service.title}
-            </motion.h1>
-
-            {/* Stats bar */}
+            </h1>
             {service.stats && (
-              <motion.div
-                variants={fadeUp}
-                custom={2}
-                className="flex flex-wrap gap-3"
-              >
-                {[
-                  ...service.stats,
-                  { label: "Trade License", value: "✓ LLC" },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="flex flex-col items-center px-4 py-2.5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20"
-                  >
+              <div className="flex flex-wrap gap-3">
+                {[...service.stats, { label: "Trade License", value: "✓ LLC" }].map((stat) => (
+                  <div key={stat.label} className="flex flex-col items-center px-4 py-2.5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20">
                     <span className="text-amber-400 font-extrabold text-lg leading-none">{stat.value}</span>
                     <span className="text-white/60 text-[10px] uppercase tracking-wider mt-1">{stat.label}</span>
                   </div>
                 ))}
-              </motion.div>
+              </div>
             )}
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Mobile Booking Card — placed directly below background image section */}
-      <div className="lg:hidden container mx-auto px-4 mt-6">
-        <BookingCard
-          service={service}
-          Icon={Icon}
-          handleWhatsApp={handleWhatsApp}
-          isMobile={true}
-        />
+      {/* ═══════════════════════════════════════════════════════════════════
+          MOBILE SERVICE IMAGE — full-width, rounded, with caption
+      ═══════════════════════════════════════════════════════════════════ */}
+      <div className="lg:hidden px-4 mb-0 mt-0">
+        <div className="relative rounded-2xl overflow-hidden">
+          <img
+            src={service.image}
+            alt={service.title}
+            className="w-full h-56 object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 to-transparent" />
+          <div className="absolute bottom-0 left-0 p-4 flex items-center gap-3">
+            <div className="w-9 h-9 rounded-full bg-amber-500/20 backdrop-blur-sm border border-amber-500/30 flex items-center justify-center shrink-0">
+              <Shield className="w-4 h-4 text-amber-400" />
+            </div>
+            <div>
+              <p className="text-white/60 text-[10px] uppercase tracking-wider">Certified Team</p>
+              <p className="text-white font-bold text-sm">Fully Equipped & Insured</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          KEY BENEFITS — 3 gradient cards
+          MOBILE AREAS MARQUEE
       ═══════════════════════════════════════════════════════════════════ */}
-      {service.keyBenefits && (
-        <section className="py-10 bg-card border-b border-border">
+      <div className="lg:hidden py-4 border-y border-border overflow-hidden">
+        <p className="text-center text-[10px] text-muted-foreground uppercase tracking-widest mb-3">
+          Trusted by homeowners across
+        </p>
+        <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 pb-1">
+          {DUBAI_AREAS.map((area) => (
+            <div key={area} className="flex items-center gap-1.5 shrink-0">
+              <MapPin className="w-3 h-3 text-amber-500 shrink-0" />
+              <span className="text-foreground text-xs font-medium whitespace-nowrap">{area}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          WARNING SIGNS SECTION
+      ═══════════════════════════════════════════════════════════════════ */}
+      {service.warningSigns && (
+        <section className="py-10 lg:py-14" style={{ background: "var(--card, #f9f9f9)" }}>
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid md:grid-cols-3 gap-5"
+            >
+              <motion.div variants={fadeUp} custom={0} className="text-center mb-7">
+                <SectionBadge icon={AlertTriangle} label="Warning Signs" color="red" />
+                <h2 className="text-xl lg:text-3xl font-extrabold font-['Montserrat'] text-foreground">
+                  Is Your Property Showing These Signs?
+                </h2>
+                <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
+                  If you're experiencing any of these issues, it's time to call in the professionals.
+                </p>
+              </motion.div>
+
+              <div className="flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-5">
+                {service.warningSigns.map((sign, i) => {
+                  const SIcon = iconMap[sign.icon] || AlertTriangle;
+                  return (
+                    <motion.div
+                      key={sign.title}
+                      variants={fadeUp}
+                      custom={i}
+                      className="flex gap-4 p-5 rounded-2xl bg-background border border-border"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
+                        <SIcon className="w-5 h-5 text-amber-500" />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-foreground text-sm mb-1">{sign.title}</h3>
+                        <p className="text-muted-foreground text-xs leading-relaxed">{sign.desc}</p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          BEFORE vs AFTER SECTION
+      ═══════════════════════════════════════════════════════════════════ */}
+      {service.beforeAfter && (
+        <section className="py-10 lg:py-14 border-t border-border">
+          <div className="container mx-auto px-4 lg:px-8">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <motion.div variants={fadeUp} custom={0} className="text-center mb-7">
+                <SectionBadge icon={ArrowLeftRight} label="The Difference" color="blue" />
+                <h2 className="text-xl lg:text-3xl font-extrabold font-['Montserrat'] text-foreground">
+                  Before vs After Our Service
+                </h2>
+                <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
+                  See the transformation our professional service delivers.
+                </p>
+              </motion.div>
+
+              <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                {/* Before card */}
+                <motion.div
+                  variants={fadeUp}
+                  custom={1}
+                  className="p-5 rounded-2xl border border-red-500/20"
+                  style={{ background: "rgba(239,68,68,0.05)" }}
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-9 h-9 rounded-xl bg-red-500/15 flex items-center justify-center">
+                      <span className="text-red-400 font-bold text-base">✕</span>
+                    </div>
+                    <h3 className="font-extrabold text-red-400 text-base">Before Our Service</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {service.beforeAfter.before.map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <div className="w-5 h-5 rounded-full bg-red-500/15 flex items-center justify-center shrink-0 mt-0.5">
+                          <span className="text-red-400 text-[10px] font-bold">✕</span>
+                        </div>
+                        <span className="text-foreground text-sm leading-snug">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+
+                {/* After card */}
+                <motion.div
+                  variants={fadeUp}
+                  custom={2}
+                  className="p-5 rounded-2xl border border-green-500/20"
+                  style={{ background: "rgba(34,197,94,0.05)" }}
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-9 h-9 rounded-xl bg-green-500/15 flex items-center justify-center">
+                      <span className="text-green-400 font-bold text-base">✓</span>
+                    </div>
+                    <h3 className="font-extrabold text-green-400 text-base">After Our Service</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {service.beforeAfter.after.map((item) => (
+                      <li key={item} className="flex items-start gap-3">
+                        <div className="w-5 h-5 rounded-full bg-green-500/15 flex items-center justify-center shrink-0 mt-0.5">
+                          <span className="text-green-400 text-[10px] font-bold">✓</span>
+                        </div>
+                        <span className="text-foreground text-sm leading-snug">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          KEY BENEFITS
+      ═══════════════════════════════════════════════════════════════════ */}
+      {service.keyBenefits && (
+        <section className="py-10 lg:py-12 border-t border-border">
+          <div className="container mx-auto px-4 lg:px-8">
+            <div className="lg:hidden text-center mb-5">
+              <SectionBadge icon={Zap} label="Key Benefits" color="amber" />
+              <h2 className="text-xl font-extrabold text-foreground font-['Montserrat']">Why Choose Us?</h2>
+            </div>
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-5"
             >
               {service.keyBenefits.map((benefit, i) => {
                 const BIcon = iconMap[benefit.icon] || CheckCircle;
@@ -300,9 +561,9 @@ const ServiceDetail = () => {
                     key={benefit.title}
                     variants={fadeUp}
                     custom={i}
-                    className="group flex gap-4 p-5 rounded-2xl bg-gradient-to-br from-amber-500/10 to-transparent border border-amber-500/20 hover:border-amber-500/40 hover:from-amber-500/15 transition-all duration-300"
+                    className="flex gap-4 p-5 rounded-2xl bg-card lg:bg-gradient-to-br lg:from-amber-500/10 lg:to-transparent border border-border lg:border-amber-500/20 hover:border-amber-500/30 transition-all duration-300"
                   >
-                    <div className="w-11 h-11 rounded-xl bg-amber-500/20 group-hover:bg-amber-500/30 flex items-center justify-center shrink-0 transition-colors">
+                    <div className="w-12 h-12 rounded-xl bg-amber-500/15 flex items-center justify-center shrink-0">
                       <BIcon className="w-5 h-5 text-amber-500" />
                     </div>
                     <div>
@@ -318,32 +579,43 @@ const ServiceDetail = () => {
       )}
 
       {/* ═══════════════════════════════════════════════════════════════════
-          MAIN CONTENT — 2/3 + 1/3 grid
+          MAIN CONTENT — 2/3 + 1/3 (desktop) / single col (mobile)
       ═══════════════════════════════════════════════════════════════════ */}
-      <section className="py-14">
+      <section className="py-8 lg:py-14 border-t border-border">
         <div className="container mx-auto px-4 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-10 items-start">
+          <div className="grid lg:grid-cols-3 gap-8 lg:gap-10 items-start">
 
-            {/* ── LEFT COLUMN ───────────────────────────────────────────── */}
-            <div className="lg:col-span-2 space-y-12">
-
-              {/* About */}
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <motion.div variants={fadeUp} custom={0}>
-                  <span className="text-amber-500 text-xs font-bold tracking-widest uppercase">Overview</span>
-                  <h2 className="text-2xl font-bold font-['Montserrat'] text-foreground mt-2 mb-4">About This Service</h2>
-                  <p className="text-muted-foreground text-base leading-relaxed">{service.description}</p>
-                </motion.div>
-              </motion.div>
+            {/* ── LEFT / MAIN COLUMN ──────────────────────────────────── */}
+            <div className="lg:col-span-2 space-y-10 lg:space-y-12">
 
               {/* What's Included */}
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <motion.div variants={fadeUp} custom={0}>
-                  <span className="text-amber-500 text-xs font-bold tracking-widest uppercase">What's Included</span>
-                  <h2 className="text-2xl font-bold font-['Montserrat'] text-foreground mt-2 mb-5">Service Breakdown</h2>
+                <motion.div variants={fadeUp} custom={0} className="mb-5">
+                  <SectionBadge icon={CheckCircle} label="Complete Service" color="amber" />
+                  <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground">What's Included</h2>
+                  <p className="text-muted-foreground text-sm mt-1">Our comprehensive service covers every detail.</p>
                 </motion.div>
-                <motion.div variants={fadeUp} custom={1} className="grid sm:grid-cols-2 gap-3">
+
+                {/* Mobile: big stacked cards */}
+                <div className="flex flex-col gap-3 lg:hidden">
                   {service.features.map((feature, i) => (
+                    <motion.div
+                      key={feature}
+                      variants={fadeUp}
+                      custom={i}
+                      className="flex items-center gap-4 p-4 rounded-2xl bg-card border border-border"
+                    >
+                      <div className="w-11 h-11 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
+                        <CheckCircle className="w-5 h-5 text-amber-500" />
+                      </div>
+                      <span className="text-sm font-semibold text-foreground">{feature}</span>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Desktop: 2-col compact grid */}
+                <motion.div variants={fadeUp} custom={1} className="hidden lg:grid grid-cols-2 gap-3">
+                  {service.features.map((feature) => (
                     <div
                       key={feature}
                       className="flex items-center gap-3 p-4 rounded-xl bg-card border border-border hover:border-amber-500/30 hover:bg-amber-500/5 transition-all duration-200 group"
@@ -357,48 +629,53 @@ const ServiceDetail = () => {
                 </motion.div>
               </motion.div>
 
+              {/* About This Service */}
+              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                <motion.div variants={fadeUp} custom={0}>
+                  <SectionBadge icon={Sparkles} label="Overview" color="amber" />
+                  <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground mb-3">About This Service</h2>
+                  <p className="text-muted-foreground text-sm lg:text-base leading-relaxed">{service.description}</p>
+                </motion.div>
+              </motion.div>
+
               {/* How It Works */}
               {service.processSteps && (
                 <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                  <motion.div variants={fadeUp} custom={0}>
-                    <span className="text-amber-500 text-xs font-bold tracking-widest uppercase">Our Process</span>
-                    <h2 className="text-2xl font-bold font-['Montserrat'] text-foreground mt-2 mb-6">How It Works</h2>
+                  <motion.div variants={fadeUp} custom={0} className="mb-5">
+                    <SectionBadge icon={Clock} label="Our Process" color="amber" />
+                    <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground">How It Works</h2>
                   </motion.div>
-                  <div className="relative">
-                    {/* Connector line */}
-                    <div className="absolute left-5 top-10 bottom-10 w-0.5 bg-gradient-to-b from-amber-500/60 via-amber-500/20 to-transparent hidden sm:block" />
-                    <div className="space-y-5">
-                      {service.processSteps.map((step, i) => (
-                        <motion.div
-                          key={step.step}
-                          variants={fadeUp}
-                          custom={i * 0.5 + 1}
-                          className="flex gap-5 items-start group"
-                        >
-                          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shrink-0 text-slate-900 font-extrabold text-xs shadow-lg shadow-amber-500/20 relative z-10">
-                            {step.step}
-                          </div>
-                          <div className="flex-1 p-4 rounded-xl bg-card border border-border group-hover:border-amber-500/30 group-hover:bg-amber-500/5 transition-all duration-200">
-                            <h3 className="font-bold text-foreground text-sm font-['Montserrat'] mb-1">{step.title}</h3>
-                            <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </div>
+                  <div className="space-y-4">
+                    {service.processSteps.map((step, i) => (
+                      <motion.div
+                        key={step.step}
+                        variants={fadeUp}
+                        custom={i * 0.5 + 1}
+                        className="flex gap-4 items-start"
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shrink-0 text-slate-900 font-extrabold text-xs shadow-lg shadow-amber-500/20">
+                          {step.step}
+                        </div>
+                        <div className="flex-1 p-4 rounded-xl bg-card border border-border hover:border-amber-500/30 transition-all duration-200">
+                          <h3 className="font-bold text-foreground text-sm font-['Montserrat'] mb-1">{step.title}</h3>
+                          <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
                 </motion.div>
               )}
 
-              {/* Why Choose Us */}
+              {/* Why Choose Afnan */}
               <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <motion.div variants={fadeUp} custom={0}>
-                  <span className="text-amber-500 text-xs font-bold tracking-widest uppercase">Our Promise</span>
-                  <h2 className="text-2xl font-bold font-['Montserrat'] text-foreground mt-2 mb-5">Why Choose Afnan?</h2>
+                <motion.div variants={fadeUp} custom={0} className="mb-5">
+                  <SectionBadge icon={Shield} label="Our Promise" color="amber" />
+                  <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground">Why Choose Afnan?</h2>
                 </motion.div>
                 <motion.div
                   variants={fadeUp}
                   custom={1}
-                  className="grid sm:grid-cols-2 gap-3 p-6 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 border border-amber-500/20"
+                  className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 border border-amber-500/20"
                 >
                   {[
                     { icon: Shield, text: "Licensed LLC — Trade No. 1571076" },
@@ -422,11 +699,9 @@ const ServiceDetail = () => {
               {/* FAQ */}
               {service.faqs && service.faqs.length > 0 && (
                 <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                  <motion.div variants={fadeUp} custom={0}>
-                    <span className="text-amber-500 text-xs font-bold tracking-widest uppercase">Common Questions</span>
-                    <h2 className="text-2xl font-bold font-['Montserrat'] text-foreground mt-2 mb-5">
-                      Frequently Asked Questions
-                    </h2>
+                  <motion.div variants={fadeUp} custom={0} className="mb-5">
+                    <SectionBadge icon={ChevronDown} label="Common Questions" color="amber" />
+                    <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground">Frequently Asked Questions</h2>
                   </motion.div>
                   <div className="space-y-3">
                     {service.faqs.map((faq, i) => (
@@ -438,26 +713,14 @@ const ServiceDetail = () => {
 
             </div>
 
-            {/* ── RIGHT COLUMN — Sticky booking card ──────────────────── */}
-            <div className="lg:sticky lg:top-8 space-y-4">
-              {/* Glassmorphism booking card (Desktop Only) */}
-              <div className="hidden lg:block">
-                <BookingCard
-                  service={service}
-                  Icon={Icon}
-                  handleWhatsApp={handleWhatsApp}
-                  isMobile={false}
-                />
-              </div>
+            {/* ── RIGHT COLUMN — Desktop Booking Sidebar ──────────────── */}
+            <div className="hidden lg:block lg:sticky lg:top-8 space-y-4">
+              <DesktopBookingCard service={service} Icon={Icon} handleWhatsApp={handleWhatsApp} />
 
-              {/* Quick stat cards */}
               {service.stats && (
                 <div className="grid grid-cols-3 gap-2">
                   {service.stats.map((stat) => (
-                    <div
-                      key={stat.label}
-                      className="flex flex-col items-center p-3 rounded-xl bg-card border border-border text-center"
-                    >
+                    <div key={stat.label} className="flex flex-col items-center p-3 rounded-xl bg-card border border-border text-center">
                       <span className="text-amber-500 font-extrabold text-base leading-none">{stat.value}</span>
                       <span className="text-muted-foreground text-[10px] uppercase tracking-wide mt-1 leading-tight">{stat.label}</span>
                     </div>
@@ -465,7 +728,6 @@ const ServiceDetail = () => {
                 </div>
               )}
 
-              {/* Back button */}
               <button
                 onClick={() => navigate(-1)}
                 className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-xl border border-border text-muted-foreground text-sm hover:text-foreground hover:border-amber-500/30 transition-all"
@@ -480,20 +742,183 @@ const ServiceDetail = () => {
       </section>
 
       {/* ═══════════════════════════════════════════════════════════════════
-          OTHER SERVICES
+          TRACK RECORD — stats bar
       ═══════════════════════════════════════════════════════════════════ */}
-      <section className="py-16 bg-card border-t border-border">
+      <section className="py-10 border-t border-border" style={{ background: "var(--card, #f9f9f9)" }}>
         <div className="container mx-auto px-4 lg:px-8">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="text-center mb-12"
+            className="text-center mb-8"
+          >
+            <SectionBadge icon={Star} label="Our Track Record" color="amber" />
+            <h2 className="text-xl lg:text-3xl font-extrabold font-['Montserrat'] text-foreground">
+              Numbers That Speak for Themselves
+            </h2>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-2 lg:grid-cols-4 gap-4"
+          >
+            {[
+              { value: "13,000+", label: "Jobs Completed" },
+              { value: "4.9★", label: "Average Rating" },
+              { value: "8+", label: "Years in Dubai" },
+              { value: "All", label: "Dubai Areas Covered" },
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                variants={fadeUp}
+                custom={i}
+                className="flex flex-col items-center p-5 rounded-2xl bg-background border border-border text-center"
+              >
+                <span className="text-amber-500 font-extrabold text-2xl lg:text-3xl leading-none mb-1">{stat.value}</span>
+                <span className="text-muted-foreground text-xs uppercase tracking-wider">{stat.label}</span>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          CUSTOMER REVIEWS / TESTIMONIALS
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-10 lg:py-14 border-t border-border">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="text-center mb-8"
+          >
+            <SectionBadge icon={Quote} label="Customer Reviews" color="amber" />
+            <h2 className="text-xl lg:text-3xl font-extrabold font-['Montserrat'] text-foreground">
+              What Our Clients Say
+            </h2>
+            <p className="text-muted-foreground text-sm mt-2">
+              Trusted by hundreds of homeowners across Dubai.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="flex flex-col lg:grid lg:grid-cols-3 gap-4"
+          >
+            {TESTIMONIALS.map((t, i) => (
+              <motion.div
+                key={t.name}
+                variants={fadeUp}
+                custom={i}
+                className="p-5 rounded-2xl bg-card border border-border"
+              >
+                {/* Stars */}
+                <div className="flex gap-0.5 mb-3">
+                  {Array.from({ length: t.rating }).map((_, j) => (
+                    <Star key={j} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  ))}
+                </div>
+                {/* Review text */}
+                <p className="text-foreground text-sm leading-relaxed mb-4">"{t.review}"</p>
+                {/* Reviewer */}
+                <div className="flex items-center gap-3 pt-3 border-t border-border">
+                  <div className="w-9 h-9 rounded-full bg-amber-500/15 flex items-center justify-center shrink-0">
+                    <span className="text-amber-500 font-bold text-sm">{t.name.charAt(0)}</span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-foreground text-sm">{t.name}</p>
+                    <p className="text-muted-foreground text-xs flex items-center gap-1">
+                      <MapPin className="w-3 h-3" /> {t.area}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          CONTACT CTA SECTION
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-10 lg:py-14 border-t border-border"
+        style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e1b12 60%, #0c0a06 100%)" }}>
+        <div className="container mx-auto px-4 lg:px-8 text-center">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <motion.div variants={fadeUp} custom={0} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 mb-5">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+              <span className="text-amber-400 text-xs font-semibold">Available Today Across Dubai</span>
+            </motion.div>
+
+            <motion.h2
+              variants={fadeUp}
+              custom={1}
+              className="text-2xl lg:text-4xl font-extrabold text-white font-['Montserrat'] mb-3"
+            >
+              Ready to Book?
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              custom={2}
+              className="text-white/60 text-sm lg:text-base max-w-md mx-auto mb-7"
+            >
+              Get a free quote in under 30 minutes. Licensed, certified, and available 24/7 across all Dubai areas.
+            </motion.p>
+
+            <motion.div variants={fadeUp} custom={3} className="flex flex-col sm:flex-row gap-3 justify-center max-w-sm mx-auto">
+              <Link
+                to={`/contact?service=${service.id}`}
+                id={`book-cta-${service.id}`}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl font-bold text-slate-900 text-sm active:scale-95 transition-all"
+                style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)" }}
+              >
+                <Phone className="w-4 h-4" />
+                Get Free Quote
+              </Link>
+              <button
+                onClick={handleWhatsApp}
+                id={`wa-cta-${service.id}`}
+                className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-2xl bg-[#25D366] text-white font-bold hover:bg-[#1ebe5d] active:scale-95 transition-all text-sm"
+              >
+                <WhatsAppIcon />
+                WhatsApp Now
+              </button>
+            </motion.div>
+
+            {/* Trust badges row */}
+            <motion.div variants={fadeUp} custom={4} className="flex flex-wrap justify-center gap-x-5 gap-y-2 mt-6">
+              {["✅ Trade License No. 1571076", "⏰ 24/7 Emergency", "📍 All Dubai Areas", "🛡️ Fully Insured"].map((t) => (
+                <span key={t} className="text-white/40 text-xs">{t}</span>
+              ))}
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          OTHER SERVICES
+      ═══════════════════════════════════════════════════════════════════ */}
+      <section className="py-12 lg:py-16 bg-card border-t border-border">
+        <div className="container mx-auto px-4 lg:px-8">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="text-center mb-8 lg:mb-12"
           >
             <motion.span variants={fadeUp} custom={0} className="text-amber-500 text-xs font-bold tracking-widest uppercase">
               Explore More
             </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="text-2xl md:text-3xl font-bold font-['Montserrat'] text-foreground mt-2">
+            <motion.h2 variants={fadeUp} custom={1} className="text-xl lg:text-3xl font-bold font-['Montserrat'] text-foreground mt-2">
               Our Other Services
             </motion.h2>
             <motion.p variants={fadeUp} custom={2} className="text-muted-foreground mt-2 max-w-md mx-auto text-sm">
@@ -507,7 +932,7 @@ const ServiceDetail = () => {
             ))}
           </div>
 
-          <div className="text-center mt-10">
+          <div className="text-center mt-8 lg:mt-10">
             <Link
               to="/services"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-amber-500/30 text-amber-500 font-semibold hover:bg-amber-500/5 transition-all text-sm"
@@ -520,19 +945,39 @@ const ServiceDetail = () => {
 
       <Footer />
 
-      {/* Sticky WhatsApp floating button for mobile view */}
-      <div className="fixed bottom-6 right-6 z-50 lg:hidden">
-        <button
-          onClick={handleWhatsApp}
-          id={`whatsapp-sticky-${service.id}`}
-          className="relative flex items-center justify-center w-14 h-14 rounded-full bg-[#25D366] text-white shadow-xl hover:bg-[#1ebe5d] active:scale-95 transition-all duration-300 border border-white/10 focus:outline-none"
-          aria-label="Chat on WhatsApp"
-        >
-          {/* Pulsing ring effect */}
-          <span className="absolute inset-0 rounded-full bg-[#25D366] opacity-75 animate-ping pointer-events-none" />
-          <WhatsAppIcon className="w-7 h-7 relative z-10" />
-        </button>
+      {/* ═══════════════════════════════════════════════════════════════════
+          MOBILE STICKY BOTTOM BAR — rounded pill buttons
+      ═══════════════════════════════════════════════════════════════════ */}
+      <div
+        className="fixed bottom-0 left-0 right-0 z-50 lg:hidden px-4 pb-4 pt-3"
+        style={{ background: "rgba(10,8,5,0.96)", backdropFilter: "blur(14px)" }}
+      >
+        <div className="flex gap-3">
+          <button
+            onClick={handleCall}
+            id={`call-sticky-${service.id}`}
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-white text-sm active:opacity-80 transition-opacity"
+            style={{ background: "linear-gradient(135deg, #1d4ed8, #1e40af)" }}
+            aria-label="Call us"
+          >
+            <Phone className="w-4 h-4" />
+            Call
+          </button>
+          <button
+            onClick={handleWhatsApp}
+            id={`wa-sticky-${service.id}`}
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-white text-sm active:opacity-80 transition-opacity"
+            style={{ background: "#25D366" }}
+            aria-label="Chat on WhatsApp"
+          >
+            <WhatsAppIcon />
+            WhatsApp
+          </button>
+        </div>
       </div>
+
+      {/* Bottom padding so content isn't hidden behind sticky bar */}
+      <div className="h-20 lg:hidden" />
     </div>
   );
 };
