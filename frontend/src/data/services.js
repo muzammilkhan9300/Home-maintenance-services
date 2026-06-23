@@ -8,6 +8,44 @@ import servicePlaster from "@/assets/real_plaster_works.png";
 
 export const services = [
   {
+    id: "ac-cleaning",
+    title: "AC Cleaning",
+    description: "Professional AC Cleaning Services For Villas, Apartments & Offices. Improve cooling performance, remove dust and odors, and reduce electricity consumption with certified AC technicians.",
+    features: ["Indoor Unit Deep Cleaning", "Outdoor Unit Cleaning", "Filter Sanitization", "Drain Line Inspection"],
+    image: serviceAc,
+    icon: "Snowflake",
+    warningSigns: [
+      { icon: "Snowflake", title: "Weak Cooling", desc: "Your AC runs constantly but the air coming out isn't cold enough to cool the room." },
+      { icon: "Fan", title: "Bad Smell", desc: "Musty or unpleasant odors coming from your AC vents every time you switch it on." },
+      { icon: "Droplet", title: "Water Leakage", desc: "Water dripping or pooling around the indoor unit, risking damage to walls and ceilings." },
+      { icon: "Zap", title: "High Electricity Bills", desc: "Your DEWA bills keep climbing every month despite no change in your AC usage patterns." },
+      { icon: "Sparkles", title: "Dusty Air", desc: "Visible dust particles blowing out of the vents and settling on your furniture." },
+      { icon: "Wrench", title: "Noisy Operation", desc: "Unusual rattling, buzzing or grinding sounds when your AC is running." },
+    ],
+    beforeAfter: {
+      before: ["Weak airflow from vents", "Higher DEWA bills every month", "Dust and allergens in the air", "Unpleasant odor from AC"],
+      after: ["Strong, consistent cooling", "Better indoor air quality", "Lower energy usage & bills", "Fresh, clean air throughout"],
+    },
+    keyBenefits: [
+      { icon: "Shield", title: "Licensed Company", desc: "Fully licensed LLC in Dubai with trade license #1571076." },
+      { icon: "CheckCircle", title: "Certified Technicians", desc: "Trained and certified AC technicians with years of field experience." },
+      { icon: "Wrench", title: "Premium Equipment", desc: "Professional-grade tools and cleaning equipment for the best results." },
+    ],
+    processSteps: [
+      { step: "01", title: "Book Online or Call", desc: "Contact us via form or WhatsApp. We respond within 30 minutes." },
+      { step: "02", title: "Free Site Inspection", desc: "Our technician visits, diagnoses the issue, and provides a transparent quote." },
+      { step: "03", title: "Repair or Service", desc: "Work begins immediately using genuine spare parts and tools." },
+      { step: "04", title: "Quality Check", desc: "System tested, cleaned, and handed over with a satisfaction guarantee." },
+    ],
+    faqs: [
+      { q: "How often should I service my AC in Dubai?", a: "At minimum twice a year — before summer (April) and at the start of winter (October). Dubai's dusty climate clogs filters fast, reducing efficiency and air quality." },
+      { q: "What AC brands do you service?", a: "We service all major brands including Daikin, Mitsubishi, LG, Samsung, Carrier, Hitachi, Gree, and more. Our technicians carry parts for the most common models." },
+      { q: "Do you offer annual maintenance contracts?", a: "Yes. Our AMC packages cover unlimited visits, priority scheduling, and discounted parts for a fixed annual fee — great value for villas and apartments." },
+      { q: "Can you install a new AC unit?", a: "Absolutely. We supply and install split units, cassette ACs, and central systems with full DEWA-compliant wiring and drainage." },
+    ],
+    stats: [{ label: "Units Serviced", value: "2,000+" }, { label: "Rating", value: "4.9★" }, { label: "Response Time", value: "<1 hr" }],
+  },
+  {
     id: "ac-ventilation",
     title: "Air-Conditioning, Ventilations & Air Filtration",
     description: "Complete HVAC solutions guaranteeing pristine air quality and cooling efficiency for residential and commercial spaces.",

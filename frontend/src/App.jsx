@@ -13,6 +13,7 @@ import Services      from "./pages/Services";
 import ServiceDetail from "./pages/ServiceDetail";
 import Contact       from "./pages/Contact";
 import NotFound      from "./pages/NotFound";
+import ACCleaningLanding from "./pages/ACCleaningLanding";
 
 // ── Admin layout (lightweight shell — loaded eagerly for fast login redirect) ─
 import AdminLayout from "./components/admin/AdminLayout";
@@ -67,6 +68,8 @@ const App = () => (
             <Route path="/"             element={<Landing />} />
             <Route path="/about"        element={<About />} />
             <Route path="/services"     element={<Services />} />
+            <Route path="/services/ac-cleaning" element={<ACCleaningLanding />} />
+            <Route path="/ac-cleaning"  element={<ACCleaningLanding />} />
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/contact"      element={<Contact />} />
 
