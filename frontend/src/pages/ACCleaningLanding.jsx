@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import { useToast } from "@/hooks/use-toast";
 import { trackWhatsAppClick, trackLead } from "@/lib/analytics";
+import serviceAcCleaning from "@/assets/real_ac_cleaning.png";
 
 const WHATSAPP_NUMBER = "971505387736";
 const CALL_NUMBER = "971505387736";
@@ -163,6 +164,27 @@ const ACCleaningLanding = () => {
   const { toast } = useToast();
   const [form, setForm] = useState({ name: "", phone: "", location: "", units: "" });
   const [loading, setLoading] = useState(false);
+  const [hideSticky, setHideSticky] = useState(true);
+  const heroButtonsRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setHideSticky(entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "0px" }
+    );
+
+    if (heroButtonsRef.current) {
+      observer.observe(heroButtonsRef.current);
+    }
+
+    return () => {
+      if (heroButtonsRef.current) {
+        observer.unobserve(heroButtonsRef.current);
+      }
+    };
+  }, []);
 
   const handleWhatsAppRedirect = (data) => {
     const message = `Hello Afnan Property Care, I'd like to request a callback for AC Cleaning.%0A%0AName: ${encodeURIComponent(data.name)}%0APhone: ${encodeURIComponent(data.phone)}%0ALocation: ${encodeURIComponent(data.location)}%0AUnits: ${encodeURIComponent(data.units)}`;
@@ -284,20 +306,20 @@ const ACCleaningLanding = () => {
               </div>
 
               {/* Buttons */}
-              <div className="flex flex-wrap gap-4 pt-4">
+              <div ref={heroButtonsRef} className="flex flex-row gap-3 pt-4 w-full">
                 <a
                   href="#quote"
-                  className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-accent text-accent-foreground font-bold hover:brightness-110 active:scale-95 transition-all shadow-gold"
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-3.5 rounded-xl bg-accent text-accent-foreground font-bold hover:brightness-110 active:scale-95 transition-all shadow-gold text-xs sm:text-sm sm:px-7 sm:py-4 sm:gap-2 shrink-0"
                 >
-                  <Send className="w-4.5 h-4.5" />
-                  Get Free Quote
+                  <Send className="w-4.5 h-4.5 shrink-0" />
+                  <span className="whitespace-nowrap">Get Free Quote</span>
                 </a>
                 <button
                   onClick={handleWhatsAppGeneral}
-                  className="inline-flex items-center gap-2 px-7 py-4 rounded-xl bg-[#25D366] text-white font-bold hover:bg-[#1ebe5d] active:scale-95 transition-all shadow-lg"
+                  className="flex-1 flex items-center justify-center gap-1.5 px-3 py-3.5 rounded-xl bg-[#25D366] text-white font-bold hover:bg-[#1ebe5d] active:scale-95 transition-all shadow-lg text-xs sm:text-sm sm:px-7 sm:py-4 sm:gap-2 shrink-0"
                 >
-                  <MessageCircle className="w-4.5 h-4.5" />
-                  WhatsApp Now
+                  <MessageCircle className="w-4.5 h-4.5 shrink-0" />
+                  <span className="whitespace-nowrap">WhatsApp Now</span>
                 </button>
               </div>
 
@@ -327,40 +349,40 @@ const ACCleaningLanding = () => {
               className="relative aspect-[4/5] max-w-md mx-auto lg:max-w-none w-full rounded-3xl overflow-hidden border border-gold/10 shadow-gold/20 shadow-2xl"
             >
               <img
-                src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=900&q=80"
+                src={serviceAcCleaning}
                 alt="Afnan Professional AC cleaning service"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent" />
 
               {/* Floating Cards (using local HSL vars & animations) */}
-              <div className="absolute top-6 left-6 p-4 rounded-2xl bg-navy/95 border border-gold/20 shadow-lg flex items-center gap-3 backdrop-blur-md animate-bounce" style={{ animationDuration: "3s" }}>
+              <div className="absolute top-6 left-6 p-4 rounded-2xl bg-white/95 border border-gold/25 shadow-lg flex items-center gap-3 backdrop-blur-md animate-bounce" style={{ animationDuration: "3s" }}>
                 <div className="w-10 h-10 rounded-xl bg-gold/15 flex items-center justify-center text-gold">
                   <Tag className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-white/50 uppercase tracking-widest leading-none">Starting Price</p>
-                  <p className="font-extrabold text-base text-gold mt-1">AED 199</p>
+                  <p className="text-[10px] text-slate-500 uppercase tracking-widest leading-none font-semibold">Starting Price</p>
+                  <p className="font-extrabold text-base text-gold mt-1">AED 150</p>
                 </div>
               </div>
 
-              <div className="absolute top-1/2 right-6 -translate-y-1/2 p-4 rounded-2xl bg-navy/95 border border-gold/20 shadow-lg flex items-center gap-3 backdrop-blur-md animate-bounce" style={{ animationDuration: "4s", animationDelay: "1s" }}>
+              <div className="absolute top-1/2 right-6 -translate-y-1/2 p-4 rounded-2xl bg-white/95 border border-gold/25 shadow-lg flex items-center gap-3 backdrop-blur-md animate-bounce" style={{ animationDuration: "4s", animationDelay: "1s" }}>
                 <div className="w-10 h-10 rounded-xl bg-[#22c55e]/15 flex items-center justify-center text-[#22c55e]">
                   <Zap className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-white/50 uppercase tracking-widest leading-none">Same-Day</p>
-                  <p className="font-bold text-sm text-white mt-1">Appointments</p>
+                  <p className="text-[10px] text-slate-500 uppercase tracking-widest leading-none font-semibold">Same-Day</p>
+                  <p className="font-bold text-sm text-slate-900 mt-1">Appointments</p>
                 </div>
               </div>
 
-              <div className="absolute bottom-6 left-6 p-4 rounded-2xl bg-navy/95 border border-gold/20 shadow-lg flex items-center gap-3 backdrop-blur-md animate-bounce" style={{ animationDuration: "5s", animationDelay: "2s" }}>
+              <div className="absolute bottom-6 left-6 p-4 rounded-2xl bg-white/95 border border-gold/25 shadow-lg flex items-center gap-3 backdrop-blur-md animate-bounce" style={{ animationDuration: "5s", animationDelay: "2s" }}>
                 <div className="w-10 h-10 rounded-xl bg-gold/15 flex items-center justify-center text-gold">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] text-white/50 uppercase tracking-widest leading-none">Free Inspection</p>
-                  <p className="font-bold text-sm text-white mt-1">No Obligation</p>
+                  <p className="text-[10px] text-slate-500 uppercase tracking-widest leading-none font-semibold">Free Inspection</p>
+                  <p className="font-bold text-sm text-slate-900 mt-1">No Obligation</p>
                 </div>
               </div>
             </motion.div>
@@ -375,13 +397,18 @@ const ACCleaningLanding = () => {
           <p className="text-center text-[10px] font-bold text-gold uppercase tracking-[0.2em] mb-4">
             Trusted By Homeowners Across Dubai
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 text-xs sm:text-sm font-bold text-navy/85">
-            {DUBAI_AREAS.slice(0, 8).map((area, idx) => (
-              <span key={area} className="flex items-center gap-1.5 shrink-0">
-                <MapPin className="w-3.5 h-3.5 text-gold" />
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {DUBAI_AREAS.slice(0, 8).map((area) => (
+              <motion.div
+                key={area}
+                whileHover={{ scale: 1.05, y: -2 }}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-background border border-gold/15 shadow-sm text-xs sm:text-sm font-semibold text-navy hover:border-gold/40 hover:shadow-md transition-all duration-300 shrink-0"
+              >
+                <div className="w-6 h-6 rounded-lg bg-gold/10 flex items-center justify-center text-gold shrink-0">
+                  <MapPin className="w-3.5 h-3.5" />
+                </div>
                 {area}
-                {idx < 7 && <span className="text-gold/30 ml-4 font-normal">•</span>}
-              </span>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -811,7 +838,9 @@ const ACCleaningLanding = () => {
       <Footer />
 
       {/* MOBILE STICKY CTA BAR (Call + WhatsApp) */}
-      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-background/95 border-t border-border/80 backdrop-blur-md px-4 py-3 flex gap-3 shadow-2xl">
+      <div className={`fixed bottom-0 left-0 right-0 z-50 md:hidden bg-background/95 border-t border-border/80 backdrop-blur-md px-4 py-3 flex gap-3 shadow-2xl transition-all duration-500 ease-in-out ${
+        hideSticky ? "translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
+      }`}>
         <a
           href={`tel:+${CALL_NUMBER}`}
           className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-accent text-accent-foreground font-bold text-xs active:scale-95 transition-all border border-gold/10"
