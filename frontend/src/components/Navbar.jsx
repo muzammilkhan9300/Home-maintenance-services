@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone, Shield } from "lucide-react";
 import { useState, useEffect } from "react";
 import CareerModal from "@/components/CareerModal";
+import afnanLogo from "@/assets/afnan-logo.png";
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -47,13 +48,20 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navBg}`}>
       <div className="container mx-auto px-4 lg:px-8 h-20 flex items-center justify-between">
-        <Link to="/" className="flex flex-col">
-          <span className={`text-lg font-bold font-['Montserrat'] tracking-tight leading-tight transition-colors ${logoColor}`}>
-            AFNAN PROPERTY CARE
-          </span>
-          <span className="text-lg font-bold font-['Montserrat'] tracking-[0.1em] uppercase transition-colors text-gradient-gold">
-            Services L.L.C
-          </span>
+        <Link to="/" className="flex items-center gap-3">
+          <img
+            src={afnanLogo}
+            alt="Afnan Property Care Services L.L.C Logo"
+            className="h-14 w-14 rounded-full object-cover shrink-0 drop-shadow-md"
+          />
+          <div className="flex flex-col">
+            <span className={`text-base font-bold font-['Montserrat'] tracking-tight leading-tight transition-colors ${logoColor}`}>
+              AFNAN PROPERTY CARE
+            </span>
+            <span className="text-xs font-bold font-['Montserrat'] tracking-[0.12em] uppercase transition-colors text-gradient-gold">
+              Services L.L.C
+            </span>
+          </div>
         </Link>
 
         {/* Desktop nav */}
