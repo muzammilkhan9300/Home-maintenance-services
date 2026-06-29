@@ -29,9 +29,11 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === "development" && componentTagger(),
     ViteImageOptimizer({
-      png: { quality: 80 },
-      jpeg: { quality: 80 },
-      jpg: { quality: 80 },
+      // More aggressive compression for faster page loads
+      png: { quality: 70, compressionLevel: 9 },
+      jpeg: { quality: 75 },
+      jpg: { quality: 75 },
+      webp: { quality: 75 },
     })
   ].filter(Boolean),
   resolve: {
@@ -40,19 +42,26 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    // Raise the warning threshold — vendor.js is intentionally large
     chunkSizeWarningLimit: 1000,
+    // Enable CSS code splitting so each chunk only loads its needed CSS
+    cssCodeSplit: true,
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // Separate framer-motion (animation library) — only needed on public pages
+          // React core — loaded first, kept tiny
+          if (id.includes("node_modules/react/") || id.includes("node_modules/react-dom/") || id.includes("node_modules/scheduler/")) return "react-core";
+          // Framer motion — animation lib, only on public pages
           if (id.includes("framer-motion")) return "framer";
-          // Separate react-router — small, shared across all pages
+          // React-router
           if (id.includes("react-router") || id.includes("@remix-run")) return "router";
-          // Separate Radix UI — used primarily in admin/UI components
+          // Radix UI components
           if (id.includes("@radix-ui")) return "radix";
-          // Separate Lucide icons — tree-shaken but still notable
+          // Lucide icons (tree-shaken)
           if (id.includes("lucide-react")) return "icons";
+          // TanStack query
+          if (id.includes("@tanstack")) return "tanstack";
+          // React-helmet and SEO utilities
+          if (id.includes("react-helmet")) return "seo";
           // Everything else from node_modules
           if (id.includes("node_modules")) return "vendor";
         },

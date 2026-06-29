@@ -1,4 +1,4 @@
-import{r as s,c as xe}from"./vendor-Bzb3dyAf.js";/**
+import{r as s,c as xe}from"./react-core-DCq8kKxP.js";/**
  * @remix-run/router v1.23.2
  *
  * Copyright (c) Remix Software Inc.
