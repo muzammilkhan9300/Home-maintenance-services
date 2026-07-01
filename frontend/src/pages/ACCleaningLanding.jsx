@@ -135,6 +135,26 @@ const ACCleaningLanding = () => {
     return () => observer.disconnect();
   }, []);
 
+  // Handle smooth scroll on landing with hash anchor (e.g. #reviews)
+  useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        setTimeout(() => {
+          const id = hash.replace("#", "");
+          const element = document.getElementById(id);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 400); // 400ms delay to allow React Suspense chunks to finish mounting
+      }
+    };
+    
+    handleHashScroll();
+    window.addEventListener("hashchange", handleHashScroll);
+    return () => window.removeEventListener("hashchange", handleHashScroll);
+  }, []);
+
   const handleWhatsAppRedirect = (data) => {
     const message = `Hello Afnan Property Care, I'd like to request a callback for AC Cleaning.%0A%0AName: ${encodeURIComponent(data.name)}%0APhone: ${encodeURIComponent(data.phone)}%0ALocation: ${encodeURIComponent(data.location)}%0AUnits: ${encodeURIComponent(data.units)}`;
     trackWhatsAppClick("AC Cleaning Landing Page Form", "AC Cleaning");
@@ -305,7 +325,7 @@ const ACCleaningLanding = () => {
       </section>
 
       {/* ── LOCATIONS BAR ── */}
-      <section className="bg-gold-light border-y border-gold/10 py-6 overflow-hidden">
+      <section id="areas" className="bg-gold-light border-y border-gold/10 py-6 overflow-hidden">
         <div className="container mx-auto px-4 lg:px-8">
           <p className="text-center text-[10px] font-bold text-gold uppercase tracking-[0.2em] mb-4">
             Trusted By Homeowners Across Dubai
@@ -350,7 +370,7 @@ const ACCleaningLanding = () => {
       </section>
 
       {/* ── BEFORE / AFTER ── */}
-      <section className="py-20 bg-gold-light/20 border-y border-border">
+      <section id="before-after" className="py-20 bg-gold-light/20 border-y border-border">
         <div className="container mx-auto px-4 lg:px-8">
           <FadeIn className="text-center max-w-2xl mx-auto mb-16 space-y-3">
             <h2 className="text-3xl lg:text-4xl font-extrabold font-['Montserrat'] text-foreground">Before vs After Cleaning</h2>
@@ -456,7 +476,7 @@ const ACCleaningLanding = () => {
       </section>
 
       {/* ── REVIEWS ── */}
-      <section className="py-20 lg:py-24">
+      <section id="reviews" className="py-20 lg:py-24">
         <div className="container mx-auto px-4 lg:px-8">
           <FadeIn className="text-center max-w-2xl mx-auto mb-16 space-y-3">
             <h2 className="text-3xl lg:text-4xl font-extrabold font-['Montserrat'] text-foreground">Customer Reviews</h2>
@@ -483,7 +503,7 @@ const ACCleaningLanding = () => {
       </section>
 
       {/* ── QUOTE FORM ── */}
-      <section id="quote" className="py-20 lg:py-24 bg-gold-light/20 border-t border-border relative">
+      <section id="pricing" className="py-20 lg:py-24 bg-gold-light/20 border-t border-border relative">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-2xl mx-auto rounded-3xl bg-card border border-border shadow-2xl overflow-hidden">
             <div className="p-6 sm:p-10 border-b border-border bg-navy text-primary-foreground relative overflow-hidden text-center space-y-2">
