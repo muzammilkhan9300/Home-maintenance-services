@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin, Facebook, Instagram } from "lucide-react";
+import { Phone, Mail, MapPin, Facebook, Instagram, Shield } from "lucide-react";
 import { useState } from "react";
 import CareerModal from "@/components/CareerModal";
 
@@ -11,6 +11,7 @@ const TiktokIcon = () => (
 
 const Footer = () => {
   const [careerOpen, setCareerOpen] = useState(false);
+  const isAdminLoggedIn = !!localStorage.getItem('adminToken');
 
   return (
     <footer className="bg-navy text-primary-foreground">
@@ -79,6 +80,14 @@ const Footer = () => {
               >
                 Careers
               </button>
+              {/* Admin Panel — hidden in footer for easy access */}
+              <Link
+                to={isAdminLoggedIn ? "/admin/dashboard" : "/admin/login"}
+                className="flex items-center gap-1.5 text-sm text-primary-foreground/40 hover:text-gold transition-colors pt-1 border-t border-primary-foreground/10 mt-1"
+              >
+                <Shield className="w-3.5 h-3.5" />
+                Admin Panel
+              </Link>
             </div>
           </div>
 

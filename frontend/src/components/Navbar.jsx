@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone, Shield } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
 import { useState, useEffect } from "react";
 import CareerModal from "@/components/CareerModal";
 import afnanLogo from "@/assets/afnan-logo.png";
@@ -15,7 +15,6 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [careerOpen, setCareerOpen] = useState(false);
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -23,10 +22,6 @@ const Navbar = () => {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    setIsAdminLoggedIn(!!localStorage.getItem('adminToken'));
-  }, [location.pathname]);
 
   const isHome = location.pathname === "/";
   const scrolledOrNotHome = scrolled || !isHome;
@@ -82,19 +77,6 @@ const Navbar = () => {
           >
             Careers
           </button>
-          {/* Admin Panel — subtle icon link */}
-          <Link
-            to={isAdminLoggedIn ? "/admin/dashboard" : "/admin/login"}
-            title="Admin Panel"
-            className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg border transition-all ${
-              scrolledOrNotHome
-                ? 'border-border text-foreground/50 hover:text-accent hover:border-accent/40'
-                : 'border-white/20 text-white/40 hover:text-white/70 hover:border-white/40'
-            }`}
-          >
-            <Shield className="w-3.5 h-3.5" />
-            <span className="hidden lg:inline">Admin</span>
-          </Link>
           <Link
             to="/contact"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-accent text-accent-foreground text-sm font-semibold hover:brightness-110 transition-all shadow-gold"
@@ -135,13 +117,6 @@ const Navbar = () => {
             className="block text-center px-5 py-2.5 rounded-md bg-accent text-accent-foreground text-sm font-semibold"
           >
             Book Now
-          </Link>
-          <Link
-            to={isAdminLoggedIn ? "/admin/dashboard" : "/admin/login"}
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-2 text-sm font-medium text-foreground/40 hover:text-accent py-2 border-t border-border/50 mt-2 pt-3"
-          >
-            <Shield className="w-4 h-4" /> Admin Panel
           </Link>
         </div>
       )}

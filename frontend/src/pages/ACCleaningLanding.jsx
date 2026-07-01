@@ -257,7 +257,7 @@ const ACCleaningLanding = () => {
               {/* CTA buttons — observed to toggle sticky bar */}
               <div ref={heroButtonsRef} className="flex flex-row gap-3 pt-4 w-full">
                 <a
-                  href="#quote"
+                  href="#pricing"
                   className="flex-1 flex items-center justify-center gap-1.5 px-3 py-3.5 rounded-xl bg-accent text-accent-foreground font-bold hover:brightness-110 active:scale-95 transition-all shadow-gold text-xs sm:text-sm sm:px-7 sm:py-4 sm:gap-2 shrink-0"
                 >
                   <Send className="w-4 h-4 shrink-0" />
