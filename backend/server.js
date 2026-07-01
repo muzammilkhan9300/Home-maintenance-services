@@ -44,8 +44,11 @@ const cvUpload = multer({
   },
 });
 
+const compression = require('compression');
+app.use(compression());
 app.use(cors());
 app.use(express.json());
+
 
 // ── Serve uploaded ad images statically ───────────────────────────────────
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -339,7 +342,16 @@ app.get('/api/healthcheck', (req, res) => {
 
 // ── Serve React Frontend (catch-all) ──────────────────────────────────────
 const frontendPath = path.join(__dirname, '../frontend/dist');
+
+// Serve hashed build assets with 1-year immutable cache headers
+app.use('/assets', express.static(path.join(frontendPath, 'assets'), {
+  maxAge: '1y',
+  immutable: true
+}));
+
+// Serve other static assets normally
 app.use(express.static(frontendPath));
+
 app.get(/^(?!\/api).*$/, (req, res) => {
   res.sendFile(path.join(frontendPath, 'index.html'));
 });

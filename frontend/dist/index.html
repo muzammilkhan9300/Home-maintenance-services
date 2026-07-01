@@ -4,15 +4,24 @@
     <!-- Performance: DNS preconnect for external resources -->
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="preconnect" href="https://www.google-analytics.com" />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Google Fonts for premium typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet" />
 
-    <!-- Google Tag Manager (async — non-render-blocking) -->
-    <script async>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-WQK58K2C');</script>
-    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager (deferred 1.5s to prevent blocking mobile LCP/FCP) -->
+    <script>
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+          new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+          j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+          'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+          })(window,document,'script','dataLayer','GTM-WQK58K2C');
+        }, 1500);
+      });
+    </script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -25,15 +34,15 @@
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="canonical" href="https://afnanpropertycare.ae" />
-    <script type="module" crossorigin src="/assets/index-DU0jFJQQ.js"></script>
+    <script type="module" crossorigin src="/assets/index-lWhnhBbK.js"></script>
     <link rel="modulepreload" crossorigin href="/assets/react-core-DCq8kKxP.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-BAK0tC2s.js">
-    <link rel="modulepreload" crossorigin href="/assets/radix-CN0v0ClX.js">
-    <link rel="modulepreload" crossorigin href="/assets/icons-Cfx_dChg.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-CL8ny0Rn.js">
+    <link rel="modulepreload" crossorigin href="/assets/radix-DHpao3Oe.js">
+    <link rel="modulepreload" crossorigin href="/assets/icons-D8d0tSHL.js">
     <link rel="modulepreload" crossorigin href="/assets/tanstack-DSJ91_7K.js">
-    <link rel="modulepreload" crossorigin href="/assets/router-CGmQC8UD.js">
-    <link rel="modulepreload" crossorigin href="/assets/seo-i6VA5ZgU.js">
-    <link rel="modulepreload" crossorigin href="/assets/framer-BbX5Wkfb.js">
+    <link rel="modulepreload" crossorigin href="/assets/router-DJTnK9SL.js">
+    <link rel="modulepreload" crossorigin href="/assets/seo-BDLN0KKf.js">
+    <link rel="modulepreload" crossorigin href="/assets/framer-C-5NDCCC.js">
     <link rel="stylesheet" crossorigin href="/assets/index-SbEqV6g5.css">
   </head>
   <body>

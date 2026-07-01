@@ -62,6 +62,18 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("@tanstack")) return "tanstack";
           // React-helmet and SEO utilities
           if (id.includes("react-helmet")) return "seo";
+          // Recharts — admin only, kept separate
+          if (id.includes("recharts")) return "recharts";
+          // Supabase — database client, kept separate
+          if (id.includes("supabase")) return "supabase";
+          // Embla Carousel — only on pages that use sliders
+          if (id.includes("embla-carousel")) return "embla-carousel";
+          // date-fns — admin date formatting
+          if (id.includes("date-fns")) return "date-fns";
+          // cmdk — command dialog (admin only)
+          if (id.includes("cmdk")) return "cmdk";
+          // vaul — drawer (admin only)
+          if (id.includes("vaul")) return "vaul";
           // Everything else from node_modules
           if (id.includes("node_modules")) return "vendor";
         },
@@ -69,3 +81,4 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }));
+

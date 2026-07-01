@@ -6,14 +6,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
-// ── Public pages — loaded eagerly (visitors need these immediately) ─────────
+// ── Public pages — lazy loaded for optimal performance ───────────────────────
 import Landing       from "./pages/Landing";
-import About         from "./pages/About";
-import Services      from "./pages/Services";
-import ServiceDetail from "./pages/ServiceDetail";
-import Contact       from "./pages/Contact";
-import NotFound      from "./pages/NotFound";
-import ACCleaningLanding from "./pages/ACCleaningLanding";
+const About         = lazy(() => import("./pages/About"));
+const Services      = lazy(() => import("./pages/Services"));
+const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
+const Contact       = lazy(() => import("./pages/Contact"));
+const NotFound      = lazy(() => import("./pages/NotFound"));
+const ACCleaningLanding = lazy(() => import("./pages/ACCleaningLanding"));
 
 // ── Admin layout (lightweight shell — loaded eagerly for fast login redirect) ─
 import AdminLayout from "./components/admin/AdminLayout";
@@ -35,12 +35,13 @@ const AdminSettings    = lazy(() => import("./pages/admin/AdminSettings"));
 import ScriptInjector   from "./components/ScriptInjector";
 import AnalyticsTracker from "./components/AnalyticsTracker";
 
-// ── Loading fallback for lazy admin routes ────────────────────────────────────
-const AdminLoader = () => (
+// ── Loading fallback for lazy routes ──────────────────────────────────────────
+const PageLoader = () => (
   <div className="flex items-center justify-center min-h-screen bg-background">
     <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
   </div>
 );
+
 
 const queryClient = new QueryClient();
 
@@ -66,30 +67,30 @@ const App = () => (
           <Routes>
             {/* ── Public Routes ─────────────────────────────────────── */}
             <Route path="/"             element={<Landing />} />
-            <Route path="/about"        element={<About />} />
-            <Route path="/services"     element={<Services />} />
-            <Route path="/services/ac-cleaning" element={<ACCleaningLanding />} />
-            <Route path="/ac-cleaning"  element={<ACCleaningLanding />} />
-            <Route path="/services/:id" element={<ServiceDetail />} />
-            <Route path="/contact"      element={<Contact />} />
+            <Route path="/about"        element={<Suspense fallback={<PageLoader />}><About /></Suspense>} />
+            <Route path="/services"     element={<Suspense fallback={<PageLoader />}><Services /></Suspense>} />
+            <Route path="/services/ac-cleaning" element={<Suspense fallback={<PageLoader />}><ACCleaningLanding /></Suspense>} />
+            <Route path="/ac-cleaning"  element={<Suspense fallback={<PageLoader />}><ACCleaningLanding /></Suspense>} />
+            <Route path="/services/:id" element={<Suspense fallback={<PageLoader />}><ServiceDetail /></Suspense>} />
+            <Route path="/contact"      element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
 
             {/* ── Admin Routes (lazy loaded) ─────────────────────────── */}
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index                element={<Navigate to="dashboard" replace />} />
-              <Route path="dashboard"     element={<Suspense fallback={<AdminLoader />}><AdminDashboard /></Suspense>} />
-              <Route path="leads"         element={<Suspense fallback={<AdminLoader />}><AdminLeads /></Suspense>} />
-              <Route path="careers"       element={<Suspense fallback={<AdminLoader />}><AdminCareers /></Suspense>} />
-              <Route path="ads"           element={<Suspense fallback={<AdminLoader />}><AdminAds /></Suspense>} />
-              <Route path="testimonials"  element={<Suspense fallback={<AdminLoader />}><AdminTestimonials /></Suspense>} />
-              <Route path="notices"       element={<Suspense fallback={<AdminLoader />}><AdminNotices /></Suspense>} />
-              <Route path="analytics"     element={<Suspense fallback={<AdminLoader />}><AdminAnalytics /></Suspense>} />
-              <Route path="plugins"       element={<Suspense fallback={<AdminLoader />}><AdminPlugins /></Suspense>} />
-              <Route path="settings"      element={<Suspense fallback={<AdminLoader />}><AdminSettings /></Suspense>} />
+              <Route path="dashboard"     element={<Suspense fallback={<PageLoader />}><AdminDashboard /></Suspense>} />
+              <Route path="leads"         element={<Suspense fallback={<PageLoader />}><AdminLeads /></Suspense>} />
+              <Route path="careers"       element={<Suspense fallback={<PageLoader />}><AdminCareers /></Suspense>} />
+              <Route path="ads"           element={<Suspense fallback={<PageLoader />}><AdminAds /></Suspense>} />
+              <Route path="testimonials"  element={<Suspense fallback={<PageLoader />}><AdminTestimonials /></Suspense>} />
+              <Route path="notices"       element={<Suspense fallback={<PageLoader />}><AdminNotices /></Suspense>} />
+              <Route path="analytics"     element={<Suspense fallback={<PageLoader />}><AdminAnalytics /></Suspense>} />
+              <Route path="plugins"       element={<Suspense fallback={<PageLoader />}><AdminPlugins /></Suspense>} />
+              <Route path="settings"      element={<Suspense fallback={<PageLoader />}><AdminSettings /></Suspense>} />
             </Route>
 
             {/* ── 404 ───────────────────────────────────────────────── */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<Suspense fallback={<PageLoader />}><NotFound /></Suspense>} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
