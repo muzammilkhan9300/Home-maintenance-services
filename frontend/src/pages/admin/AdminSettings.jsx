@@ -90,7 +90,7 @@ const AdminSettings = () => {
           <p className="text-slate-500 text-xs -mt-1">Leave blank to use the server's .env values.</p>
           <Field label="SMTP Email User" name="smtpUser" type="email" value={form.smtpUser} onChange={handleChange} placeholder="marpcsllc0022@gmail.com" />
           <Field label="SMTP App Password" name="smtpPass" type="password" value={form.smtpPass} onChange={handleChange} placeholder="••••••••" />
-          <Field label="Owner Notification Email" name="ownerEmail" type="email" value={form.ownerEmail} onChange={handleChange} placeholder="info@afnanpropertycare.ae" />
+          <Field label="Owner Notification Email" name="ownerEmail" type="email" value={form.ownerEmail} onChange={handleChange} placeholder="info@maresidentialpropertycareservicellc.com" />
         </Section>
 
         <button type="submit" disabled={saving} className="flex items-center gap-2 px-6 py-3 rounded-xl text-slate-900 font-bold text-sm disabled:opacity-50 hover:brightness-110 transition-all" style={{ background: 'linear-gradient(135deg,#f59e0b,#d97706)' }}>

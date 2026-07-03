@@ -6,4 +6,4 @@ Disallow: /404
 Disallow: /*?*
 
 # Location of the sitemap
-Sitemap: https://afnanpropertycare.ae/sitemap.xml
+Sitemap: https://maresidentialpropertycareservicellc.com/sitemap.xml

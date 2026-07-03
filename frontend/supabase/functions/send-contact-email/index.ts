@@ -51,7 +51,7 @@ Service: ${service}
 Message: ${message}
 
 ---
-Sent from afnanpropertycare.ae contact form
+Sent from maresidentialpropertycareservicellc.com contact form
     `.trim();
 
     console.log("Email would be sent to:", OWNER_EMAIL);
