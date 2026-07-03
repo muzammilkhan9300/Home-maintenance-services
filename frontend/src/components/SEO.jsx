@@ -8,7 +8,7 @@ const SEO = ({
 }) => {
     const siteTitle = title ? `${title} | Afnan Property Care` : 'Afnan Property Care - Premium Home Maintenance Services in Dubai';
     const siteDesc = description || 'Licensed property maintenance company in Dubai. AC, plumbing, electrical, landscaping, painting & handyman services. Trade License No. 1571076.';
-    const siteUrl = canonicalUrl ? `https://afnanpropertycare.ae${canonicalUrl}` : 'https://afnanpropertycare.ae';
+    const siteUrl = canonicalUrl ? `https://maresidentialpropertycareservicellc.com${canonicalUrl}` : 'https://maresidentialpropertycareservicellc.com';
 
     const defaultKeywords = 'home maintenance dubai, ac repair, handyman services, plumbing dubai, electrical services dubai, landscaping dubai, property care';
 
@@ -17,9 +17,9 @@ const SEO = ({
         "@context": "https://schema.org",
         "@type": "HomeAndConstructionBusiness",
         "name": "Afnan Property Care",
-        "image": "https://afnanpropertycare.ae/og-image.jpg",
-        "@id": "https://afnanpropertycare.ae",
-        "url": "https://afnanpropertycare.ae",
+        "image": "https://maresidentialpropertycareservicellc.com/og-image.jpg",
+        "@id": "https://maresidentialpropertycareservicellc.com",
+        "url": "https://maresidentialpropertycareservicellc.com",
         "telephone": "+971505387736",
         "address": {
             "@type": "PostalAddress",

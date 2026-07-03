@@ -39,8 +39,8 @@ const server = app.listen(PORT, async () => {
 
     console.log(`[prerender] Navigating to http://localhost:${PORT}/services/ac-cleaning`);
     await page.goto(`http://localhost:${PORT}/services/ac-cleaning`, {
-      waitUntil: 'networkidle0',
-      timeout: 45000
+      waitUntil: 'domcontentloaded',
+      timeout: 30000
     });
 
     // Wait additional time for DOM mounts and CSS animation states to stabilize
