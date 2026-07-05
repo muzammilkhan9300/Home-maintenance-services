@@ -28,6 +28,21 @@ const DUBAI_AREAS = [
   "Mirdif", "Deira", "Bur Dubai", "JLT",
 ];
 
+// Maps each service ID to a statically served OG image
+const SERVICE_OG_IMAGES = {
+  'ac-cleaning':        'https://maresidentialpropertycareservicellc.com/og-images/ac-cleaning-dubai.jpg',
+  'ac-ventilation':     'https://maresidentialpropertycareservicellc.com/og-images/ac-ventilation.jpg',
+  'building-cleaning':  'https://maresidentialpropertycareservicellc.com/og-images/building-cleaning.jpg',
+  'painting':           'https://maresidentialpropertycareservicellc.com/og-images/painting.jpg',
+  'electrical':         'https://maresidentialpropertycareservicellc.com/og-images/electrical.jpg',
+  'plumbing':           'https://maresidentialpropertycareservicellc.com/og-images/plumbing.jpg',
+  'sanitary-pipes':     'https://maresidentialpropertycareservicellc.com/og-images/plumbing.jpg',
+  'tiling':             'https://maresidentialpropertycareservicellc.com/og-images/tiling.jpg',
+  'plaster-works':      'https://maresidentialpropertycareservicellc.com/og-images/plaster-works.jpg',
+  'property-care':      'https://maresidentialpropertycareservicellc.com/og-image.jpg',
+  'systems-maintenance':'https://maresidentialpropertycareservicellc.com/og-image.jpg',
+};
+
 const TESTIMONIALS = [
   {
     name: "Ahmed Al Rashid",
@@ -223,9 +238,18 @@ const ServiceDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={`${service.title} in Dubai | Afnan Property Care`}
-        description={`${service.description} Book professional ${service.title.toLowerCase()} in Dubai with Afnan Property Care. Licensed, certified, 24/7 availability.`}
+        title={`${service.title} Dubai | Professional Service | Afnan Property Care`}
+        description={`${service.description.slice(0, 140)} Book professional ${service.title.toLowerCase()} in Dubai. Licensed LLC, certified technicians, same-day availability.`}
+        keywords={`${service.title.toLowerCase()} dubai, ${service.title.toLowerCase()} service dubai, professional ${service.title.toLowerCase()}, afnan property care`}
         canonicalUrl={`/services/${service.id}`}
+        robots="index, follow, max-image-preview:large"
+        themeColor="#0F6CBD"
+        ogTitle={`${service.title} in Dubai | Afnan Property Care`}
+        ogDescription={`${service.description.slice(0, 200)} Licensed, certified, available across all Dubai areas.`}
+        ogImage={SERVICE_OG_IMAGES[service.id] || 'https://maresidentialpropertycareservicellc.com/og-image.jpg'}
+        twitterTitle={`${service.title} Dubai | Professional Service`}
+        twitterDescription={`${service.title} services in Dubai. Licensed company, certified technicians, same-day availability.`}
+        twitterImage={SERVICE_OG_IMAGES[service.id] || 'https://maresidentialpropertycareservicellc.com/og-image.jpg'}
       />
 
       <Navbar />

@@ -1,86 +1,125 @@
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
+
+const SITE_URL = 'https://maresidentialpropertycareservicellc.com';
+const SITE_NAME = 'Afnan Property Care';
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 const SEO = ({
-    title,
-    description,
-    keywords,
-    canonicalUrl,
+  title,
+  description,
+  keywords,
+  canonicalUrl,         // e.g. "/services/ac-cleaning" — overrides auto-detection
+  robots,
+  themeColor,
+  ogTitle,
+  ogDescription,
+  ogImage,
+  ogLocale,
+  twitterTitle,
+  twitterDescription,
+  twitterImage,
 }) => {
-    const siteTitle = title ? `${title} | Afnan Property Care` : 'Afnan Property Care - Premium Home Maintenance Services in Dubai';
-    const siteDesc = description || 'Licensed property maintenance company in Dubai. AC, plumbing, electrical, landscaping, painting & handyman services. Trade License No. 1571076.';
-    const siteUrl = canonicalUrl ? `https://maresidentialpropertycareservicellc.com${canonicalUrl}` : 'https://maresidentialpropertycareservicellc.com';
+  // Auto-detect canonical from current route if not explicitly provided
+  const location = useLocation();
+  const resolvedPath  = canonicalUrl ?? location.pathname;
+  // Strip trailing slash unless it's the homepage
+  const cleanPath = resolvedPath === '/' ? '' : resolvedPath.replace(/\/$/, '');
+  const canonicalHref = `${SITE_URL}${cleanPath}`;
 
-    const defaultKeywords = 'home maintenance dubai, ac repair, handyman services, plumbing dubai, electrical services dubai, landscaping dubai, property care';
+  // Build full, unique title
+  const pageTitle = title
+    ? `${title} | ${SITE_NAME}`
+    : `${SITE_NAME} - Premium Home Maintenance Services in Dubai`;
 
-    // JSON-LD structured data for Local Business SEO
-    const structuredData = {
-        "@context": "https://schema.org",
-        "@type": "HomeAndConstructionBusiness",
-        "name": "Afnan Property Care",
-        "image": "https://maresidentialpropertycareservicellc.com/og-image.jpg",
-        "@id": "https://maresidentialpropertycareservicellc.com",
-        "url": "https://maresidentialpropertycareservicellc.com",
-        "telephone": "+971505387736",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Rolex Twin Tower, 33 Baniyas Rd, Al Rigga, Deira",
-            "addressLocality": "Dubai",
-            "addressRegion": "Dubai",
-            "postalCode": "00000",
-            "addressCountry": "AE"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 25.2048,
-            "longitude": 55.2708
-        },
-        "openingHoursSpecification": [
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": [
-                    "Monday",
-                    "Tuesday",
-                    "Wednesday",
-                    "Thursday",
-                    "Friday",
-                    "Saturday"
-                ],
-                "opens": "09:00",
-                "closes": "17:00"
-            }
-        ],
-        "sameAs": [
-            "https://www.facebook.com/afnanpropertycare",
-            "https://www.instagram.com/afnanpropertycare"
-        ]
-    };
+  const pageDesc = description
+    || 'Licensed property maintenance company in Dubai. AC, plumbing, electrical, painting & handyman services. Trade License No. 1571076.';
 
-    return (
-        <Helmet>
-            {/* Standard Meta Tags */}
-            <title>{siteTitle}</title>
-            <meta name="description" content={siteDesc} />
-            <meta name="keywords" content={keywords ? `${keywords}, ${defaultKeywords}` : defaultKeywords} />
-            <link rel="canonical" href={siteUrl} />
+  const defaultKeywords =
+    'home maintenance dubai, ac repair, handyman services, plumbing dubai, electrical services dubai, painting dubai, property care';
 
-            {/* Open Graph / Facebook */}
-            <meta property="og:type" content="website" />
-            <meta property="og:url" content={siteUrl} />
-            <meta property="og:title" content={siteTitle} />
-            <meta property="og:description" content={siteDesc} />
+  // Open Graph fallbacks to page title/desc if not explicitly passed
+  const resolvedOgTitle       = ogTitle        || pageTitle;
+  const resolvedOgDesc        = ogDescription  || pageDesc;
+  const resolvedOgImage       = ogImage        || DEFAULT_OG_IMAGE;
+  const resolvedTwitterTitle  = twitterTitle   || resolvedOgTitle;
+  const resolvedTwitterDesc   = twitterDescription || resolvedOgDesc;
+  const resolvedTwitterImage  = twitterImage   || resolvedOgImage;
+  const resolvedRobots        = robots         || 'index, follow, max-image-preview:large';
+  const resolvedThemeColor    = themeColor     || '#0F6CBD';
+  const resolvedLocale        = ogLocale       || 'en_AE';
 
-            {/* Twitter */}
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:url" content={siteUrl} />
-            <meta name="twitter:title" content={siteTitle} />
-            <meta name="twitter:description" content={siteDesc} />
+  // JSON-LD Local Business structured data
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'HomeAndConstructionBusiness',
+    name: SITE_NAME,
+    image: resolvedOgImage,
+    '@id': SITE_URL,
+    url: SITE_URL,
+    telephone: '+971505387736',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Rolex Twin Tower, 33 Baniyas Rd, Al Rigga, Deira',
+      addressLocality: 'Dubai',
+      addressRegion: 'Dubai',
+      postalCode: '00000',
+      addressCountry: 'AE',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 25.2048,
+      longitude: 55.2708,
+    },
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        opens: '09:00',
+        closes: '17:00',
+      },
+    ],
+    sameAs: [
+      'https://www.facebook.com/AfnanPropertyCare',
+      'https://www.instagram.com/afnan_propertycareservices',
+    ],
+  };
 
-            {/* JSON-LD LocalBusiness Structured Data */}
-            <script type="application/ld+json">
-                {JSON.stringify(structuredData)}
-            </script>
-        </Helmet>
-    );
+  return (
+    <Helmet>
+      {/* ── Standard Meta ────────────────────────────────────── */}
+      <title>{pageTitle}</title>
+      <meta name="description" content={pageDesc} />
+      <meta name="keywords" content={keywords ? `${keywords}, ${defaultKeywords}` : defaultKeywords} />
+      <meta name="robots" content={resolvedRobots} />
+      <meta name="author" content="Muhammad Afnan Residential Property Care Services L.L.C" />
+      <meta name="theme-color" content={resolvedThemeColor} />
+
+      {/* ── Canonical ────────────────────────────────────────── */}
+      <link rel="canonical" href={canonicalHref} />
+
+      {/* ── Open Graph ───────────────────────────────────────── */}
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content={SITE_NAME} />
+      <meta property="og:url" content={canonicalHref} />
+      <meta property="og:title" content={resolvedOgTitle} />
+      <meta property="og:description" content={resolvedOgDesc} />
+      <meta property="og:image" content={resolvedOgImage} />
+      <meta property="og:locale" content={resolvedLocale} />
+
+      {/* ── Twitter ──────────────────────────────────────────── */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content={canonicalHref} />
+      <meta name="twitter:title" content={resolvedTwitterTitle} />
+      <meta name="twitter:description" content={resolvedTwitterDesc} />
+      <meta name="twitter:image" content={resolvedTwitterImage} />
+
+      {/* ── JSON-LD Structured Data ──────────────────────────── */}
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
+    </Helmet>
+  );
 };
 
 export default SEO;

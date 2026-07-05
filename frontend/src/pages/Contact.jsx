@@ -97,9 +97,15 @@ const Contact = () => {
   const inputClass = "w-full px-4 py-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-colors";
   return <div className="min-h-screen bg-background">
     <SEO
-      title="Contact Us | Book a Service in Dubai"
-      description="Get in touch with Afnan Property Care. Request a free quote or book an AC, plumbing, electrical, or handyman service. Available 24/7."
+      title="Contact Us | Book a Home Maintenance Service in Dubai | Afnan Property Care"
+      description="Contact Afnan Property Care to request a free quote or book AC cleaning, plumbing, electrical, or handyman services in Dubai. Same-day response. Licensed LLC. Call +971-505387736."
+      keywords="contact afnan property care, book home maintenance dubai, free quote dubai, AC repair booking, plumbing service dubai contact"
       canonicalUrl="/contact"
+      robots="index, follow"
+      themeColor="#0F6CBD"
+      ogTitle="Book a Property Maintenance Service in Dubai | Afnan Property Care"
+      ogDescription="Get a free quote or book same-day AC, plumbing, electrical & maintenance services across Dubai. Licensed, insured, certified."
+      ogImage="https://maresidentialpropertycareservicellc.com/og-image.jpg"
     />
     <Navbar />
 

@@ -45,9 +45,18 @@ const Landing = () => {
   ];
   return <div className="min-h-screen bg-background">
     <SEO
-      title="Home Maintenance & Handyman Services in Dubai"
-      description="Afnan Property Care offers premium residential property maintenance in Dubai. Expert AC repair, plumbing, electrical, and handyman services."
-      canonicalUrl=""
+      title="Home Maintenance Services Dubai | AC, Plumbing, Electrical | Afnan Property Care"
+      description="Licensed residential property maintenance company in Dubai. Expert AC cleaning, plumbing repairs, electrical fittings, painting & handyman services. Licensed LLC. Trade License No. 1571076."
+      keywords="home maintenance dubai, property maintenance dubai, handyman dubai, AC repair dubai, plumbing dubai, electrical services dubai, villa maintenance dubai"
+      canonicalUrl="/"
+      robots="index, follow, max-image-preview:large"
+      themeColor="#0F6CBD"
+      ogTitle="Afnan Property Care | Premium Home Maintenance in Dubai"
+      ogDescription="Trusted residential property maintenance across Dubai. AC cleaning, plumbing, electrical, painting & more. Licensed LLC, certified technicians, same-day service."
+      ogImage="https://maresidentialpropertycareservicellc.com/og-image.jpg"
+      twitterTitle="Home Maintenance Dubai | Afnan Property Care"
+      twitterDescription="Expert AC, plumbing, electrical & property maintenance in Dubai. Licensed company, certified technicians."
+      twitterImage="https://maresidentialpropertycareservicellc.com/og-image.jpg"
     />
     {/* Promotional banner — only shows when an active hero_banner ad exists */}
     <AdBanner placement="hero_banner" />

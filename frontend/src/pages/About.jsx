@@ -20,9 +20,15 @@ const About = () => {
   ];
   return <div className="min-h-screen bg-background">
     <SEO
-      title="About Us | Trusted Property Care"
-      description="Learn about Afnan Property Care, a licensed Dubai DET property maintenance LLC dedicated to premium residential services."
+      title="About Us | Licensed Dubai Property Care Company | Afnan Property Care"
+      description="Muhammad Afnan Residential Property Care Services L.L.C — a licensed Dubai-based property maintenance company. Trade License No. 1571076. Certified technicians, insured, trusted by 2,000+ clients."
+      keywords="about afnan property care, dubai property maintenance company, licensed maintenance company dubai, trade license 1571076"
       canonicalUrl="/about"
+      robots="index, follow"
+      themeColor="#0F6CBD"
+      ogTitle="About Afnan Property Care | Licensed Dubai Property Maintenance"
+      ogDescription="Trusted, licensed residential property care company in Dubai. 2,000+ satisfied clients, certified technicians, Trade License No. 1571076."
+      ogImage="https://maresidentialpropertycareservicellc.com/og-image.jpg"
     />
     <Navbar />
 

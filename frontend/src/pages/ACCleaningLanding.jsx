@@ -208,9 +208,18 @@ const ACCleaningLanding = () => {
   return (
     <div className="min-h-screen bg-background font-sans overflow-x-hidden antialiased">
       <SEO
-        title="AC Cleaning Services Dubai | Premium Deep Clean | Afnan Property Care"
-        description="Professional AC Cleaning Services in Dubai for Villas, Apartments & Offices. Starting from AED 150. Deep cleaning, sanitization, leak checks, 7 days a week."
-        canonicalUrl="/services/ac-cleaning"
+        title="AC Cleaning Dubai | Same Day AC Deep Cleaning | From AED 150"
+        description="Professional AC cleaning services in Dubai for villas, apartments & offices. Same-day service, certified technicians, licensed LLC, fully insured. Starting from AED 150. Free inspection & instant quote."
+        keywords="AC cleaning Dubai, air conditioner cleaning Dubai, AC deep cleaning Dubai, AC duct cleaning Dubai, split AC cleaning Dubai, AC maintenance Dubai, AC service Dubai, villa AC cleaning, apartment AC cleaning, AC coil cleaning, AC sanitization Dubai"
+        canonicalUrl="/ac-cleaning"
+        robots="index, follow, max-image-preview:large"
+        themeColor="#0F6CBD"
+        ogTitle="Professional AC Cleaning Services in Dubai | Same-Day Service"
+        ogDescription="Improve cooling performance, remove dust & odors, lower electricity bills. Certified AC technicians. Available across Dubai. Starting from AED 150."
+        ogImage="https://maresidentialpropertycareservicellc.com/og-images/ac-cleaning-dubai.jpg"
+        twitterTitle="AC Cleaning Dubai | Same-Day Professional Service"
+        twitterDescription="Professional AC cleaning for homes & offices across Dubai. Licensed LLC. Starting from AED 150."
+        twitterImage="https://maresidentialpropertycareservicellc.com/og-images/ac-cleaning-dubai.jpg"
       />
 
       <Navbar />

@@ -30,9 +30,15 @@ const fadeUp = {
 };
 const Services = () => <div className="min-h-screen bg-background">
   <SEO
-    title="Our Services | AC, Plumbing, Electrical & More"
-    description="Explore our complete range of home maintenance services in Dubai including AC servicing, plumbing repairs, painting, and landscaping."
+    title="All Services | AC, Plumbing, Electrical, Painting & More | Afnan Property Care"
+    description="Explore Afnan Property Care's complete range of residential maintenance services in Dubai: AC cleaning, plumbing, electrical fittings, painting, tiling, plaster works & property care. Licensed LLC."
+    keywords="home maintenance services dubai, AC cleaning dubai, plumbing services dubai, electrical services dubai, painting dubai, tiling dubai, property care dubai, villa maintenance"
     canonicalUrl="/services"
+    robots="index, follow, max-image-preview:large"
+    themeColor="#0F6CBD"
+    ogTitle="Dubai Home Maintenance Services | Afnan Property Care"
+    ogDescription="AC cleaning, plumbing, electrical, painting, tiling & more. Professional property maintenance services across all Dubai areas. Licensed LLC, certified technicians."
+    ogImage="https://maresidentialpropertycareservicellc.com/og-image.jpg"
   />
   <Navbar />
 
