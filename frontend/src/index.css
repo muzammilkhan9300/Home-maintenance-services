@@ -96,3 +96,45 @@
 /* Hide scrollbar but keep scrolling */
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ═══ PERFORMANCE: Hero CSS Fade-In (replaces Framer Motion in critical path) ═══
+   Uses CSS animations so no JS is needed before the user sees the hero.
+   The will-change hint promotes the element to its own compositor layer,
+   preventing layout shifts and enabling GPU acceleration.                    */
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-fade-in {
+  opacity: 0;
+  will-change: opacity, transform;
+  animation: heroFadeUp 0.5s ease-out both;
+  /* animationDelay is set inline per element */
+}
+
+/* Respects prefers-reduced-motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade-in {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* ═══ PERFORMANCE: Font size adjustment to reduce CLS from font swap ═════════
+   size-adjust aligns the system fallback metrics with Inter/Montserrat
+   so there's zero layout shift when the web font loads.                      */
+@font-face {
+  font-family: 'Inter';
+  src: local('Inter');
+  size-adjust: 100%;
+  ascent-override: 90%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}

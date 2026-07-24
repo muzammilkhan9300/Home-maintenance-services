@@ -202,8 +202,7 @@ const ACCleaningLanding = () => {
     }
   };
 
-  // ── Hero section animation (framer-motion only for above-fold) ─────────────
-  const heroFade = { hidden: { opacity: 0, y: 28 }, visible: (i = 0) => ({ opacity: 1, y: 0, transition: { delay: i * 0.1, duration: 0.5, ease: "easeOut" } }) };
+  // heroFade removed — hero now uses CSS animations to avoid Framer in critical path
 
   return (
     <div className="min-h-screen bg-background font-sans overflow-x-hidden antialiased">
@@ -233,8 +232,8 @@ const ACCleaningLanding = () => {
         <div className="container mx-auto px-4 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
 
-            {/* Left: text */}
-            <motion.div initial="hidden" animate="visible" variants={heroFade} custom={0} className="space-y-6">
+            {/* Left: text — CSS fade-in to avoid Framer in critical path */}
+            <div className="space-y-6 hero-fade-in" style={{ animationDelay: '0ms' }}>
               <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider">
                 <span className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
                 Available Today Across Dubai
@@ -287,12 +286,10 @@ const ACCleaningLanding = () => {
                 <div className="flex items-center gap-1.5"><Building2 className="w-4 h-4 text-gold" /><span className="text-white/60">2,000+ Units Serviced</span></div>
                 <div className="flex items-center gap-1.5"><Clock className="w-4 h-4 text-gold" /><span className="text-white/60">&lt;1 Hour Response</span></div>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Right: hero image — fetchpriority HIGH for LCP */}
-            <motion.div initial="hidden" animate="visible" variants={heroFade} custom={2}
-              className="relative aspect-[4/5] max-w-md mx-auto lg:max-w-none w-full rounded-3xl overflow-hidden border border-gold/10 shadow-gold/20 shadow-2xl"
-            >
+            {/* Right: hero image — CSS fade-in, fetchpriority HIGH for LCP */}
+            <div className="hero-fade-in relative aspect-[4/5] max-w-md mx-auto lg:max-w-none w-full rounded-3xl overflow-hidden border border-gold/10 shadow-gold/20 shadow-2xl" style={{ animationDelay: '150ms' }}>
               <img
                 src={serviceAcCleaning}
                 alt="Afnan Professional AC cleaning service"
@@ -327,7 +324,7 @@ const ACCleaningLanding = () => {
                   <p className="font-bold text-sm text-slate-900 mt-1">No Obligation</p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
           </div>
         </div>

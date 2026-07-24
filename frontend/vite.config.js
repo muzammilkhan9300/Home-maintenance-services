@@ -29,11 +29,15 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === "development" && componentTagger(),
     ViteImageOptimizer({
-      // More aggressive compression for faster page loads
-      png: { quality: 70, compressionLevel: 9 },
-      jpeg: { quality: 75 },
-      jpg: { quality: 75 },
-      webp: { quality: 75 },
+      // ── Aggressive compression for all raster formats ──────────────────────
+      png:  { quality: 60, compressionLevel: 9 },
+      jpeg: { quality: 60 },
+      jpg:  { quality: 60 },
+      webp: { quality: 60, lossless: false },
+      avif: { quality: 50 },
+      // ── Generate WebP for every PNG/JPEG served (massive size win) ─────────
+      // NOTE: actual WebP generation is handled via the img optimizer pass;
+      // the browser <picture> + WebP fallback is the recommended pattern.
     })
   ].filter(Boolean),
   resolve: {
@@ -42,43 +46,85 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    chunkSizeWarningLimit: 1000,
+    // ── Use Terser for ~15-20% smaller bundles vs default esbuild ─────────────
+    minify: "terser",
+    terserOptions: {
+      compress: {
+        // Remove all console.log/warn/error calls from production
+        drop_console: true,
+        drop_debugger: true,
+        pure_funcs: ["console.log", "console.warn", "console.info"],
+        // Aggressive dead-code elimination
+        passes: 2,
+        unsafe_arrows: true,
+        unsafe_methods: true,
+      },
+      mangle: {
+        // Mangle property names in private/internal code
+        properties: false,
+      },
+      format: {
+        // Remove comments from output
+        comments: false,
+      },
+    },
+    chunkSizeWarningLimit: 600,
     // Enable CSS code splitting so each chunk only loads its needed CSS
     cssCodeSplit: true,
+    // Generate source maps only in dev
+    sourcemap: false,
     rollupOptions: {
       output: {
+        // Use content hash for long-term caching
+        entryFileNames: "assets/[name]-[hash].js",
+        chunkFileNames: "assets/[name]-[hash].js",
+        assetFileNames: "assets/[name]-[hash].[ext]",
         manualChunks(id) {
-          // React core — loaded first, kept tiny
-          if (id.includes("node_modules/react/") || id.includes("node_modules/react-dom/") || id.includes("node_modules/scheduler/")) return "react-core";
-          // Framer motion — animation lib, only on public pages
+          // ── React core — smallest possible, loaded first ─────────────────────
+          if (
+            id.includes("node_modules/react/") ||
+            id.includes("node_modules/react-dom/") ||
+            id.includes("node_modules/scheduler/")
+          ) return "react-core";
+
+          // ── Framer Motion — deferred, NOT in critical path ──────────────────
           if (id.includes("framer-motion")) return "framer";
-          // React-router
+
+          // ── React Router ────────────────────────────────────────────────────
           if (id.includes("react-router") || id.includes("@remix-run")) return "router";
-          // Radix UI components
+
+          // ── Radix UI — grouped to share, only loads when UI appears ─────────
           if (id.includes("@radix-ui")) return "radix";
-          // Lucide icons (tree-shaken)
+
+          // ── Lucide icons (aggressively tree-shaken by swc) ─────────────────
           if (id.includes("lucide-react")) return "icons";
-          // TanStack query
+
+          // ── TanStack Query — data-fetching, only admin + service pages ──────
           if (id.includes("@tanstack")) return "tanstack";
-          // React-helmet and SEO utilities
+
+          // ── React Helmet — SEO utilities ────────────────────────────────────
           if (id.includes("react-helmet")) return "seo";
-          // Recharts — admin only, kept separate
-          if (id.includes("recharts")) return "recharts";
-          // Supabase — database client, kept separate
-          if (id.includes("supabase")) return "supabase";
-          // Embla Carousel — only on pages that use sliders
-          if (id.includes("embla-carousel")) return "embla-carousel";
-          // date-fns — admin date formatting
+
+          // ── Recharts — ADMIN ONLY, never loaded on public pages ─────────────
+          if (id.includes("recharts") || id.includes("d3-")) return "recharts";
+
+          // ── Supabase — only when auth/db calls happen ───────────────────────
+          if (id.includes("@supabase") || id.includes("supabase")) return "supabase";
+
+          // ── Embla Carousel — only on pages with sliders ─────────────────────
+          if (id.includes("embla-carousel")) return "carousel";
+
+          // ── Date utilities — admin date formatting ───────────────────────────
           if (id.includes("date-fns")) return "date-fns";
-          // cmdk — command dialog (admin only)
+
+          // ── Admin-only UI components ─────────────────────────────────────────
           if (id.includes("cmdk")) return "cmdk";
-          // vaul — drawer (admin only)
           if (id.includes("vaul")) return "vaul";
-          // Everything else from node_modules
+
+          // ── Everything else from node_modules ───────────────────────────────
           if (id.includes("node_modules")) return "vendor";
         },
       },
     },
   },
 }));
-

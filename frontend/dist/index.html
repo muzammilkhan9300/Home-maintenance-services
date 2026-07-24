@@ -1,16 +1,33 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Performance: DNS preconnect for external resources -->
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <!-- ═══ PERFORMANCE: Critical preconnects — must be first ════════════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    
-    <!-- Google Fonts for premium typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet" />
 
-    <!-- Google Tag Manager (deferred 1.5s to prevent blocking mobile LCP/FCP) -->
+    <!-- ═══ NON-RENDER-BLOCKING FONT LOAD ════════════════════════════════════
+         The media="print" trick loads the stylesheet async then swaps to all.
+         This eliminates the render-blocking font request entirely.            -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" />
+    </noscript>
+
+    <!-- ═══ CRITICAL FONT FALLBACK (prevents invisible text flash) ═══════════ -->
+    <style>
+      /* Prevent invisible text while web font loads */
+      body { font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+      h1, h2, h3, h4, h5, h6, .font-montserrat, [class*="font-['Montserrat']"] {
+        font-family: 'Montserrat', 'Arial Black', Arial, sans-serif;
+      }
+    </style>
+
+    <!-- ═══ GOOGLE TAG MANAGER — deferred 4s to not block TBT ════════════════ -->
     <script>
       window.addEventListener('load', function() {
         setTimeout(function() {
@@ -19,30 +36,30 @@
           j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
           })(window,document,'script','dataLayer','GTM-WQK58K2C');
-        }, 1500);
+        }, 4000);
       });
     </script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0F6CBD" />
     <title>Afnan Property Care - Premium Home Maintenance Services in Dubai</title>
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <meta name="description" content="Licensed property maintenance company in Dubai. AC, plumbing, electrical, landscaping, painting & handyman services. Trade License No. 1571076." />
+    <meta name="description" content="Licensed property maintenance company in Dubai. AC, plumbing, electrical, landscaping, painting &amp; handyman services. Trade License No. 1571076." />
     <meta name="author" content="Muhammad Afnan Residential Property Care Services L.L.C" />
     <meta property="og:title" content="Afnan Property Care - Dubai Home Maintenance" />
     <meta property="og:description" content="Professional residential property care services in Dubai. Licensed LLC with certified technicians." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
-    <script type="module" crossorigin src="/assets/index-DLijyUjC.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/react-core-DCq8kKxP.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-CL8ny0Rn.js">
-    <link rel="modulepreload" crossorigin href="/assets/radix-DHpao3Oe.js">
-    <link rel="modulepreload" crossorigin href="/assets/icons-CkAiRJUo.js">
-    <link rel="modulepreload" crossorigin href="/assets/tanstack-DSJ91_7K.js">
-    <link rel="modulepreload" crossorigin href="/assets/router-DJTnK9SL.js">
-    <link rel="modulepreload" crossorigin href="/assets/seo-BDLN0KKf.js">
-    <link rel="modulepreload" crossorigin href="/assets/framer-C-5NDCCC.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-CVh80LND.css">
+    <script type="module" crossorigin src="/assets/index-CEnI14F2.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-core-HHB_1s_I.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-CX1Xxkre.js">
+    <link rel="modulepreload" crossorigin href="/assets/radix-BYcTIArA.js">
+    <link rel="modulepreload" crossorigin href="/assets/icons-C8b7Yx_t.js">
+    <link rel="modulepreload" crossorigin href="/assets/tanstack-2hhHtl6N.js">
+    <link rel="modulepreload" crossorigin href="/assets/router-BuGVLVGG.js">
+    <link rel="modulepreload" crossorigin href="/assets/seo-BttTE3zh.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CFQ0yqvH.css">
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->

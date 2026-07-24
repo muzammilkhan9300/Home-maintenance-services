@@ -6,8 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 
-// ── Public pages — lazy loaded for optimal performance ───────────────────────
-import Landing       from "./pages/Landing";
+// ── Public pages — ALL lazy loaded so initial bundle is minimal ──────────────
+const Landing       = lazy(() => import("./pages/Landing"));
 const About         = lazy(() => import("./pages/About"));
 const Services      = lazy(() => import("./pages/Services"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
@@ -15,21 +15,21 @@ const Contact       = lazy(() => import("./pages/Contact"));
 const NotFound      = lazy(() => import("./pages/NotFound"));
 const ACCleaningLanding = lazy(() => import("./pages/ACCleaningLanding"));
 
-// ── Admin layout (lightweight shell — loaded eagerly for fast login redirect) ─
-import AdminLayout from "./components/admin/AdminLayout";
-import AdminLogin  from "./pages/admin/AdminLogin";
+// ── Admin layout + login — lazy loaded (public visitors never need these) ─────
+const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
+const AdminLogin  = lazy(() => import("./pages/admin/AdminLogin"));
 
 // ── Admin pages — lazy loaded (visitors NEVER need these) ─────────────────────
 // Saves ~300KB of JS from the initial payload for all non-admin visitors
-const AdminDashboard   = lazy(() => import("./pages/admin/AdminDashboard"));
-const AdminLeads       = lazy(() => import("./pages/admin/AdminLeads"));
-const AdminCareers     = lazy(() => import("./pages/admin/AdminCareers"));
-const AdminAds         = lazy(() => import("./pages/admin/AdminAds"));
+const AdminDashboard    = lazy(() => import("./pages/admin/AdminDashboard"));
+const AdminLeads        = lazy(() => import("./pages/admin/AdminLeads"));
+const AdminCareers      = lazy(() => import("./pages/admin/AdminCareers"));
+const AdminAds          = lazy(() => import("./pages/admin/AdminAds"));
 const AdminTestimonials = lazy(() => import("./pages/admin/AdminTestimonials"));
-const AdminNotices     = lazy(() => import("./pages/admin/AdminNotices"));
-const AdminAnalytics   = lazy(() => import("./pages/admin/AdminAnalytics"));
-const AdminPlugins     = lazy(() => import("./pages/admin/AdminPlugins"));
-const AdminSettings    = lazy(() => import("./pages/admin/AdminSettings"));
+const AdminNotices      = lazy(() => import("./pages/admin/AdminNotices"));
+const AdminAnalytics    = lazy(() => import("./pages/admin/AdminAnalytics"));
+const AdminPlugins      = lazy(() => import("./pages/admin/AdminPlugins"));
+const AdminSettings     = lazy(() => import("./pages/admin/AdminSettings"));
 
 // ── Global components ─────────────────────────────────────────────────────────
 import ScriptInjector   from "./components/ScriptInjector";
@@ -66,7 +66,7 @@ const App = () => (
           <AnalyticsTracker />
           <Routes>
             {/* ── Public Routes ─────────────────────────────────────── */}
-            <Route path="/"             element={<Landing />} />
+            <Route path="/"             element={<Suspense fallback={<PageLoader />}><Landing /></Suspense>} />
             <Route path="/about"        element={<Suspense fallback={<PageLoader />}><About /></Suspense>} />
             <Route path="/services"     element={<Suspense fallback={<PageLoader />}><Services /></Suspense>} />
             <Route path="/services/ac-cleaning" element={<Suspense fallback={<PageLoader />}><ACCleaningLanding /></Suspense>} />
@@ -75,8 +75,8 @@ const App = () => (
             <Route path="/contact"      element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
 
             {/* ── Admin Routes (lazy loaded) ─────────────────────────── */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminLayout />}>
+            <Route path="/admin/login" element={<Suspense fallback={<PageLoader />}><AdminLogin /></Suspense>} />
+            <Route path="/admin" element={<Suspense fallback={<PageLoader />}><AdminLayout /></Suspense>}>
               <Route index                element={<Navigate to="dashboard" replace />} />
               <Route path="dashboard"     element={<Suspense fallback={<PageLoader />}><AdminDashboard /></Suspense>} />
               <Route path="leads"         element={<Suspense fallback={<PageLoader />}><AdminLeads /></Suspense>} />

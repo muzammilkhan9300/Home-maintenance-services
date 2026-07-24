@@ -1,0 +1,154 @@
+# ══════════════════════════════════════════════════════════════════════════════
+# Hostinger Apache .htaccess — Performance & Caching Configuration
+# Afnan Property Care (maresidentialpropertycareservicellc.com)
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── Enable Rewrite Engine (required for SPA routing) ─────────────────────────
+Options -MultiViews
+RewriteEngine On
+RewriteBase /
+
+# ── SPA Fallback: route all non-file requests to index.html ──────────────────
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [QSA,L]
+
+# ══════════════════════════════════════════════════════════════════════════════
+# COMPRESSION — Gzip/Brotli for all text assets
+# Reduces transfer size by 60-80% for JS/CSS/HTML
+# ══════════════════════════════════════════════════════════════════════════════
+<IfModule mod_deflate.c>
+  # Compress HTML, CSS, JavaScript, Text, XML and fonts
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/rss+xml
+  AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+  AddOutputFilterByType DEFLATE application/x-font
+  AddOutputFilterByType DEFLATE application/x-font-opentype
+  AddOutputFilterByType DEFLATE application/x-font-otf
+  AddOutputFilterByType DEFLATE application/x-font-truetype
+  AddOutputFilterByType DEFLATE application/x-font-ttf
+  AddOutputFilterByType DEFLATE application/x-javascript
+  AddOutputFilterByType DEFLATE application/xhtml+xml
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE font/opentype
+  AddOutputFilterByType DEFLATE font/otf
+  AddOutputFilterByType DEFLATE font/ttf
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE image/x-icon
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/xml
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE application/ld+json
+
+  # Remove browser bugs (only needed for old browsers)
+  BrowserMatch ^Mozilla/4 gzip-only-text/html
+  BrowserMatch ^Mozilla/4\.0[678] no-gzip
+  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+  Header append Vary User-Agent
+</IfModule>
+
+# ══════════════════════════════════════════════════════════════════════════════
+# BROWSER CACHING — Long-term cache for hashed assets, no-cache for HTML
+# Vite adds content hashes to JS/CSS/image filenames so it's safe to cache
+# them for 1 year. HTML is never cached so users always get the latest.
+# ══════════════════════════════════════════════════════════════════════════════
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # ── HTML: never cache (users always get the latest page) ─────────────────
+  ExpiresByType text/html                         "access plus 0 seconds"
+
+  # ── Vite-hashed JS & CSS: 1 year immutable ───────────────────────────────
+  ExpiresByType application/javascript            "access plus 1 year"
+  ExpiresByType text/javascript                   "access plus 1 year"
+  ExpiresByType text/css                          "access plus 1 year"
+
+  # ── Images: 6 months ─────────────────────────────────────────────────────
+  ExpiresByType image/jpeg                        "access plus 6 months"
+  ExpiresByType image/jpg                         "access plus 6 months"
+  ExpiresByType image/png                         "access plus 6 months"
+  ExpiresByType image/gif                         "access plus 6 months"
+  ExpiresByType image/webp                        "access plus 6 months"
+  ExpiresByType image/avif                        "access plus 6 months"
+  ExpiresByType image/svg+xml                     "access plus 6 months"
+  ExpiresByType image/x-icon                      "access plus 1 year"
+  ExpiresByType image/vnd.microsoft.icon          "access plus 1 year"
+
+  # ── Fonts: 1 year ────────────────────────────────────────────────────────
+  ExpiresByType font/ttf                          "access plus 1 year"
+  ExpiresByType font/otf                          "access plus 1 year"
+  ExpiresByType font/woff                         "access plus 1 year"
+  ExpiresByType font/woff2                        "access plus 1 year"
+  ExpiresByType application/vnd.ms-fontobject     "access plus 1 year"
+
+  # ── JSON / XML ───────────────────────────────────────────────────────────
+  ExpiresByType application/json                  "access plus 0 seconds"
+  ExpiresByType application/xml                   "access plus 0 seconds"
+  ExpiresByType text/xml                          "access plus 0 seconds"
+</IfModule>
+
+# ══════════════════════════════════════════════════════════════════════════════
+# CACHE-CONTROL HEADERS — Explicit Cache-Control for hashed assets
+# ══════════════════════════════════════════════════════════════════════════════
+<IfModule mod_headers.c>
+  # ── HTML: no cache ────────────────────────────────────────────────────────
+  <FilesMatch "\.(html)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # ── Hashed JS and CSS: 1 year immutable ──────────────────────────────────
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # ── Images (including OG images): 6 months ───────────────────────────────
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|avif|ico|svg)$">
+    Header set Cache-Control "public, max-age=15552000"
+  </FilesMatch>
+
+  # ── Fonts: 1 year immutable ───────────────────────────────────────────────
+  <FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # ── Security headers (bonus: improves Lighthouse Best Practices score) ────
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=(self)"
+
+  # ── Remove Server signature ───────────────────────────────────────────────
+  Header unset Server
+  Header unset X-Powered-By
+</IfModule>
+
+# ══════════════════════════════════════════════════════════════════════════════
+# MIME TYPES — Ensure correct types for modern formats
+# ══════════════════════════════════════════════════════════════════════════════
+<IfModule mod_mime.c>
+  AddType image/webp                    .webp
+  AddType image/avif                    .avif
+  AddType font/woff2                    .woff2
+  AddType application/javascript        .js .mjs
+  AddType application/json              .json
+</IfModule>
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ETags — Disable to avoid redundant validation requests
+# ══════════════════════════════════════════════════════════════════════════════
+<IfModule mod_headers.c>
+  Header unset ETag
+</IfModule>
+FileETag None
+
+# ══════════════════════════════════════════════════════════════════════════════
+# KEEP-ALIVE — Enable persistent connections
+# ══════════════════════════════════════════════════════════════════════════════
+<IfModule mod_headers.c>
+  Header set Connection keep-alive
+</IfModule>
