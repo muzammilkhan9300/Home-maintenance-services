@@ -12,7 +12,7 @@ import Footer from "@/components/Footer";
 import ServiceCard from "@/components/ServiceCard";
 import SEO from "@/components/SEO";
 import { services } from "@/data/services";
-import { trackWhatsAppClick } from "@/lib/analytics";
+import { trackWhatsAppClick, trackPhoneClick } from "@/lib/analytics";
 
 const WHATSAPP_NUMBER = "971505387736";
 const CALL_NUMBER = "971505387736";
@@ -207,6 +207,7 @@ const ServiceDetail = () => {
   };
 
   const handleCall = () => {
+    trackPhoneClick("Service Detail Page", service.title);
     window.location.href = `tel:+${CALL_NUMBER}`;
   };
 

@@ -10,7 +10,7 @@ import {
 import Navbar from "@/components/Navbar";
 import SEO from "@/components/SEO";
 import { useToast } from "@/hooks/use-toast";
-import { trackWhatsAppClick, trackLead } from "@/lib/analytics";
+import { trackWhatsAppClick, trackLead, trackPhoneClick } from "@/lib/analytics";
 import serviceAcCleaning from "@/assets/real_ac_cleaning.png";
 
 // ── Lazy-load heavy below-fold sections so they don't block first paint ─────
@@ -577,6 +577,7 @@ const ACCleaningLanding = () => {
           <p className="text-white/70 text-sm sm:text-base max-w-md mx-auto">Call now and get a technician dispatched anywhere in Dubai.</p>
           <div className="flex flex-wrap justify-center gap-4 pt-2">
             <a href={`tel:+${CALL_NUMBER}`}
+              onClick={() => trackPhoneClick("AC Cleaning - CTA Section", "AC Cleaning")}
               className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-navy font-bold hover:bg-gold-light active:scale-95 transition-all shadow-lg text-sm sm:text-base border border-gold/10">
               <Phone className="w-4 h-4 text-gold shrink-0" />Call Now
             </a>
@@ -611,6 +612,7 @@ const ACCleaningLanding = () => {
         hideSticky ? "translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
       }`}>
         <a href={`tel:+${CALL_NUMBER}`}
+          onClick={() => trackPhoneClick("AC Cleaning - Mobile Sticky Bar", "AC Cleaning")}
           className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-2xl bg-accent text-accent-foreground font-bold text-xs active:scale-95 transition-all border border-gold/10">
           <Phone className="w-3.5 h-3.5" />Call
         </a>

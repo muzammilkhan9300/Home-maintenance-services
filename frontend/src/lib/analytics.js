@@ -188,3 +188,45 @@ export const trackWhatsAppClick = (location, serviceName = '') => {
     });
   }
 };
+
+/**
+ * Tracks a phone call button click event.
+ * Fires to GTM dataLayer, Meta Pixel, and GA4.
+ * The marketers can use the `phone_click` event in GTM to create
+ * Google Ads conversion goals and Meta Pixel retargeting audiences.
+ *
+ * @param {string} location  - Page/section where the click happened (e.g. "AC Cleaning - Hero")
+ * @param {string} serviceName - Optional service context (e.g. "AC Cleaning")
+ */
+export const trackPhoneClick = (location, serviceName = '') => {
+  const settings = window.analyticsSettings;
+
+  // 1. GTM dataLayer Push — marketers can set up a Custom Event Trigger
+  //    on 'phone_click' and map these variables to GA4 / Google Ads
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({
+    event: 'phone_click',
+    phone_number: '+971505387736',
+    page_path: window.location.pathname,
+    click_data: {
+      location: location,
+      service: serviceName,
+    },
+  });
+
+  // 2. Meta Pixel custom event — enables retargeting of callers
+  if (settings?.metaPixelId && window.fbq) {
+    window.fbq('trackCustom', 'PhoneClick', {
+      location: location,
+      service: serviceName,
+    });
+  }
+
+  // 3. GA4 event — shows up in Reports > Events as 'phone_click'
+  if (settings?.googleAnalyticsId && window.gtag) {
+    window.gtag('event', 'phone_click', {
+      location: location,
+      service: serviceName,
+    });
+  }
+};
