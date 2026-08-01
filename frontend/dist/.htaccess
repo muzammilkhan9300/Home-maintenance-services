@@ -111,6 +111,11 @@ RewriteRule ^ index.html [QSA,L]
     Header set Cache-Control "public, max-age=15552000"
   </FilesMatch>
 
+  # ── Favicons & Webmanifest: short revalidation for search crawlers ────────
+  <FilesMatch "(favicon.*|apple-touch-icon.*|site\.webmanifest)$">
+    Header set Cache-Control "public, max-age=86400, must-revalidate"
+  </FilesMatch>
+
   # ── Fonts: 1 year immutable ───────────────────────────────────────────────
   <FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
     Header set Cache-Control "public, max-age=31536000, immutable"
