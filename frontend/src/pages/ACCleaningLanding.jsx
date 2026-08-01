@@ -56,10 +56,34 @@ const WHY_CHOOSE_US = [
 ];
 
 const FAQ_ITEMS = [
-  { q: "How often should I service my AC in Dubai?",      a: "At minimum twice a year — before summer (April) and at the start of winter (October). Dubai's dusty climate clogs filters fast, reducing efficiency and air quality." },
-  { q: "What AC brands do you service?",                  a: "We service all major brands including Daikin, Mitsubishi, LG, Samsung, Carrier, Hitachi, Gree, and more. Our technicians carry parts for the most common models." },
-  { q: "Do you offer annual maintenance contracts?",      a: "Yes. Our AMC packages cover unlimited visits, priority scheduling, and discounted parts for a fixed annual fee — great value for villas and apartments." },
-  { q: "Can you install a new AC unit?",                  a: "Absolutely. We supply and install split units, cassette ACs, and central systems with full DEWA-compliant wiring and drainage." }
+  { 
+    q: "How often should I get my AC cleaned in Dubai?",
+    a: "We recommend a professional AC deep cleaning at least twice a year in Dubai — ideally before summer (April) and after summer (October). Dubai desert dust and humidity create mold growth inside AC ducts and coils." 
+  },
+  { 
+    q: "What is included in your AC deep cleaning service in Dubai?",
+    a: "Our deep cleaning service includes complete dismantling and pressure washing of indoor coils, blower wheel cleaning, filter sanitization, outdoor condenser coil washing, drain line flushing, and medical-grade anti-bacterial fogging." 
+  },
+  { 
+    q: "How much does AC cleaning cost in Dubai?",
+    a: "Our professional AC cleaning prices start from AED 150 per unit with transparent, upfront pricing and no hidden fees. We also offer discounted package rates for multi-unit apartments and villas." 
+  },
+  { 
+    q: "Can dirty AC coils increase my DEWA electricity bill?",
+    a: "Yes. Clogged AC coils and dirty filters restrict airflow, forcing your compressor to work up to 30% harder to cool your home. Regular coil deep cleaning lowers your DEWA monthly power consumption significantly." 
+  },
+  { 
+    q: "How long does an AC cleaning service take per unit?",
+    a: "A thorough AC deep cleaning takes approximately 45 to 60 minutes per split or package unit, depending on the level of dust buildup and accessibility." 
+  },
+  { 
+    q: "Do you provide same-day AC cleaning service in Dubai?",
+    a: "Yes, we offer same-day AC cleaning appointments 7 days a week across all Dubai areas, including Dubai Marina, JVC, Palm Jumeirah, Downtown, and Deira." 
+  },
+  { 
+    q: "Are your technicians certified and company licensed in Dubai?",
+    a: "Absolutely. Muhammad Afnan Residential Property Care Services L.L.C is a fully licensed Dubai maintenance company under Trade License #1571076, employing certified, background-checked technicians." 
+  }
 ];
 
 const REVIEWS = [
@@ -207,17 +231,17 @@ const ACCleaningLanding = () => {
   return (
     <div className="min-h-screen bg-background font-sans overflow-x-hidden antialiased">
       <SEO
-        title="AC Cleaning Dubai | Same Day Deep Clean"
-        description="Top-rated AC cleaning in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. From AED 150."
-        keywords="AC cleaning Dubai, AC deep cleaning Dubai, AC duct cleaning Dubai, split AC cleaning Dubai, AC coil cleaning Dubai, AC sanitization Dubai, AC service Dubai, AC maintenance Dubai"
+        title="AC Cleaning Service Dubai | Same Day Deep Clean"
+        description="Top-rated AC cleaning service in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. Book today!"
+        keywords="AC cleaning service Dubai, AC deep cleaning Dubai, AC duct cleaning Dubai, split AC cleaning Dubai, AC coil cleaning Dubai, AC sanitization Dubai, best AC cleaning company Dubai, AC mold removal Dubai, residential AC maintenance Dubai"
         canonicalUrl="/services/ac-cleaning"
         robots="index, follow, max-image-preview:large"
         themeColor="#0F6CBD"
-        ogTitle="AC Cleaning Dubai | Same Day Deep Clean | Afnan Property Care"
-        ogDescription="Top-rated AC cleaning in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. From AED 150."
+        ogTitle="AC Cleaning Service Dubai | Same Day Deep Clean | Afnan Property Care"
+        ogDescription="Top-rated AC cleaning service in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. Book today!"
         ogImage="https://maresidentialpropertycareservicellc.com/og-images/ac-cleaning-dubai.jpg"
-        twitterTitle="AC Cleaning Dubai | Same Day Deep Clean | Afnan Property Care"
-        twitterDescription="Top-rated AC cleaning in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. From AED 150."
+        twitterTitle="AC Cleaning Service Dubai | Same Day Deep Clean | Afnan Property Care"
+        twitterDescription="Top-rated AC cleaning service in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. Book today!"
         twitterImage="https://maresidentialpropertycareservicellc.com/og-images/ac-cleaning-dubai.jpg"
       />
 
@@ -234,14 +258,19 @@ const ACCleaningLanding = () => {
 
             {/* Left: text — CSS fade-in to avoid Framer in critical path */}
             <div className="space-y-6 hero-fade-in" style={{ animationDelay: '0ms' }}>
-              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider">
-                <span className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
-                Available Today Across Dubai
-              </span>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider">
+                  <span className="w-2 h-2 rounded-full bg-[#22c55e] animate-pulse" />
+                  Available Today Across Dubai
+                </span>
+                <span className="px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-slate-300 text-xs font-semibold">
+                  Trade License #1571076
+                </span>
+              </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black font-['Montserrat'] tracking-tight leading-tight">
-                AC Cleaning <br />
-                <span className="text-gradient-gold">Dubai</span>
+                Professional AC Cleaning <br />
+                <span className="text-gradient-gold">Service in Dubai</span>
               </h1>
 
               <p className="text-lg sm:text-xl font-bold text-white/90 leading-snug">
@@ -420,8 +449,8 @@ const ACCleaningLanding = () => {
       <section className="py-20 lg:py-24">
         <div className="container mx-auto px-4 lg:px-8">
           <FadeIn className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-            <h2 className="text-3xl lg:text-4xl font-extrabold font-['Montserrat'] text-foreground">What's Included</h2>
-            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">Our comprehensive AC cleaning service covers every component of your cooling system.</p>
+            <h2 className="text-3xl lg:text-4xl font-extrabold font-['Montserrat'] text-foreground">Comprehensive AC Deep Cleaning Services in Dubai</h2>
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">Our certified technicians follow strict HVAC protocols to clean, sanitize, and restore your cooling units.</p>
           </FadeIn>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {INCLUDED_SERVICES.map((item, idx) => {
@@ -438,12 +467,39 @@ const ACCleaningLanding = () => {
         </div>
       </section>
 
-      {/* ── WHY CHOOSE US ── */}
-      <section className="py-20 lg:py-24 bg-gold-light/10 border-t border-border">
+      {/* ── 5-STEP PROCESS SECTION ── */}
+      <section className="py-20 lg:py-24 bg-gold-light/10 border-y border-border">
         <div className="container mx-auto px-4 lg:px-8">
           <FadeIn className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-            <h2 className="text-3xl lg:text-4xl font-extrabold font-['Montserrat'] text-foreground">Why Choose Afnan</h2>
-            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">Six reasons Dubai homeowners trust us with their AC cleaning needs.</p>
+            <h2 className="text-3xl lg:text-4xl font-extrabold font-['Montserrat'] text-foreground">Our 5-Step Professional AC Cleaning Process</h2>
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">Systematic, mess-free deep cleaning engineered for peak cooling efficiency in Dubai's hot desert climate.</p>
+          </FadeIn>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 max-w-6xl mx-auto">
+            {[
+              { num: "01", title: "Step 1: Inspection & Airflow Check", desc: "Initial diagnostic check of air output velocity, thermostat responsiveness, and electrical current." },
+              { num: "02", title: "Step 2: Masking & Dismantling", desc: "Wall and furniture protection covers installed before removing front covers and filters." },
+              { num: "03", title: "Step 3: Jet Pressure Coil Wash", desc: "High-pressure wash bag system flushes all dirt, dust, and debris from evaporator coils." },
+              { num: "04", title: "Step 4: Anti-Bacterial Fogging", desc: "Medical-grade non-toxic disinfectant treatment applied to eliminate mold spores and odor." },
+              { num: "05", title: "Step 5: Final Testing & Reassembly", desc: "Complete reassembly followed by temperature drop test to verify cold air distribution." }
+            ].map((step, idx) => (
+              <FadeIn key={step.num} delay={idx * 70} className="p-5 rounded-2xl bg-card border border-border space-y-2 shadow-sm flex flex-col justify-between">
+                <div>
+                  <span className="text-2xl font-black text-gold font-['Montserrat']">{step.num}</span>
+                  <h3 className="font-bold text-foreground text-xs sm:text-sm mt-1 mb-2 leading-snug">{step.title}</h3>
+                  <p className="text-muted-foreground text-[11px] leading-relaxed">{step.desc}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHY CHOOSE US ── */}
+      <section className="py-20 lg:py-24">
+        <div className="container mx-auto px-4 lg:px-8">
+          <FadeIn className="text-center max-w-2xl mx-auto mb-16 space-y-3">
+            <h2 className="text-3xl lg:text-4xl font-extrabold font-['Montserrat'] text-foreground">Why Choose Afnan Property Care for AC Cleaning in Dubai</h2>
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">Trusted by homeowners, villa residents, and property managers across Dubai.</p>
           </FadeIn>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {WHY_CHOOSE_US.map((item, idx) => {
@@ -589,12 +645,87 @@ const ACCleaningLanding = () => {
         </div>
       </section>
 
+      {/* ── INTERNAL LINKING & OTHER SERVICES HUB ── */}
+      <section className="py-16 bg-card border-y border-border">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="max-w-4xl mx-auto space-y-6 text-center">
+            <h3 className="text-xl font-bold font-['Montserrat'] text-foreground">Explore Our Full Range of Dubai Home Maintenance Services</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              As a top-rated <Link to="/" className="text-gold font-bold underline hover:text-gold/80 transition-colors">licensed Dubai home maintenance company</Link>, we provide complete property upkeep solutions. You can also <Link to="/contact" className="text-gold font-bold underline hover:text-gold/80 transition-colors">schedule a custom maintenance consultation</Link> with our engineering team today.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 pt-2">
+              <Link to="/services/plumbing" className="px-4 py-2 rounded-xl bg-gold-light/20 border border-gold/20 text-xs font-semibold text-foreground hover:bg-gold/10 transition-colors">
+                🚿 <span className="underline">emergency plumbing services in Dubai</span>
+              </Link>
+              <Link to="/services/electrical" className="px-4 py-2 rounded-xl bg-gold-light/20 border border-gold/20 text-xs font-semibold text-foreground hover:bg-gold/10 transition-colors">
+                ⚡ <span className="underline">certified residential electrical repairs</span>
+              </Link>
+              <Link to="/services" className="px-4 py-2 rounded-xl bg-gold-light/20 border border-gold/20 text-xs font-semibold text-foreground hover:bg-gold/10 transition-colors">
+                🛠️ <span className="underline">explore full property maintenance services</span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── LOCAL SEO & MAPS SECTION ── */}
+      <section className="py-20 bg-gold-light/10 border-b border-border">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-10 items-center max-w-5xl mx-auto">
+            <div className="space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gold/15 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider">
+                Official Dubai Office Location
+              </div>
+              <h3 className="text-2xl lg:text-3xl font-extrabold font-['Montserrat'] text-foreground">Muhammad Afnan Residential Property Care Services L.L.C</h3>
+              <div className="space-y-3 text-sm text-muted-foreground">
+                <p className="flex items-start gap-2">
+                  <MapPin className="w-5 h-5 text-gold shrink-0 mt-0.5" />
+                  <span><strong>Address:</strong> Rolex Twin Tower, 33 Baniyas Rd, Al Rigga, Deira, Dubai, UAE</span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <Phone className="w-4 h-4 text-gold shrink-0" />
+                  <span><strong>Phone:</strong> +971 50 538 7736</span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-gold shrink-0" />
+                  <span><strong>Trade License No.:</strong> 1571076</span>
+                </p>
+                <p className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-gold shrink-0" />
+                  <span><strong>Operating Hours:</strong> Open 24/7 for Emergency Appointments</span>
+                </p>
+              </div>
+              <div className="pt-2 flex items-center gap-3">
+                <span className="px-3 py-1.5 rounded-lg bg-green-500/10 border border-green-500/30 text-green-600 text-xs font-bold">
+                  ✓ Verified Local Business
+                </span>
+                <span className="px-3 py-1.5 rounded-lg bg-gold/10 border border-gold/30 text-gold text-xs font-bold">
+                  Last Updated: August 2026
+                </span>
+              </div>
+            </div>
+            <div className="rounded-2xl overflow-hidden border border-border shadow-lg h-72">
+              <iframe
+                title="Afnan Property Care Location Map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.2341234!2d55.31!3d25.26!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5cd!2sRolex%20Twin%20Towers!5e0!3m2!1sen!2sae"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FAQ ── */}
       <section className="py-20 lg:py-24">
         <div className="container mx-auto px-4 lg:px-8">
           <FadeIn className="text-center max-w-2xl mx-auto mb-16 space-y-3">
-            <h2 className="text-3xl lg:text-4xl font-extrabold font-['Montserrat'] text-foreground">Frequently Asked Questions</h2>
-            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">Find answers to common questions about our AC cleaning services.</p>
+            <h2 className="text-3xl lg:text-4xl font-extrabold font-['Montserrat'] text-foreground">Frequently Asked Questions About AC Cleaning in Dubai</h2>
+            <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">Find direct answers to common questions about our AC cleaning services and DEWA energy efficiency.</p>
           </FadeIn>
           <div className="max-w-3xl mx-auto space-y-4">
             {FAQ_ITEMS.map((item, idx) => <FAQItem key={idx} q={item.q} a={item.a} />)}

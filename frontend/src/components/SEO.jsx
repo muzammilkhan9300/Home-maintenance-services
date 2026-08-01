@@ -55,40 +55,144 @@ const SEO = ({
   const resolvedThemeColor    = themeColor     || '#0F6CBD';
   const resolvedLocale        = ogLocale       || 'en_AE';
 
-  // JSON-LD Local Business structured data
+  // Build multi-schema JSON-LD Graph for Google Rich Results & AI Overview citations
+  const graphSchemas = [
+    {
+      '@type': 'HomeAndConstructionBusiness',
+      '@id': `${SITE_URL}/#organization`,
+      name: SITE_NAME,
+      legalName: 'Muhammad Afnan Residential Property Care Services L.L.C',
+      url: SITE_URL,
+      logo: `${SITE_URL}/favicon-512x512.png`,
+      image: resolvedOgImage,
+      telephone: '+971505387736',
+      priceRange: 'AED 150 - AED 2500',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Rolex Twin Tower, 33 Baniyas Rd, Al Rigga, Deira',
+        addressLocality: 'Dubai',
+        addressRegion: 'Dubai',
+        postalCode: '00000',
+        addressCountry: 'AE',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 25.2048,
+        longitude: 55.2708,
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '00:00',
+          closes: '23:59',
+        },
+      ],
+      sameAs: [
+        'https://www.facebook.com/AfnanPropertyCare',
+        'https://www.instagram.com/afnan_propertycareservices',
+      ],
+    },
+    {
+      '@type': 'Service',
+      '@id': `${canonicalHref}#service`,
+      name: pageTitle,
+      serviceType: 'AC Cleaning & Deep Sanitization Service',
+      provider: {
+        '@id': `${SITE_URL}/#organization`,
+      },
+      areaServed: {
+        '@type': 'City',
+        name: 'Dubai',
+        containedInPlace: {
+          '@type': 'Country',
+          name: 'United Arab Emirates',
+        },
+      },
+      description: pageDesc,
+      offers: {
+        '@type': 'Offer',
+        price: '150.00',
+        priceCurrency: 'AED',
+        availability: 'https://schema.org/InStock',
+        validFrom: '2026-01-01',
+        url: canonicalHref,
+      },
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonicalHref}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: SITE_URL,
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Services',
+          item: `${SITE_URL}/services`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: title || 'AC Cleaning Dubai',
+          item: canonicalHref,
+        },
+      ],
+    },
+  ];
+
+  // If FAQ items exist or are passed, append FAQPage schema to the graph
+  const defaultFaqs = [
+    {
+      q: 'How often should I get my AC cleaned in Dubai?',
+      a: 'We recommend a professional AC deep cleaning at least twice a year in Dubai — ideally before summer (April) and after summer (October). Dubai desert dust and humidity create mold growth inside AC ducts and coils.'
+    },
+    {
+      q: 'What is included in your AC deep cleaning service in Dubai?',
+      a: 'Our deep cleaning service includes complete dismantling and pressure washing of indoor coils, blower wheel cleaning, filter sanitization, outdoor condenser coil washing, drain line flushing, and medical-grade anti-bacterial fogging.'
+    },
+    {
+      q: 'How much does AC cleaning cost in Dubai?',
+      a: 'Our professional AC cleaning prices start from AED 150 per unit with transparent, upfront pricing and no hidden fees. We also offer discounted package rates for multi-unit apartments and villas.'
+    },
+    {
+      q: 'Can dirty AC coils increase my DEWA electricity bill?',
+      a: 'Yes. Clogged AC coils and dirty filters restrict airflow, forcing your compressor to work up to 30% harder to cool your home. Regular coil deep cleaning lowers your DEWA monthly power consumption significantly.'
+    },
+    {
+      q: 'How long does an AC cleaning service take per unit?',
+      a: 'A thorough AC deep cleaning takes approximately 45 to 60 minutes per split or package unit, depending on the level of dust buildup and accessibility.'
+    },
+    {
+      q: 'Do you provide same-day AC cleaning service in Dubai?',
+      a: 'Yes, we offer same-day AC cleaning appointments 7 days a week across all Dubai areas, including Dubai Marina, JVC, Palm Jumeirah, Downtown, and Deira.'
+    },
+    {
+      q: 'Are your technicians certified and company licensed in Dubai?',
+      a: 'Absolutely. Muhammad Afnan Residential Property Care Services L.L.C is a fully licensed Dubai maintenance company under Trade License #1571076, employing certified, background-checked technicians.'
+    }
+  ];
+
+  graphSchemas.push({
+    '@type': 'FAQPage',
+    '@id': `${canonicalHref}#faq`,
+    mainEntity: defaultFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.a,
+      },
+    })),
+  });
+
   const structuredData = {
     '@context': 'https://schema.org',
-    '@type': 'HomeAndConstructionBusiness',
-    name: SITE_NAME,
-    image: resolvedOgImage,
-    '@id': SITE_URL,
-    url: canonicalHref,
-    telephone: '+971505387736',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Rolex Twin Tower, 33 Baniyas Rd, Al Rigga, Deira',
-      addressLocality: 'Dubai',
-      addressRegion: 'Dubai',
-      postalCode: '00000',
-      addressCountry: 'AE',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: 25.2048,
-      longitude: 55.2708,
-    },
-    openingHoursSpecification: [
-      {
-        '@type': 'OpeningHoursSpecification',
-        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-        opens: '09:00',
-        closes: '17:00',
-      },
-    ],
-    sameAs: [
-      'https://www.facebook.com/AfnanPropertyCare',
-      'https://www.instagram.com/afnan_propertycareservices',
-    ],
+    '@graph': graphSchemas,
   };
 
   return (
