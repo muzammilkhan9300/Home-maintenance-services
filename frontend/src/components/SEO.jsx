@@ -98,9 +98,10 @@ const SEO = ({
       <meta name="description" content={pageDesc} />
       <meta name="keywords" content={pageKeywords} />
       <meta name="robots" content={resolvedRobots} />
+      <meta http-equiv="X-Robots-Tag" content={resolvedRobots} />
       <meta name="author" content="Muhammad Afnan Residential Property Care Services L.L.C" />
       <meta name="theme-color" content={resolvedThemeColor} />
-      <link rel="publisher" href={SITE_URL} />
+      <link rel="publisher" href="https://plus.google.com/+AfnanPropertyCare" />
 
       {/* ── Canonical ────────────────────────────────────────── */}
       <link rel="canonical" href={canonicalHref} />
