@@ -8,6 +8,12 @@ Options -MultiViews
 RewriteEngine On
 RewriteBase /
 
+# ── WWW → Non-WWW Permanent Redirect (301) ───────────────────────────────────
+# CRITICAL for SEO: ensures canonical URL is always non-www version
+# Fixes the "Canonicalised" warning in SEO extensions
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
 # ── SPA Fallback: route all non-file requests to index.html ──────────────────
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
@@ -94,12 +100,16 @@ RewriteRule ^ index.html [QSA,L]
 # CACHE-CONTROL HEADERS — Explicit Cache-Control for hashed assets
 # ══════════════════════════════════════════════════════════════════════════════
 <IfModule mod_headers.c>
-  # ── HTML: no cache ────────────────────────────────────────────────────────
+  # ── HTML: no cache + X-Robots-Tag on HTML responses ─────────────────────
   <FilesMatch "\.(html)$">
     Header set Cache-Control "no-cache, no-store, must-revalidate"
     Header set Pragma "no-cache"
     Header set Expires "0"
+    Header set X-Robots-Tag "index, follow, max-image-preview:large"
   </FilesMatch>
+
+  # ── Also send X-Robots-Tag globally (for all responses including no-ext) ─
+  Header always set X-Robots-Tag "index, follow, max-image-preview:large"
 
   # ── Hashed JS and CSS: 1 year immutable ──────────────────────────────────
   <FilesMatch "\.(js|css)$">
@@ -126,7 +136,6 @@ RewriteRule ^ index.html [QSA,L]
   Header set X-Frame-Options "SAMEORIGIN"
   Header set Referrer-Policy "strict-origin-when-cross-origin"
   Header set Permissions-Policy "camera=(), microphone=(), geolocation=(self)"
-  Header set X-Robots-Tag "index, follow, max-image-preview:large"
 
   # ── Remove Server signature ───────────────────────────────────────────────
   Header unset Server
