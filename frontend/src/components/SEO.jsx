@@ -22,15 +22,18 @@ const SEO = ({
 }) => {
   // Auto-detect canonical from current route if not explicitly provided
   const location = useLocation();
-  const resolvedPath  = canonicalUrl ?? location.pathname;
-  // Strip trailing slash unless it's the homepage
+  const rawPath = canonicalUrl ?? location.pathname;
+  // Normalize path: replace /ac-cleaning with /services/ac-cleaning if applicable for canonical consistency
+  let resolvedPath = rawPath === '/ac-cleaning' ? '/services/ac-cleaning' : rawPath;
+  // Strip trailing slash unless it's the root homepage
   const cleanPath = resolvedPath === '/' ? '' : resolvedPath.replace(/\/$/, '');
   const canonicalHref = `${SITE_URL}${cleanPath}`;
 
-  // Build full, unique title
-  const pageTitle = title
-    ? `${title} | ${SITE_NAME}`
-    : `${SITE_NAME} - Premium Home Maintenance Services in Dubai`;
+  // Build full, unique title without brand duplication
+  let pageTitle = title || `${SITE_NAME} - Premium Home Maintenance Services in Dubai`;
+  if (title && !title.includes(SITE_NAME)) {
+    pageTitle = `${title} | ${SITE_NAME}`;
+  }
 
   const pageDesc = description
     || 'Licensed property maintenance company in Dubai. AC, plumbing, electrical, painting & handyman services. Trade License No. 1571076.';
@@ -38,7 +41,10 @@ const SEO = ({
   const defaultKeywords =
     'home maintenance dubai, ac repair, handyman services, plumbing dubai, electrical services dubai, painting dubai, property care';
 
-  // Open Graph fallbacks to page title/desc if not explicitly passed
+  // Use explicit keywords if provided, otherwise fallback to defaultKeywords
+  const pageKeywords = keywords || defaultKeywords;
+
+  // Open Graph fallbacks
   const resolvedOgTitle       = ogTitle        || pageTitle;
   const resolvedOgDesc        = ogDescription  || pageDesc;
   const resolvedOgImage       = ogImage        || DEFAULT_OG_IMAGE;
@@ -56,7 +62,7 @@ const SEO = ({
     name: SITE_NAME,
     image: resolvedOgImage,
     '@id': SITE_URL,
-    url: SITE_URL,
+    url: canonicalHref,
     telephone: '+971505387736',
     address: {
       '@type': 'PostalAddress',
@@ -90,10 +96,11 @@ const SEO = ({
       {/* ── Standard Meta ────────────────────────────────────── */}
       <title>{pageTitle}</title>
       <meta name="description" content={pageDesc} />
-      <meta name="keywords" content={keywords ? `${keywords}, ${defaultKeywords}` : defaultKeywords} />
+      <meta name="keywords" content={pageKeywords} />
       <meta name="robots" content={resolvedRobots} />
       <meta name="author" content="Muhammad Afnan Residential Property Care Services L.L.C" />
       <meta name="theme-color" content={resolvedThemeColor} />
+      <link rel="publisher" href={SITE_URL} />
 
       {/* ── Canonical ────────────────────────────────────────── */}
       <link rel="canonical" href={canonicalHref} />
@@ -114,7 +121,7 @@ const SEO = ({
       <meta name="twitter:description" content={resolvedTwitterDesc} />
       <meta name="twitter:image" content={resolvedTwitterImage} />
 
-      {/* ── JSON-LD Structured Data ──────────────────────────── */}
+      {/* ── JSON-LD Structured Data ──────────────────── */}
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}
       </script>

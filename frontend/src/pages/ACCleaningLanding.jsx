@@ -207,17 +207,17 @@ const ACCleaningLanding = () => {
   return (
     <div className="min-h-screen bg-background font-sans overflow-x-hidden antialiased">
       <SEO
-        title="AC Cleaning Dubai | Same Day AC Deep Cleaning | From AED 150"
-        description="Professional AC cleaning services in Dubai for villas, apartments & offices. Same-day service, certified technicians, licensed LLC, fully insured. Starting from AED 150. Free inspection & instant quote."
-        keywords="AC cleaning Dubai, air conditioner cleaning Dubai, AC deep cleaning Dubai, AC duct cleaning Dubai, split AC cleaning Dubai, AC maintenance Dubai, AC service Dubai, villa AC cleaning, apartment AC cleaning, AC coil cleaning, AC sanitization Dubai"
-        canonicalUrl="/ac-cleaning"
+        title="AC Cleaning Dubai | Same Day Deep Clean"
+        description="Top-rated AC cleaning in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. From AED 150."
+        keywords="AC cleaning Dubai, AC deep cleaning Dubai, AC duct cleaning Dubai, split AC cleaning Dubai, AC coil cleaning Dubai, AC sanitization Dubai, AC service Dubai, AC maintenance Dubai"
+        canonicalUrl="/services/ac-cleaning"
         robots="index, follow, max-image-preview:large"
         themeColor="#0F6CBD"
-        ogTitle="Professional AC Cleaning Services in Dubai | Same-Day Service"
-        ogDescription="Improve cooling performance, remove dust & odors, lower electricity bills. Certified AC technicians. Available across Dubai. Starting from AED 150."
+        ogTitle="AC Cleaning Dubai | Same Day Deep Clean | Afnan Property Care"
+        ogDescription="Top-rated AC cleaning in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. From AED 150."
         ogImage="https://maresidentialpropertycareservicellc.com/og-images/ac-cleaning-dubai.jpg"
-        twitterTitle="AC Cleaning Dubai | Same-Day Professional Service"
-        twitterDescription="Professional AC cleaning for homes & offices across Dubai. Licensed LLC. Starting from AED 150."
+        twitterTitle="AC Cleaning Dubai | Same Day Deep Clean | Afnan Property Care"
+        twitterDescription="Top-rated AC cleaning in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. From AED 150."
         twitterImage="https://maresidentialpropertycareservicellc.com/og-images/ac-cleaning-dubai.jpg"
       />
 

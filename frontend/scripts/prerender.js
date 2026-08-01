@@ -47,7 +47,18 @@ const server = app.listen(PORT, async () => {
     await new Promise(resolve => setTimeout(resolve, 2500));
 
     // Extract fully rendered HTML from the live DOM
-    const htmlContent = await page.content();
+    let htmlContent = await page.content();
+
+    // Clean up duplicate template fallback tags if React Helmet dynamic tags are present
+    if (htmlContent.includes('data-rh="true"')) {
+      // Remove static fallback title from index.html template
+      htmlContent = htmlContent.replace(/<title>Afnan Property Care - Premium Home Maintenance Services in Dubai<\/title>/gi, '');
+      // Remove static fallback description from index.html template
+      htmlContent = htmlContent.replace(/<meta name="description" content="Licensed property maintenance company in Dubai[^"]*"\s*\/?>/gi, '');
+      // Remove static fallback OG tags from index.html template
+      htmlContent = htmlContent.replace(/<meta property="og:title" content="Afnan Property Care - Dubai Home Maintenance"\s*\/?>/gi, '');
+      htmlContent = htmlContent.replace(/<meta property="og:description" content="Professional residential property care services in Dubai[^"]*"\s*\/?>/gi, '');
+    }
 
     // Define write targets (both URL patterns the page can be reached at)
     const destDir1 = path.join(distPath, 'services', 'ac-cleaning');
