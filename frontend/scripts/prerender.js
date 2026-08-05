@@ -37,42 +37,43 @@ const server = app.listen(PORT, async () => {
     // Set screen size
     await page.setViewport({ width: 1280, height: 900 });
 
-    console.log(`[prerender] Navigating to http://localhost:${PORT}/services/ac-cleaning`);
-    await page.goto(`http://localhost:${PORT}/services/ac-cleaning`, {
-      waitUntil: 'domcontentloaded',
-      timeout: 30000
-    });
+    const routesToPrerender = [
+      { url: '/services', dest: [path.join(distPath, 'services')] },
+      { url: '/about', dest: [path.join(distPath, 'about')] },
+      { url: '/contact', dest: [path.join(distPath, 'contact')] },
+      { url: '/services/ac-cleaning', dest: [path.join(distPath, 'services', 'ac-cleaning'), path.join(distPath, 'ac-cleaning')] },
+    ];
 
-    // Wait additional time for DOM mounts and CSS animation states to stabilize
-    await new Promise(resolve => setTimeout(resolve, 2500));
+    for (const item of routesToPrerender) {
+      console.log(`[prerender] Navigating to http://localhost:${PORT}${item.url}`);
+      await page.goto(`http://localhost:${PORT}${item.url}`, {
+        waitUntil: 'domcontentloaded',
+        timeout: 30000
+      });
 
-    // Extract fully rendered HTML from the live DOM
-    let htmlContent = await page.content();
+      // Wait additional time for DOM mounts and CSS animation states to stabilize
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
-    // Clean up duplicate template fallback tags if React Helmet dynamic tags are present
-    if (htmlContent.includes('data-rh="true"')) {
-      // Remove static fallback title from index.html template
-      htmlContent = htmlContent.replace(/<title>Afnan Property Care - Premium Home Maintenance Services in Dubai<\/title>/gi, '');
-      // Remove static fallback description from index.html template
-      htmlContent = htmlContent.replace(/<meta name="description" content="Licensed property maintenance company in Dubai[^"]*"\s*\/?>/gi, '');
-      // Remove static fallback OG tags from index.html template
-      htmlContent = htmlContent.replace(/<meta property="og:title" content="Afnan Property Care - Dubai Home Maintenance"\s*\/?>/gi, '');
-      htmlContent = htmlContent.replace(/<meta property="og:description" content="Professional residential property care services in Dubai[^"]*"\s*\/?>/gi, '');
+      // Extract fully rendered HTML from the live DOM
+      let htmlContent = await page.content();
+
+      // Clean up duplicate template fallback tags if React Helmet dynamic tags are present
+      if (htmlContent.includes('data-rh="true"')) {
+        // Remove static fallback title from index.html template
+        htmlContent = htmlContent.replace(/<title>Afnan Property Care - Premium Home Maintenance Services in Dubai<\/title>/gi, '');
+        // Remove static fallback description from index.html template
+        htmlContent = htmlContent.replace(/<meta name="description" content="Licensed property maintenance company in Dubai[^"]*"\s*\/?>/gi, '');
+        // Remove static fallback OG tags from index.html template
+        htmlContent = htmlContent.replace(/<meta property="og:title" content="Afnan Property Care - Dubai Home Maintenance"\s*\/?>/gi, '');
+        htmlContent = htmlContent.replace(/<meta property="og:description" content="Professional residential property care services in Dubai[^"]*"\s*\/?>/gi, '');
+      }
+
+      for (const destDir of item.dest) {
+        fs.mkdirSync(destDir, { recursive: true });
+        fs.writeFileSync(path.join(destDir, 'index.html'), htmlContent, 'utf8');
+        console.log(`[prerender] ✅ Static HTML pre-rendered: ${path.relative(distPath, path.join(destDir, 'index.html'))}`);
+      }
     }
-
-    // Define write targets (both URL patterns the page can be reached at)
-    const destDir1 = path.join(distPath, 'services', 'ac-cleaning');
-    const destDir2 = path.join(distPath, 'ac-cleaning');
-
-    fs.mkdirSync(destDir1, { recursive: true });
-    fs.mkdirSync(destDir2, { recursive: true });
-
-    fs.writeFileSync(path.join(destDir1, 'index.html'), htmlContent, 'utf8');
-    fs.writeFileSync(path.join(destDir2, 'index.html'), htmlContent, 'utf8');
-
-    console.log(`[prerender] ✅ Static HTML pre-rendered successfully:`);
-    console.log(`  - dist/services/ac-cleaning/index.html`);
-    console.log(`  - dist/ac-cleaning/index.html`);
 
     await browser.close();
   } catch (error) {
