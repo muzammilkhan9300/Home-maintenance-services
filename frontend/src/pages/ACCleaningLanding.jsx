@@ -707,7 +707,7 @@ const ACCleaningLanding = () => {
             <div className="rounded-2xl overflow-hidden border border-border shadow-lg h-72">
               <iframe
                 title="Afnan Property Care Location Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.2341234!2d55.31!3d25.26!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f5cd!2sRolex%20Twin%20Towers!5e0!3m2!1sen!2sae"
+                src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d16178401.047389235!2d43.20972260441566!3d23.67500795662452!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f4307195fe9cf%3A0x8296ae4aaa9acb14!2sAfnan%20Property%20Care%20Services%20LLC!5e0!3m2!1sen!2s!4v1786377585483!5m2!1sen!2s"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
