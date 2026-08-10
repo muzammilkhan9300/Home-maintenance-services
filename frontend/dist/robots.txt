@@ -1,12 +1,16 @@
+# Allow all search engine crawlers
 User-agent: *
 Allow: /
-Allow: /contact?service=*
-Allow: /services/*
-
-# Exclude admin dashboard and error pages
 Disallow: /admin/
 Disallow: /admin
 Disallow: /404
 
-# Location of the sitemap
+# Explicit Googlebot rules
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /admin
+Disallow: /404
+
+# Sitemap location
 Sitemap: https://maresidentialpropertycareservicellc.com/sitemap.xml
