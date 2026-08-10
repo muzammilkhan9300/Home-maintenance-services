@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
-import { Award, Users, Calendar, Shield } from "lucide-react";
+import { Award, Users, Calendar, Shield, CheckCircle, ArrowRight, MapPin, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: (i) => ({
@@ -11,50 +13,52 @@ const fadeUp = {
     transition: { delay: i * 0.1, duration: 0.5 }
   })
 };
+
 const About = () => {
   const stats = [
     { icon: Calendar, value: "2024", label: "Established" },
     { icon: Users, value: "500+", label: "Happy Clients" },
-    { icon: Award, value: "1571076", label: "Trade License" },
-    { icon: Shield, value: "100%", label: "Satisfaction" }
+    { icon: Award, value: "1571076", label: "Trade License No." },
+    { icon: Shield, value: "100%", label: "Licensed & Insured" }
   ];
+
   return <div className="min-h-screen bg-background">
     <SEO
-      title="About Us | Licensed Dubai Property Care Company | Afnan Property Care"
-      description="Muhammad Afnan Residential Property Care Services L.L.C — a licensed Dubai-based property maintenance company. Trade License No. 1571076. Certified technicians, insured, trusted by 2,000+ clients."
-      keywords="about afnan property care, dubai property maintenance company, licensed maintenance company dubai, trade license 1571076"
+      title="Licensed Maintenance Company Dubai | About Afnan Property Care"
+      description="Muhammad Afnan Residential Property Care Services L.L.C is a licensed Dubai home maintenance company (Trade License #1571076). AC, plumbing, electrical & handyman."
+      keywords="about afnan property care, dubai property maintenance company, licensed maintenance company dubai, trade license 1571076, property care dubai, villa maintenance company dubai"
       canonicalUrl="/about"
-      robots="index, follow"
+      robots="index, follow, max-image-preview:large"
       themeColor="#0F6CBD"
-      ogTitle="About Afnan Property Care | Licensed Dubai Property Maintenance"
-      ogDescription="Trusted, licensed residential property care company in Dubai. 2,000+ satisfied clients, certified technicians, Trade License No. 1571076."
+      pageType="about"
+      ogTitle="About Afnan Property Care | Licensed Dubai Maintenance LLC"
+      ogDescription="Trusted, licensed residential property maintenance company in Dubai. Trade License No. 1571076. Certified technicians serving villas & apartments."
       ogImage="https://maresidentialpropertycareservicellc.com/og-image.jpg"
+      twitterTitle="About Afnan Property Care | Licensed Maintenance Company Dubai"
+      twitterDescription="Licensed Dubai property maintenance LLC (Trade License #1571076). Certified AC, plumbing & electrical technicians."
+      twitterImage="https://maresidentialpropertycareservicellc.com/og-image.jpg"
     />
     <Navbar />
 
-    {
-      /* Hero */
-    }
-    <section className="pt-28 pb-16 bg-navy text-primary-foreground">
+    {/* Hero */}
+    <section className="pt-28 pb-16 bg-navy text-primary-foreground" aria-label="About Us Hero">
       <div className="container mx-auto px-4 lg:px-8">
-        <motion.div initial="hidden" animate="visible" className="max-w-2xl">
+        <motion.div initial="hidden" animate="visible" className="max-w-3xl">
           <motion.span variants={fadeUp} custom={0} className="text-gold text-sm font-semibold tracking-wider uppercase">
-            About Us
+            About Afnan Property Care
           </motion.span>
           <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-5xl font-bold mt-2 font-['Montserrat']">
-            Your Trusted Property Care Partner in Dubai
+            Licensed Residential Property Care Company in Dubai
           </motion.h1>
-          <motion.p variants={fadeUp} custom={2} className="text-primary-foreground/70 mt-4 text-lg">
-            Muhammad Afnan Residential Property Care Services L.L.C is a licensed and insured property maintenance company based in Dubai, UAE.
+          <motion.p variants={fadeUp} custom={2} className="text-primary-foreground/70 mt-4 text-lg leading-relaxed">
+            Muhammad Afnan Residential Property Care Services L.L.C is a fully licensed and insured home maintenance company based in Dubai, UAE (Trade License No. 1571076).
           </motion.p>
         </motion.div>
       </div>
     </section>
 
-    {
-      /* Stats */
-    }
-    <section className="py-12 bg-gold-light">
+    {/* Stats */}
+    <section className="py-12 bg-gold-light" aria-label="Company Statistics">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((s, i) => <motion.div
@@ -74,46 +78,106 @@ const About = () => {
       </div>
     </section>
 
-    {
-      /* Story */
-    }
-    <section className="py-20">
-      <div className="container mx-auto px-4 lg:px-8 max-w-3xl">
+    {/* Main Content / Story */}
+    <section className="py-20" aria-label="Our Story and Mission">
+      <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
           <motion.h2 variants={fadeUp} custom={0} className="text-3xl font-bold font-['Montserrat'] text-foreground mb-6">
-            Our Story
+            Our Story & Commitment to Dubai Homeowners
           </motion.h2>
           <motion.div variants={fadeUp} custom={1} className="space-y-4 text-muted-foreground leading-relaxed">
             <p>
-              Founded in Dubai, Muhammad Afnan Residential Property Care Services L.L.C was established with a clear mission: to provide premium-quality home maintenance services to residential properties across the emirate.
+              Founded in Dubai, <strong>Muhammad Afnan Residential Property Care Services L.L.C</strong> was established with a clear mission: to provide transparent, high-quality, and dependable home maintenance services to residential property owners and tenants across the emirate.
             </p>
             <p>
-              Operating under <strong className="text-foreground">Trade License No. 1571076</strong>, we are a fully compliant and licensed LLC in the Dubai Department of Economy and Tourism. Our team of certified technicians brings years of experience across AC maintenance, plumbing, electrical work, landscaping, painting, and general handyman services.
+              Operating under official <strong>Trade License No. 1571076</strong> issued by the Dubai Department of Economy and Tourism (DET), we are a fully registered Limited Liability Company (LLC). Our certified, background-checked technicians bring extensive experience in <Link to="/services/ac-cleaning" className="text-accent hover:underline font-medium">AC cleaning & duct sanitization</Link>, <Link to="/services/plumbing" className="text-accent hover:underline font-medium">plumbing & leak detection</Link>, <Link to="/services/electrical" className="text-accent hover:underline font-medium">electrical fittings & safety inspections</Link>, <Link to="/services/painting" className="text-accent hover:underline font-medium">interior & exterior painting</Link>, <Link to="/services/building-cleaning" className="text-accent hover:underline font-medium">deep building cleaning</Link>, <Link to="/services/tiling" className="text-accent hover:underline font-medium">floor & wall tiling</Link>, and general handyman work.
             </p>
             <p>
-              We believe that every home deserves professional care. Whether it's a luxury villa in Emirates Hills or an apartment in Downtown Dubai, our services are tailored to meet the highest standards of quality and reliability.
-            </p>
-            <p>
-              Our commitment to transparent pricing, punctual service delivery, and customer satisfaction has made us a trusted name among homeowners, property managers, and real estate companies across Dubai.
+              Whether you reside in a luxury villa in Palm Jumeirah, Emirates Hills, or Arabian Ranches, or an apartment in Dubai Marina, JVC, Downtown, or Deira — our team delivers fast, reliable, and standardized service 7 days a week.
             </p>
           </motion.div>
         </motion.div>
 
+        {/* Trade License Certification Card */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          custom={2}
+          className="my-12 p-8 rounded-2xl bg-accent/5 border border-accent/20 flex flex-col md:flex-row items-center justify-between gap-6"
+        >
+          <div className="space-y-2 text-center md:text-left">
+            <span className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-bold uppercase tracking-wider">
+              Verified Legal Registration
+            </span>
+            <h3 className="text-xl font-bold font-['Montserrat'] text-foreground">
+              Trade License No. 1571076 — Dubai DET
+            </h3>
+            <p className="text-sm text-muted-foreground max-w-md">
+              Registered Commercial License Entity: MUHAMMAD AFNAN RESIDENTIAL PROPERTY CARE SERVICES L.L.C. Fully insured and compliant with UAE laws.
+            </p>
+          </div>
+          <Link
+            to="/contact"
+            className="shrink-0 px-6 py-3 rounded-lg bg-accent text-accent-foreground font-semibold hover:brightness-110 transition-all shadow-gold text-sm inline-flex items-center gap-2"
+          >
+            Verify & Contact Us <ArrowRight className="w-4 h-4" />
+          </Link>
+        </motion.div>
+
+        {/* Our Core Values */}
         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="mt-16">
           <motion.h2 variants={fadeUp} custom={0} className="text-3xl font-bold font-['Montserrat'] text-foreground mb-6">
-            Our Values
+            Why Property Owners Trust Afnan Property Care
           </motion.h2>
           <motion.div variants={fadeUp} custom={1} className="grid sm:grid-cols-2 gap-6">
             {[
-              { title: "Quality First", desc: "We never compromise on materials or workmanship." },
-              { title: "Reliability", desc: "On time, every time. We respect your schedule." },
-              { title: "Transparency", desc: "Clear pricing upfront with no hidden charges." },
-              { title: "Safety", desc: "All work complies with UAE safety regulations." }
-            ].map((v) => <div key={v.title} className="p-5 rounded-lg border border-border bg-muted/30">
-              <h3 className="font-bold font-['Montserrat'] text-foreground mb-1">{v.title}</h3>
-              <p className="text-sm text-muted-foreground">{v.desc}</p>
+              { title: "Licensed LLC & Insured", desc: "Trade License #1571076. Full liability insurance for total property safety." },
+              { title: "DEWA-Certified Engineers", desc: "Trained professionals following strict UAE engineering and electrical codes." },
+              { title: "Upfront Fixed Pricing", desc: "Transparent quotes provided before work starts. Zero hidden fees." },
+              { title: "Same-Day Emergency Service", desc: "Technicians available 24/7 across all Dubai communities with fast arrival." },
+              { title: "Premium Tools & Materials", desc: "We use only original spare parts, Jotun paints, and medical-grade sanitizers." },
+              { title: "100% Workmanship Guarantee", desc: "All our repairs and installations come with a service warranty." }
+            ].map((v) => <div key={v.title} className="p-6 rounded-xl border border-border bg-card hover:border-accent/30 transition-all">
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle className="w-5 h-5 text-accent shrink-0" />
+                <h3 className="font-bold font-['Montserrat'] text-foreground">{v.title}</h3>
+              </div>
+              <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
             </div>)}
           </motion.div>
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUp}
+          custom={2}
+          className="mt-16 text-center pt-10 border-t border-border"
+        >
+          <h3 className="text-2xl font-bold font-['Montserrat'] text-foreground mb-3">
+            Need Reliable Maintenance in Dubai?
+          </h3>
+          <p className="text-muted-foreground max-w-md mx-auto mb-6 text-sm">
+            Contact Afnan Property Care today for a free site inspection or instant quotation.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <Link
+              to="/contact"
+              className="px-6 py-3 rounded-md bg-accent text-accent-foreground font-semibold hover:brightness-110 transition-all shadow-gold text-sm inline-flex items-center gap-2"
+            >
+              Get Free Quote <ArrowRight className="w-4 h-4" />
+            </Link>
+            <a
+              href="tel:+971505387736"
+              className="px-6 py-3 rounded-md border border-border text-foreground font-semibold hover:bg-accent/5 transition-all text-sm inline-flex items-center gap-2"
+            >
+              <Phone className="w-4 h-4 text-accent" /> Call +971-505387736
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -121,4 +185,5 @@ const About = () => {
     <Footer />
   </div>;
 };
+
 export default About;

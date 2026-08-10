@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Send, CheckCircle } from "lucide-react";
+import { Phone, Mail, MapPin, Send, CheckCircle, Clock, Shield } from "lucide-react";
 import { z } from "zod";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -17,6 +17,7 @@ const contactSchema = z.object({
   service: z.string().min(1, "Please select a service"),
   message: z.string().trim().min(1, "Message is required").max(2e3)
 });
+
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
   visible: (i) => ({
@@ -25,6 +26,7 @@ const fadeUp = {
     transition: { delay: i * 0.1, duration: 0.5 }
   })
 };
+
 const Contact = () => {
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
@@ -38,15 +40,18 @@ const Contact = () => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
   useEffect(() => {
     const svc = searchParams.get("service");
     if (svc) setForm((f) => ({ ...f, service: svc }));
   }, [searchParams]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((f) => ({ ...f, [name]: value }));
     setErrors((e2) => ({ ...e2, [name]: void 0 }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const result = contactSchema.safeParse(form);
@@ -61,9 +66,8 @@ const Contact = () => {
     }
     setLoading(true);
     try {
-      // Use proxy or relative path for deployment instead of hardcoded localhost
       const apiEndpoint = import.meta.env.PROD
-        ? "/api/contact" // Assumes backend runs on same domain via reverse proxy or subfolder
+        ? "/api/contact"
         : "http://localhost:5000/api/contact";
 
       const response = await fetch(apiEndpoint, {
@@ -94,84 +98,132 @@ const Contact = () => {
       setLoading(false);
     }
   };
+
   const inputClass = "w-full px-4 py-3 rounded-md border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-colors";
+
   return <div className="min-h-screen bg-background">
     <SEO
-      title="Contact Us | Book a Home Maintenance Service in Dubai | Afnan Property Care"
-      description="Contact Afnan Property Care to request a free quote or book AC cleaning, plumbing, electrical, or handyman services in Dubai. Same-day response. Licensed LLC. Call +971-505387736."
-      keywords="contact afnan property care, book home maintenance dubai, free quote dubai, AC repair booking, plumbing service dubai contact"
+      title="Contact Afnan Property Care | Book Home Maintenance Dubai"
+      description="Contact Afnan Property Care to book home maintenance in Dubai. AC, plumbing, electrical & more. Licensed LLC (Trade License #1571076). Call +971-505387736!"
+      keywords="contact afnan property care, book home maintenance dubai, free quote dubai, AC repair booking dubai, plumbing service dubai contact, electrical service contact dubai"
       canonicalUrl="/contact"
-      robots="index, follow"
+      robots="index, follow, max-image-preview:large"
       themeColor="#0F6CBD"
-      ogTitle="Book a Property Maintenance Service in Dubai | Afnan Property Care"
-      ogDescription="Get a free quote or book same-day AC, plumbing, electrical & maintenance services across Dubai. Licensed, insured, certified."
+      pageType="contact"
+      ogTitle="Contact Afnan Property Care | Book Property Maintenance Dubai"
+      ogDescription="Get a free quote or book same-day AC, plumbing, electrical & maintenance services across Dubai. Licensed LLC, Trade License #1571076."
       ogImage="https://maresidentialpropertycareservicellc.com/og-image.jpg"
+      twitterTitle="Contact Afnan Property Care | Book Home Maintenance Dubai"
+      twitterDescription="Book property maintenance services in Dubai. Licensed company, certified technicians, available 24/7."
+      twitterImage="https://maresidentialpropertycareservicellc.com/og-image.jpg"
     />
     <Navbar />
 
-    <section className="pt-28 pb-16 bg-navy text-primary-foreground">
+    {/* Hero Header */}
+    <section className="pt-28 pb-16 bg-navy text-primary-foreground" aria-label="Contact Us Header">
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div initial="hidden" animate="visible">
           <motion.span variants={fadeUp} custom={0} className="text-gold text-sm font-semibold tracking-wider uppercase">
-            Contact Us
+            Get In Touch
           </motion.span>
           <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-5xl font-bold mt-2 font-['Montserrat']">
-            Get in Touch
+            Contact Us — Book Home Maintenance in Dubai
           </motion.h1>
           <motion.p variants={fadeUp} custom={2} className="text-primary-foreground/70 mt-4 max-w-xl text-lg">
-            Request a free quote or book a service. We'll respond within 24 hours.
+            Request a free quote or schedule a site visit. Our team responds within 30 minutes — available 24/7 for emergency callouts.
           </motion.p>
         </motion.div>
       </div>
     </section>
 
-    <section className="py-20">
+    <section className="py-20" aria-label="Contact Form and Details">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-3 gap-12">
-          {
-            /* Info */
-          }
-          <div className="space-y-8">
+          {/* Info Side Panel */}
+          <div className="space-y-8" itemscope itemtype="https://schema.org/LocalBusiness">
             <div>
-              <h3 className="font-bold font-['Montserrat'] text-foreground mb-4">Contact Information</h3>
+              <h2 className="text-xl font-bold font-['Montserrat'] text-foreground mb-4">
+                Office Information
+              </h2>
               <div className="space-y-4">
-                {[
-                  { icon: MapPin, text: "Rolex Twin Tower - 33 Baniyas Rd - Al Rigga - Deira - Dubai" },
-                  { icon: Phone, text: "+971-505387736" },
-                  { icon: Mail, text: "info@maresidentialpropertycareservicellc.com" }
-                ].map((c) => <div key={c.text} className="flex items-center gap-3">
-                  <c.icon className="w-5 h-5 text-accent shrink-0" />
-                  <span className="text-sm text-muted-foreground">{c.text}</span>
-                </div>)}
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                  <span className="text-sm text-muted-foreground" itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
+                    <span itemprop="streetAddress">Rolex Twin Tower, 33 Baniyas Rd, Al Rigga, Deira</span>,{" "}
+                    <span itemprop="addressLocality">Dubai</span>, <span itemprop="addressCountry">UAE</span>
+                  </span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-accent shrink-0" />
+                  <a href="tel:+971505387736" className="text-sm text-muted-foreground hover:text-accent font-medium" itemprop="telephone">
+                    +971-505387736
+                  </a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-accent shrink-0" />
+                  <a href="mailto:info@maresidentialpropertycareservicellc.com" className="text-sm text-muted-foreground hover:text-accent font-medium" itemprop="email">
+                    info@maresidentialpropertycareservicellc.com
+                  </a>
+                </div>
               </div>
             </div>
+
             <div>
-              <h3 className="font-bold font-['Montserrat'] text-foreground mb-2">Working Hours</h3>
-              <p className="text-sm text-muted-foreground">Monday – Saturday: 9 AM – 5 PM</p>
-              <p className="text-sm text-muted-foreground">Sunday: Closed</p>
-              <p className="text-sm text-muted-foreground mt-1">Emergency services available 24/7</p>
+              <h2 className="text-xl font-bold font-['Montserrat'] text-foreground mb-2 flex items-center gap-2">
+                <Clock className="w-5 h-5 text-accent" /> Working Hours
+              </h2>
+              <p className="text-sm text-muted-foreground">Monday – Saturday: 9:00 AM – 6:00 PM</p>
+              <p className="text-sm text-muted-foreground">Sunday: Emergency Services Only</p>
+              <p className="text-sm text-accent font-semibold mt-2">⚡ 24/7 Emergency Response Active</p>
             </div>
+
             <div className="p-5 rounded-lg bg-gold-light border border-accent/20">
-              <p className="text-sm font-medium text-foreground">Trade License No. 1571076</p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Muhammad Afnan Residential Property Care Services L.L.C — Licensed by Dubai DET
+              <div className="flex items-center gap-2 mb-1">
+                <Shield className="w-5 h-5 text-accent shrink-0" />
+                <p className="text-sm font-bold text-foreground font-['Montserrat']">Trade License No. 1571076</p>
+              </div>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                MUHAMMAD AFNAN RESIDENTIAL PROPERTY CARE SERVICES L.L.C — Licensed by Dubai DET. Fully insured & DEWA-compliant.
               </p>
+            </div>
+
+            {/* Embedded Map */}
+            <div className="rounded-xl overflow-hidden border border-border shadow-sm">
+              <iframe
+                title="Afnan Property Care Location — Rolex Twin Tower Dubai"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3608.232386221774!2d55.3090623!3d25.2635905!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f4339943265eb%3A0x6b86d9a9b0c20a17!2sRolex%20Twin%20Towers!5e0!3m2!1sen!2sae!4v1700000000000!5m2!1sen!2sae"
+                width="100%"
+                height="220"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
             </div>
           </div>
 
-          {
-            /* Form */
-          }
+          {/* Form */}
           <div className="lg:col-span-2">
             {submitted ? <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-20"
+              className="text-center py-20 bg-accent/5 border border-accent/20 rounded-2xl p-8"
             >
               <CheckCircle className="w-16 h-16 text-accent mx-auto mb-4" />
-              <h3 className="text-2xl font-bold font-['Montserrat'] text-foreground">Thank You!</h3>
-              <p className="text-muted-foreground mt-2">Your request has been submitted. We'll contact you within 24 hours.</p>
+              <h2 className="text-2xl font-bold font-['Montserrat'] text-foreground">Quote Request Received!</h2>
+              <p className="text-muted-foreground mt-2 max-w-md mx-auto">
+                Thank you for contacting Afnan Property Care. Our Dubai service coordinator will call you back within 30 minutes.
+              </p>
+              <button
+                onClick={() => setSubmitted(false)}
+                className="mt-6 text-sm text-accent hover:underline font-semibold"
+              >
+                Send another message
+              </button>
             </motion.div> : <form onSubmit={handleSubmit} className="space-y-5">
+              <h2 className="text-2xl font-bold font-['Montserrat'] text-foreground mb-4">
+                Request a Free Quote
+              </h2>
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label className="block text-sm font-medium text-foreground mb-1.5">Full Name *</label>
@@ -186,12 +238,12 @@ const Contact = () => {
               </div>
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Phone *</label>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Phone Number *</label>
                   <input name="phone" value={form.phone} onChange={handleChange} className={inputClass} placeholder="+971-505387736" />
                   {errors.phone && <p className="text-xs text-destructive mt-1">{errors.phone}</p>}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-1.5">Service *</label>
+                  <label className="block text-sm font-medium text-foreground mb-1.5">Service Required *</label>
                   <select name="service" value={form.service} onChange={handleChange} className={inputClass}>
                     <option value="">Select a service</option>
                     {services.map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}
@@ -200,17 +252,18 @@ const Contact = () => {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-foreground mb-1.5">Message *</label>
-                <textarea name="message" value={form.message} onChange={handleChange} rows={5} className={inputClass} placeholder="Describe your requirements..." />
+                <label className="block text-sm font-medium text-foreground mb-1.5">Your Property & Requirements *</label>
+                <textarea name="message" value={form.message} onChange={handleChange} rows={5} className={inputClass} placeholder="Describe your property (villa/apartment, location in Dubai, issue description)..." />
                 {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
               </div>
               <button
                 type="submit"
+                id="submit-contact-form"
                 disabled={loading}
                 className="inline-flex items-center gap-2 px-8 py-3.5 rounded-md bg-accent text-accent-foreground font-semibold hover:brightness-110 transition-all shadow-gold disabled:opacity-50"
               >
                 <Send className="w-4 h-4" />
-                {loading ? "Sending..." : "Send Request"}
+                {loading ? "Sending Quote Request..." : "Send Free Quote Request"}
               </button>
             </form>}
           </div>
@@ -221,4 +274,5 @@ const Contact = () => {
     <Footer />
   </div>;
 };
+
 export default Contact;

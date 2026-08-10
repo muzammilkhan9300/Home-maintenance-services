@@ -5,11 +5,22 @@ const SITE_URL = 'https://maresidentialpropertycareservicellc.com';
 const SITE_NAME = 'Afnan Property Care';
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
+/**
+ * SEO component — Centralized meta tags + JSON-LD structured data for all pages.
+ *
+ * pageType options:
+ *   "homepage"      — WebSite + LocalBusiness + BreadcrumbList (Home) + FAQPage (general)
+ *   "services-list" — LocalBusiness + BreadcrumbList + ItemList
+ *   "service"       — LocalBusiness + BreadcrumbList (Home › Services › [Service]) + Service + FAQPage
+ *   "about"         — LocalBusiness + BreadcrumbList
+ *   "contact"       — LocalBusiness + BreadcrumbList
+ *   "notfound"      — noindex only
+ */
 const SEO = ({
   title,
   description,
   keywords,
-  canonicalUrl,         // e.g. "/services/ac-cleaning" — overrides auto-detection
+  canonicalUrl,           // e.g. "/services/ac-cleaning"
   robots,
   themeColor,
   ogTitle,
@@ -19,17 +30,18 @@ const SEO = ({
   twitterTitle,
   twitterDescription,
   twitterImage,
+  pageType = 'service',   // default: service page
+  serviceName,            // used for Service schema + BreadcrumbList
+  serviceId,              // used for ItemList / canonical
+  faqs,                   // array of { q, a } — if provided, appends FAQPage schema
+  serviceList,            // array of { id, title } — used on services-list page for ItemList
 }) => {
-  // Auto-detect canonical from current route if not explicitly provided
   const location = useLocation();
   const rawPath = canonicalUrl ?? location.pathname;
-  // Normalize path: replace /ac-cleaning with /services/ac-cleaning if applicable for canonical consistency
   let resolvedPath = rawPath === '/ac-cleaning' ? '/services/ac-cleaning' : rawPath;
-  // For root homepage, keep trailing slash ('/'), otherwise strip trailing slash
   const cleanPath = resolvedPath === '/' ? '/' : resolvedPath.replace(/\/$/, '');
   const canonicalHref = `${SITE_URL}${cleanPath}`;
 
-  // Build full, unique title without brand duplication
   let pageTitle = title || `${SITE_NAME} - Premium Home Maintenance Services in Dubai`;
   if (title && !title.includes(SITE_NAME)) {
     pageTitle = `${title} | ${SITE_NAME}`;
@@ -39,12 +51,10 @@ const SEO = ({
     || 'Licensed property maintenance company in Dubai. AC, plumbing, electrical, painting & handyman services. Trade License No. 1571076.';
 
   const defaultKeywords =
-    'home maintenance dubai, ac repair, handyman services, plumbing dubai, electrical services dubai, painting dubai, property care';
+    'home maintenance dubai, property maintenance dubai, handyman dubai, AC repair dubai, plumbing dubai, electrical services dubai, villa maintenance dubai, painting dubai, licensed maintenance company dubai';
 
-  // Use explicit keywords if provided, otherwise fallback to defaultKeywords
   const pageKeywords = keywords || defaultKeywords;
 
-  // Open Graph fallbacks
   const resolvedOgTitle       = ogTitle        || pageTitle;
   const resolvedOgDesc        = ogDescription  || pageDesc;
   const resolvedOgImage       = ogImage        || DEFAULT_OG_IMAGE;
@@ -55,60 +65,115 @@ const SEO = ({
   const resolvedThemeColor    = themeColor     || '#0F6CBD';
   const resolvedLocale        = ogLocale       || 'en_AE';
 
-  // Build multi-schema JSON-LD Graph for Google Rich Results & AI Overview citations
-  const graphSchemas = [
-    {
-      '@type': 'HomeAndConstructionBusiness',
-      '@id': `${SITE_URL}/#organization`,
-      name: SITE_NAME,
-      legalName: 'Muhammad Afnan Residential Property Care Services L.L.C',
-      url: SITE_URL,
-      logo: `${SITE_URL}/favicon-512x512.png`,
-      image: resolvedOgImage,
-      telephone: '+971505387736',
-      priceRange: 'AED 150 - AED 2500',
-      address: {
-        '@type': 'PostalAddress',
-        streetAddress: 'Rolex Twin Tower, 33 Baniyas Rd, Al Rigga, Deira',
-        addressLocality: 'Dubai',
-        addressRegion: 'Dubai',
-        postalCode: '00000',
-        addressCountry: 'AE',
-      },
-      geo: {
-        '@type': 'GeoCoordinates',
-        latitude: 25.2048,
-        longitude: 55.2708,
-      },
-      openingHoursSpecification: [
-        {
-          '@type': 'OpeningHoursSpecification',
-          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          opens: '00:00',
-          closes: '23:59',
-        },
-      ],
-      sameAs: [
-        'https://www.facebook.com/AfnanPropertyCare',
-        'https://www.instagram.com/afnan_propertycareservices',
-      ],
+  // ── Core LocalBusiness schema (used across all public pages) ───────────────
+  const localBusiness = {
+    '@type': ['HomeAndConstructionBusiness', 'LocalBusiness'],
+    '@id': `${SITE_URL}/#organization`,
+    name: SITE_NAME,
+    legalName: 'Muhammad Afnan Residential Property Care Services L.L.C',
+    url: SITE_URL,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE_URL}/favicon-512x512.png`,
+      width: 512,
+      height: 512,
     },
-    {
+    image: resolvedOgImage,
+    telephone: '+971505387736',
+    email: 'info@maresidentialpropertycareservicellc.com',
+    priceRange: 'AED 150 - AED 2500',
+    currenciesAccepted: 'AED',
+    paymentAccepted: 'Cash, Bank Transfer, Card',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Rolex Twin Tower, 33 Baniyas Rd, Al Rigga, Deira',
+      addressLocality: 'Dubai',
+      addressRegion: 'Dubai',
+      postalCode: '00000',
+      addressCountry: 'AE',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 25.2631,
+      longitude: 55.3277,
+    },
+    hasMap: 'https://maps.app.goo.gl/xYour-map-link',
+    areaServed: [
+      { '@type': 'City', name: 'Dubai', containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' } },
+    ],
+    openingHoursSpecification: [
+      {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        opens: '00:00',
+        closes: '23:59',
+      },
+    ],
+    sameAs: [
+      'https://www.facebook.com/AfnanPropertyCare',
+      'https://www.instagram.com/afnan_propertycareservices',
+    ],
+  };
+
+  // ── Build BreadcrumbList based on pageType ─────────────────────────────────
+  const buildBreadcrumb = () => {
+    const items = [{ '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL }];
+    if (pageType === 'services-list') {
+      items.push({ '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE_URL}/services` });
+    } else if (pageType === 'service') {
+      items.push({ '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE_URL}/services` });
+      items.push({ '@type': 'ListItem', position: 3, name: serviceName || title || 'Service', item: canonicalHref });
+    } else if (pageType === 'about') {
+      items.push({ '@type': 'ListItem', position: 2, name: 'About Us', item: `${SITE_URL}/about` });
+    } else if (pageType === 'contact') {
+      items.push({ '@type': 'ListItem', position: 2, name: 'Contact', item: `${SITE_URL}/contact` });
+    }
+    return {
+      '@type': 'BreadcrumbList',
+      '@id': `${canonicalHref}#breadcrumb`,
+      itemListElement: items,
+    };
+  };
+
+  // ── Assemble @graph based on pageType ──────────────────────────────────────
+  const graphSchemas = [];
+
+  // WebSite schema — homepage only (for sitelinks search box signal)
+  if (pageType === 'homepage') {
+    graphSchemas.push({
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      description: pageDesc,
+      inLanguage: 'en-AE',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/services/{search_term_string}` },
+        'query-input': 'required name=search_term_string',
+      },
+    });
+  }
+
+  // LocalBusiness — all public pages
+  if (pageType !== 'notfound') {
+    graphSchemas.push(localBusiness);
+  }
+
+  // BreadcrumbList — all public pages
+  if (pageType !== 'notfound') {
+    graphSchemas.push(buildBreadcrumb());
+  }
+
+  // Service schema — service detail pages only
+  if (pageType === 'service') {
+    graphSchemas.push({
       '@type': 'Service',
       '@id': `${canonicalHref}#service`,
-      name: pageTitle,
-      serviceType: 'AC Cleaning & Deep Sanitization Service',
-      provider: {
-        '@id': `${SITE_URL}/#organization`,
-      },
-      areaServed: {
-        '@type': 'City',
-        name: 'Dubai',
-        containedInPlace: {
-          '@type': 'Country',
-          name: 'United Arab Emirates',
-        },
-      },
+      name: serviceName || title || 'Property Maintenance Service',
+      serviceType: serviceName || 'Home Maintenance',
+      provider: { '@id': `${SITE_URL}/#organization` },
+      areaServed: { '@type': 'City', name: 'Dubai', containedInPlace: { '@type': 'Country', name: 'United Arab Emirates' } },
       description: pageDesc,
       offers: {
         '@type': 'Offer',
@@ -118,77 +183,58 @@ const SEO = ({
         validFrom: '2026-01-01',
         url: canonicalHref,
       },
-    },
-    {
-      '@type': 'BreadcrumbList',
-      '@id': `${canonicalHref}#breadcrumb`,
-      itemListElement: [
-        {
-          '@type': 'ListItem',
-          position: 1,
-          name: 'Home',
-          item: SITE_URL,
-        },
-        {
-          '@type': 'ListItem',
-          position: 2,
-          name: 'Services',
-          item: `${SITE_URL}/services`,
-        },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: title || 'AC Cleaning Dubai',
-          item: canonicalHref,
-        },
-      ],
-    },
+    });
+  }
+
+  // ItemList schema — services listing page
+  if (pageType === 'services-list' && serviceList && serviceList.length > 0) {
+    graphSchemas.push({
+      '@type': 'ItemList',
+      '@id': `${SITE_URL}/services#itemlist`,
+      name: 'Home Maintenance Services in Dubai',
+      description: 'Complete list of residential property maintenance services offered in Dubai.',
+      numberOfItems: serviceList.length,
+      itemListElement: serviceList.map((s, idx) => ({
+        '@type': 'ListItem',
+        position: idx + 1,
+        name: s.title,
+        url: `${SITE_URL}/services/${s.id}`,
+      })),
+    });
+  }
+
+  // FAQPage schema — homepage general FAQs + service-specific FAQs
+  const homepageFaqs = [
+    { q: 'What home maintenance services do you offer in Dubai?', a: 'Afnan Property Care offers AC cleaning & maintenance, plumbing & sanitary repair, electrical fittings, building cleaning, painting contracting, floor & wall tiling, plaster works, systems installation, and comprehensive residential property care in Dubai.' },
+    { q: 'Are you a licensed home maintenance company in Dubai?', a: 'Yes. Muhammad Afnan Residential Property Care Services L.L.C is a fully licensed limited liability company in Dubai, UAE. Our Trade License number is 1571076. All our technicians are certified and background-checked.' },
+    { q: 'Do you offer same-day home maintenance service in Dubai?', a: 'Yes. We offer same-day and emergency property maintenance services across all areas of Dubai, including Dubai Marina, JVC, Palm Jumeirah, Downtown, Business Bay, Jumeirah, Al Barsha, Mirdif, Deira, and Bur Dubai. Call +971-505387736 for immediate assistance.' },
+    { q: 'How much do home maintenance services cost in Dubai?', a: 'Our home maintenance services in Dubai start from AED 150 per visit. We provide transparent, upfront fixed quotes before any work begins — no hidden fees, no surprises. Annual Maintenance Contracts (AMC) are also available for comprehensive year-round coverage.' },
+    { q: 'Do you cover villas and apartments in Dubai?', a: 'Yes. We provide residential property maintenance for villas, apartments, townhouses, and penthouses across all Dubai communities and neighborhoods.' },
   ];
 
-  // If FAQ items exist or are passed, append FAQPage schema to the graph
-  const defaultFaqs = [
-    {
-      q: 'How often should I get my AC cleaned in Dubai?',
-      a: 'We recommend a professional AC deep cleaning at least twice a year in Dubai — ideally before summer (April) and after summer (October). Dubai desert dust and humidity create mold growth inside AC ducts and coils.'
-    },
-    {
-      q: 'What is included in your AC deep cleaning service in Dubai?',
-      a: 'Our deep cleaning service includes complete dismantling and pressure washing of indoor coils, blower wheel cleaning, filter sanitization, outdoor condenser coil washing, drain line flushing, and medical-grade anti-bacterial fogging.'
-    },
-    {
-      q: 'How much does AC cleaning cost in Dubai?',
-      a: 'Our professional AC cleaning prices start from AED 150 per unit with transparent, upfront pricing and no hidden fees. We also offer discounted package rates for multi-unit apartments and villas.'
-    },
-    {
-      q: 'Can dirty AC coils increase my DEWA electricity bill?',
-      a: 'Yes. Clogged AC coils and dirty filters restrict airflow, forcing your compressor to work up to 30% harder to cool your home. Regular coil deep cleaning lowers your DEWA monthly power consumption significantly.'
-    },
-    {
-      q: 'How long does an AC cleaning service take per unit?',
-      a: 'A thorough AC deep cleaning takes approximately 45 to 60 minutes per split or package unit, depending on the level of dust buildup and accessibility.'
-    },
-    {
-      q: 'Do you provide same-day AC cleaning service in Dubai?',
-      a: 'Yes, we offer same-day AC cleaning appointments 7 days a week across all Dubai areas, including Dubai Marina, JVC, Palm Jumeirah, Downtown, and Deira.'
-    },
-    {
-      q: 'Are your technicians certified and company licensed in Dubai?',
-      a: 'Absolutely. Muhammad Afnan Residential Property Care Services L.L.C is a fully licensed Dubai maintenance company under Trade License #1571076, employing certified, background-checked technicians.'
-    }
-  ];
+  if (pageType === 'homepage') {
+    graphSchemas.push({
+      '@type': 'FAQPage',
+      '@id': `${SITE_URL}/#faq`,
+      mainEntity: homepageFaqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a },
+      })),
+    });
+  }
 
-  graphSchemas.push({
-    '@type': 'FAQPage',
-    '@id': `${canonicalHref}#faq`,
-    mainEntity: defaultFaqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.q,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.a,
-      },
-    })),
-  });
+  if (pageType === 'service' && faqs && faqs.length > 0) {
+    graphSchemas.push({
+      '@type': 'FAQPage',
+      '@id': `${canonicalHref}#faq`,
+      mainEntity: faqs.map((faq) => ({
+        '@type': 'Question',
+        name: faq.q,
+        acceptedAnswer: { '@type': 'Answer', text: faq.a },
+      })),
+    });
+  }
 
   const structuredData = {
     '@context': 'https://schema.org',
@@ -205,7 +251,10 @@ const SEO = ({
       <meta http-equiv="X-Robots-Tag" content={resolvedRobots} />
       <meta name="author" content="Muhammad Afnan Residential Property Care Services L.L.C" />
       <meta name="theme-color" content={resolvedThemeColor} />
-      <link rel="publisher" href="https://plus.google.com/+AfnanPropertyCare" />
+      <meta name="geo.region" content="AE-DU" />
+      <meta name="geo.placename" content="Dubai" />
+      <meta name="geo.position" content="25.2631;55.3277" />
+      <meta name="ICBM" content="25.2631, 55.3277" />
 
       {/* ── Canonical ────────────────────────────────────────── */}
       <link rel="canonical" href={canonicalHref} />
@@ -217,16 +266,18 @@ const SEO = ({
       <meta property="og:title" content={resolvedOgTitle} />
       <meta property="og:description" content={resolvedOgDesc} />
       <meta property="og:image" content={resolvedOgImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta property="og:locale" content={resolvedLocale} />
 
-      {/* ── Twitter ──────────────────────────────────────────── */}
+      {/* ── Twitter / X ──────────────────────────────────────── */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:url" content={canonicalHref} />
       <meta name="twitter:title" content={resolvedTwitterTitle} />
       <meta name="twitter:description" content={resolvedTwitterDesc} />
       <meta name="twitter:image" content={resolvedTwitterImage} />
 
-      {/* ── JSON-LD Structured Data ──────────────────── */}
+      {/* ── JSON-LD Structured Data ──────────────────────────── */}
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}
       </script>

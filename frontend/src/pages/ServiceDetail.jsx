@@ -239,16 +239,20 @@ const ServiceDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={`${service.title} Dubai | Professional Service | Afnan Property Care`}
-        description={`${service.description.slice(0, 140)} Book professional ${service.title.toLowerCase()} in Dubai. Licensed LLC, certified technicians, same-day availability.`}
-        keywords={`${service.title.toLowerCase()} dubai, ${service.title.toLowerCase()} service dubai, professional ${service.title.toLowerCase()}, afnan property care`}
+        title={`${service.title} Dubai | Afnan Property Care`}
+        description={`${service.description.slice(0, 140)} Book professional ${service.title.toLowerCase()} in Dubai. Licensed LLC, certified technicians, same-day availability. Trade License #1571076.`}
+        keywords={`${service.title.toLowerCase()} dubai, ${service.title.toLowerCase()} service dubai, professional ${service.title.toLowerCase()}, afnan property care, maintenance company dubai`}
         canonicalUrl={`/services/${service.id}`}
         robots="index, follow, max-image-preview:large"
         themeColor="#0F6CBD"
+        pageType="service"
+        serviceName={`${service.title} Dubai`}
+        serviceId={service.id}
+        faqs={service.faqs}
         ogTitle={`${service.title} in Dubai | Afnan Property Care`}
         ogDescription={`${service.description.slice(0, 200)} Licensed, certified, available across all Dubai areas.`}
         ogImage={SERVICE_OG_IMAGES[service.id] || 'https://maresidentialpropertycareservicellc.com/og-image.jpg'}
-        twitterTitle={`${service.title} Dubai | Professional Service`}
+        twitterTitle={`${service.title} Dubai | Afnan Property Care`}
         twitterDescription={`${service.title} services in Dubai. Licensed company, certified technicians, same-day availability.`}
         twitterImage={SERVICE_OG_IMAGES[service.id] || 'https://maresidentialpropertycareservicellc.com/og-image.jpg'}
       />

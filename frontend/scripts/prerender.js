@@ -37,12 +37,34 @@ const server = app.listen(PORT, async () => {
     // Set screen size
     await page.setViewport({ width: 1280, height: 900 });
 
+    const serviceIds = [
+      'ac-cleaning',
+      'ac-ventilation',
+      'building-cleaning',
+      'painting',
+      'electrical',
+      'plumbing',
+      'sanitary-pipes',
+      'tiling',
+      'property-care',
+      'systems-maintenance',
+      'plaster-works'
+    ];
+
     const routesToPrerender = [
       { url: '/services', dest: [path.join(distPath, 'services')] },
       { url: '/about', dest: [path.join(distPath, 'about')] },
       { url: '/contact', dest: [path.join(distPath, 'contact')] },
-      { url: '/services/ac-cleaning', dest: [path.join(distPath, 'services', 'ac-cleaning'), path.join(distPath, 'ac-cleaning')] },
     ];
+
+    // Add all service detail pages to prerender list
+    for (const id of serviceIds) {
+      const destDirs = [path.join(distPath, 'services', id)];
+      if (id === 'ac-cleaning') {
+        destDirs.push(path.join(distPath, 'ac-cleaning'));
+      }
+      routesToPrerender.push({ url: `/services/${id}`, dest: destDirs });
+    }
 
     for (const item of routesToPrerender) {
       console.log(`[prerender] Navigating to http://localhost:${PORT}${item.url}`);
@@ -52,7 +74,7 @@ const server = app.listen(PORT, async () => {
       });
 
       // Wait additional time for DOM mounts and CSS animation states to stabilize
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
       // Extract fully rendered HTML from the live DOM
       let htmlContent = await page.content();
