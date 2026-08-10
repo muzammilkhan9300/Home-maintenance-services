@@ -3,7 +3,6 @@ import { motion } from "framer-motion";
 import { ArrowRight, Snowflake, Droplets, Zap, TreePine, Paintbrush, Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall } from "lucide-react";
 import { trackWhatsAppClick } from "@/lib/analytics";
 
-// ✅ Update this number anytime — no other changes needed
 const WHATSAPP_NUMBER = "971505387736";
 
 const iconMap = {
@@ -21,7 +20,6 @@ const ServiceCard = ({ service, index }) => {
   const Icon = iconMap[service.icon] || Wrench;
 
   const handleWhatsApp = (e) => {
-    // Prevent the card's Link from triggering
     e.preventDefault();
     e.stopPropagation();
     const message = encodeURIComponent(
@@ -38,19 +36,20 @@ const ServiceCard = ({ service, index }) => {
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
     >
-      {/* Entire card is a link to the service detail page */}
       <Link
         to={`/services/${service.id}`}
         id={`service-card-${service.id}`}
         className="group block bg-card rounded-lg overflow-hidden shadow-premium hover:shadow-gold transition-all duration-500 border border-border hover:border-accent/40 h-full"
       >
-        {/* Image + overlay */}
         <div className="relative h-52 overflow-hidden">
           <img
             src={service.image}
-            alt={service.title}
+            alt={`${service.title} service Dubai`}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             loading="lazy"
+            decoding="async"
+            width="400"
+            height="208"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
           <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2">
@@ -60,7 +59,6 @@ const ServiceCard = ({ service, index }) => {
             <h3 className="text-base font-bold text-primary-foreground font-['Montserrat'] leading-tight flex-1 min-w-0">
               {service.title}
             </h3>
-            {/* WhatsApp button — stops propagation so card link doesn't fire */}
             <button
               onClick={handleWhatsApp}
               aria-label={`Chat on WhatsApp about ${service.title}`}
@@ -71,7 +69,6 @@ const ServiceCard = ({ service, index }) => {
           </div>
         </div>
 
-        {/* Card body */}
         <div className="p-5">
           <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{service.description}</p>
           <div className="flex items-center justify-between gap-3 flex-wrap">

@@ -48,6 +48,10 @@ const Navbar = () => {
             src={afnanLogo}
             alt="Afnan Property Care Services L.L.C Logo"
             className="h-14 w-14 rounded-full object-cover shrink-0 drop-shadow-md"
+            width="56"
+            height="56"
+            decoding="async"
+            fetchPriority="high"
           />
           <div className="flex flex-col">
             <span className={`text-base font-bold font-['Montserrat'] tracking-tight leading-tight transition-colors ${logoColor}`}>
@@ -86,7 +90,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile hamburger */}
-        <button onClick={() => setOpen(!open)} className={`md:hidden ${menuBtnColor}`}>
+        <button onClick={() => setOpen(!open)} aria-label="Toggle Navigation Menu" className={`md:hidden ${menuBtnColor}`}>
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
@@ -104,7 +108,6 @@ const Navbar = () => {
               {l.label}
             </Link>
           ))}
-          {/* Careers — plain link style, opens modal */}
           <button
             onClick={() => { setOpen(false); setCareerOpen(true); }}
             className="block w-full text-left text-sm font-medium text-foreground/80 hover:text-accent py-2"
