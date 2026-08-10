@@ -1,7 +1,7 @@
 import ServiceLandingTemplate from "@/components/ServiceLandingTemplate";
 import {
   Sparkles, Droplets, Leaf, Shield, Clock, Wind,
-  Package, Fan, Filter, Zap
+  Package, Fan, Filter, Zap, Tag
 } from "lucide-react";
 import serviceCleaning from "@/assets/real_building_cleaning.webp";
 
