@@ -39,7 +39,6 @@ const server = app.listen(PORT, async () => {
 
     const serviceIds = [
       'ac-cleaning',
-      'ac-ventilation',
       'building-cleaning',
       'painting',
       'electrical',

@@ -13,7 +13,16 @@ const Services      = lazy(() => import("./pages/Services"));
 const ServiceDetail = lazy(() => import("./pages/ServiceDetail"));
 const Contact       = lazy(() => import("./pages/Contact"));
 const NotFound      = lazy(() => import("./pages/NotFound"));
-const ACCleaningLanding = lazy(() => import("./pages/ACCleaningLanding"));
+const ACCleaningLanding         = lazy(() => import("./pages/ACCleaningLanding"));
+const BuildingCleaningLanding   = lazy(() => import("./pages/BuildingCleaningLanding"));
+const PaintingLanding           = lazy(() => import("./pages/PaintingLanding"));
+const ElectricalLanding         = lazy(() => import("./pages/ElectricalLanding"));
+const PlumbingLanding           = lazy(() => import("./pages/PlumbingLanding"));
+const SanitaryPipesLanding      = lazy(() => import("./pages/SanitaryPipesLanding"));
+const TilingLanding             = lazy(() => import("./pages/TilingLanding"));
+const PropertyCareLanding       = lazy(() => import("./pages/PropertyCareLanding"));
+const SystemsMaintenanceLanding = lazy(() => import("./pages/SystemsMaintenanceLanding"));
+const PlasterWorksLanding       = lazy(() => import("./pages/PlasterWorksLanding"));
 
 // ── Admin layout + login — lazy loaded (public visitors never need these) ─────
 const AdminLayout = lazy(() => import("./components/admin/AdminLayout"));
@@ -69,9 +78,18 @@ const App = () => (
             <Route path="/"             element={<Suspense fallback={<PageLoader />}><Landing /></Suspense>} />
             <Route path="/about"        element={<Suspense fallback={<PageLoader />}><About /></Suspense>} />
             <Route path="/services"     element={<Suspense fallback={<PageLoader />}><Services /></Suspense>} />
-            <Route path="/services/ac-cleaning" element={<Suspense fallback={<PageLoader />}><ACCleaningLanding /></Suspense>} />
-            <Route path="/ac-cleaning"  element={<Suspense fallback={<PageLoader />}><ACCleaningLanding /></Suspense>} />
-            <Route path="/services/:id" element={<Suspense fallback={<PageLoader />}><ServiceDetail /></Suspense>} />
+            <Route path="/services/ac-cleaning"          element={<Suspense fallback={<PageLoader />}><ACCleaningLanding /></Suspense>} />
+            <Route path="/ac-cleaning"                    element={<Suspense fallback={<PageLoader />}><ACCleaningLanding /></Suspense>} />
+            <Route path="/services/building-cleaning"     element={<Suspense fallback={<PageLoader />}><BuildingCleaningLanding /></Suspense>} />
+            <Route path="/services/painting"              element={<Suspense fallback={<PageLoader />}><PaintingLanding /></Suspense>} />
+            <Route path="/services/electrical"            element={<Suspense fallback={<PageLoader />}><ElectricalLanding /></Suspense>} />
+            <Route path="/services/plumbing"              element={<Suspense fallback={<PageLoader />}><PlumbingLanding /></Suspense>} />
+            <Route path="/services/sanitary-pipes"        element={<Suspense fallback={<PageLoader />}><SanitaryPipesLanding /></Suspense>} />
+            <Route path="/services/tiling"                element={<Suspense fallback={<PageLoader />}><TilingLanding /></Suspense>} />
+            <Route path="/services/property-care"         element={<Suspense fallback={<PageLoader />}><PropertyCareLanding /></Suspense>} />
+            <Route path="/services/systems-maintenance"   element={<Suspense fallback={<PageLoader />}><SystemsMaintenanceLanding /></Suspense>} />
+            <Route path="/services/plaster-works"         element={<Suspense fallback={<PageLoader />}><PlasterWorksLanding /></Suspense>} />
+            <Route path="/services/:id"                   element={<Suspense fallback={<PageLoader />}><ServiceDetail /></Suspense>} />
             <Route path="/contact"      element={<Suspense fallback={<PageLoader />}><Contact /></Suspense>} />
 
             {/* ── Admin Routes (lazy loaded) ─────────────────────────── */}
