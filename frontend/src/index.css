@@ -53,12 +53,19 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: auto !important;
+    overflow-x: hidden;
+    max-width: 100%;
+  }
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    max-width: 100%;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;

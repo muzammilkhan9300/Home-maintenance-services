@@ -114,7 +114,7 @@ const FadeIn = ({ children, delay = 0, className = "" }) => {
     <div
       ref={ref}
       className={className}
-      style={{ opacity: 0, transform: "translateY(24px)", transition: `opacity 0.55s ease ${delay}ms, transform 0.55s ease ${delay}ms` }}
+      style={{ opacity: 0, transition: `opacity 0.4s ease ${delay}ms` }}
     >
       {children}
     </div>
@@ -229,7 +229,7 @@ const ACCleaningLanding = () => {
   // heroFade removed — hero now uses CSS animations to avoid Framer in critical path
 
   return (
-    <div className="min-h-screen bg-background font-sans overflow-x-hidden antialiased">
+    <div className="min-h-screen bg-background font-sans antialiased">
       <SEO
         title="AC Cleaning Service Dubai | Same Day Deep Clean"
         description="Top-rated AC cleaning service in Dubai. Same-day AC deep cleaning, coil sanitization & duct cleaning. Certified technicians, licensed LLC. Book today!"

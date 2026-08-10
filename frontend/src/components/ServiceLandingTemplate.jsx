@@ -42,7 +42,7 @@ const FadeIn = ({ children, delay = 0, className = "" }) => {
     <div
       ref={ref}
       className={className}
-      style={{ opacity: 0, transform: "translateY(24px)", transition: `opacity 0.55s ease ${delay}ms, transform 0.55s ease ${delay}ms` }}
+      style={{ opacity: 0, transition: `opacity 0.4s ease ${delay}ms` }}
     >
       {children}
     </div>
@@ -235,7 +235,7 @@ const ServiceLandingTemplate = ({
   };
 
   return (
-    <div className="min-h-screen bg-background font-sans overflow-x-hidden antialiased">
+    <div className="min-h-screen bg-background font-sans antialiased">
       <SEO
         title={seo.title}
         description={seo.description}
