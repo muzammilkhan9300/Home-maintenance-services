@@ -11,7 +11,7 @@ import Navbar from "@/components/Navbar";
 import SEO from "@/components/SEO";
 import { useToast } from "@/hooks/use-toast";
 import { trackWhatsAppClick, trackLead, trackPhoneClick } from "@/lib/analytics";
-import serviceAcCleaning from "@/assets/real_ac_cleaning.png";
+import serviceAcCleaning from "@/assets/real_ac_cleaning.webp";
 
 // ── Lazy-load heavy below-fold sections so they don't block first paint ─────
 const Footer = lazy(() => import("@/components/Footer"));

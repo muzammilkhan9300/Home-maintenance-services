@@ -1,10 +1,11 @@
-import serviceAc from "@/assets/real_ac_ventilation.png";
-import serviceCleaning from "@/assets/real_building_cleaning.png";
-import servicePainting from "@/assets/real_painting_contracting.png";
-import serviceElectrical from "@/assets/real_electrical_fittings.png";
-import servicePlumbing from "@/assets/real_plumbing_sanitary.png";
-import serviceTiling from "@/assets/real_tiling_works.png";
-import servicePlaster from "@/assets/real_plaster_works.png";
+import serviceAcCleaning from "@/assets/real_ac_cleaning.webp";
+import serviceAc from "@/assets/real_ac_ventilation.webp";
+import serviceCleaning from "@/assets/real_building_cleaning.webp";
+import servicePainting from "@/assets/real_painting_contracting.webp";
+import serviceElectrical from "@/assets/real_electrical_fittings.webp";
+import servicePlumbing from "@/assets/real_plumbing_sanitary.webp";
+import serviceTiling from "@/assets/real_tiling_works.webp";
+import servicePlaster from "@/assets/real_plaster_works.webp";
 
 export const services = [
   {
@@ -12,7 +13,7 @@ export const services = [
     title: "AC Cleaning",
     description: "Professional AC Cleaning Services For Villas, Apartments & Offices. Improve cooling performance, remove dust and odors, and reduce electricity consumption with certified AC technicians.",
     features: ["Indoor Unit Deep Cleaning", "Outdoor Unit Cleaning", "Filter Sanitization", "Drain Line Inspection"],
-    image: serviceAc,
+    image: serviceAcCleaning,
     icon: "Snowflake",
     warningSigns: [
       { icon: "Snowflake", title: "Weak Cooling", desc: "Your AC runs constantly but the air coming out isn't cold enough to cool the room." },

@@ -46,6 +46,8 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    // Inline small assets under 4KB to save HTTP requests
+    assetsInlineLimit: 4096,
     // ── Use Terser for ~15-20% smaller bundles vs default esbuild ─────────────
     minify: "terser",
     terserOptions: {

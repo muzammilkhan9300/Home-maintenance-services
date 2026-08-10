@@ -90,6 +90,13 @@ const server = app.listen(PORT, async () => {
         htmlContent = htmlContent.replace(/<meta property="og:description" content="Professional residential property care services in Dubai[^"]*"\s*\/?>/gi, '');
       }
 
+      // ── Find LCP image and inject <link rel="preload" as="image"> into <head> ──
+      const imgMatch = htmlContent.match(/<img[^>]+src="([^">]+\.(?:webp|jpg|png))"[^>]*>/i);
+      if (imgMatch && imgMatch[1] && !htmlContent.includes(`rel="preload" as="image" href="${imgMatch[1]}"`)) {
+        const preloadTag = `<link rel="preload" as="image" href="${imgMatch[1]}" fetchpriority="high" />`;
+        htmlContent = htmlContent.replace('</head>', `${preloadTag}</head>`);
+      }
+
       for (const destDir of item.dest) {
         fs.mkdirSync(destDir, { recursive: true });
         fs.writeFileSync(path.join(destDir, 'index.html'), htmlContent, 'utf8');

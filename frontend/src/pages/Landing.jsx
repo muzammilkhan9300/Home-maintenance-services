@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import ServiceCard from "@/components/ServiceCard";
 import AdBanner from "@/components/AdBanner";
 import { services } from "@/data/services";
-import heroImage from "@/assets/hero-dubai-villa.jpg";
+import heroImage from "@/assets/hero-dubai-villa.webp";
 import SEO from "@/components/SEO";
 import { trackWhatsAppClick } from "@/lib/analytics";
 
