@@ -25,8 +25,8 @@ const SEO = ({
   const rawPath = canonicalUrl ?? location.pathname;
   // Normalize path: replace /ac-cleaning with /services/ac-cleaning if applicable for canonical consistency
   let resolvedPath = rawPath === '/ac-cleaning' ? '/services/ac-cleaning' : rawPath;
-  // Strip trailing slash unless it's the root homepage
-  const cleanPath = resolvedPath === '/' ? '' : resolvedPath.replace(/\/$/, '');
+  // For root homepage, keep trailing slash ('/'), otherwise strip trailing slash
+  const cleanPath = resolvedPath === '/' ? '/' : resolvedPath.replace(/\/$/, '');
   const canonicalHref = `${SITE_URL}${cleanPath}`;
 
   // Build full, unique title without brand duplication
