@@ -1,17 +1,28 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect } from "react";
 import { Award, Users, Calendar, Shield, CheckCircle, ArrowRight, MapPin, Phone } from "lucide-react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.5 }
-  })
+// CSS-based fade-in (zero JS weight)
+const useFadeIn = () => {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.style.opacity = "1"; el.style.transform = "translateY(0)"; obs.unobserve(el); } },
+      { threshold: 0.05 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+};
+const FadeIn = ({ children, delay = 0, className = "" }) => {
+  const ref = useFadeIn();
+  return <div ref={ref} className={className} style={{ opacity: 0, transform: "translateY(20px)", transition: `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms` }}>{children}</div>;
 };
 
 const About = () => {
@@ -43,17 +54,17 @@ const About = () => {
     {/* Hero */}
     <section className="pt-28 pb-16 bg-navy text-primary-foreground" aria-label="About Us Hero">
       <div className="container mx-auto px-4 lg:px-8">
-        <motion.div initial="hidden" animate="visible" className="max-w-3xl">
-          <motion.span variants={fadeUp} custom={0} className="text-gold text-sm font-semibold tracking-wider uppercase">
+        <div className="max-w-3xl hero-fade-in">
+          <span className="text-gold text-sm font-semibold tracking-wider uppercase">
             About Afnan Property Care
-          </motion.span>
-          <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-5xl font-bold mt-2 font-['Montserrat']">
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold mt-2 font-['Montserrat']">
             Licensed Residential Property Care Company in Dubai
-          </motion.h1>
-          <motion.p variants={fadeUp} custom={2} className="text-primary-foreground/70 mt-4 text-lg leading-relaxed">
+          </h1>
+          <p className="text-primary-foreground/70 mt-4 text-lg leading-relaxed">
             Muhammad Afnan Residential Property Care Services L.L.C is a fully licensed and insured home maintenance company based in Dubai, UAE (Trade License No. 1571076).
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
       </div>
     </section>
 
@@ -61,19 +72,11 @@ const About = () => {
     <section className="py-12 bg-gold-light" aria-label="Company Statistics">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((s, i) => <motion.div
-            key={s.label}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            custom={i}
-            className="text-center"
-          >
+          {stats.map((s, i) => <FadeIn key={s.label} delay={i * 80} className="text-center">
             <s.icon className="w-8 h-8 text-accent mx-auto mb-2" />
             <p className="text-2xl font-bold font-['Montserrat'] text-foreground">{s.value}</p>
             <p className="text-sm text-muted-foreground">{s.label}</p>
-          </motion.div>)}
+          </FadeIn>)}
         </div>
       </div>
     </section>
@@ -81,11 +84,11 @@ const About = () => {
     {/* Main Content / Story */}
     <section className="py-20" aria-label="Our Story and Mission">
       <div className="container mx-auto px-4 lg:px-8 max-w-4xl">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-          <motion.h2 variants={fadeUp} custom={0} className="text-3xl font-bold font-['Montserrat'] text-foreground mb-6">
+        <FadeIn>
+          <h2 className="text-3xl font-bold font-['Montserrat'] text-foreground mb-6">
             Our Story & Commitment to Dubai Homeowners
-          </motion.h2>
-          <motion.div variants={fadeUp} custom={1} className="space-y-4 text-muted-foreground leading-relaxed">
+          </h2>
+          <div className="space-y-4 text-muted-foreground leading-relaxed">
             <p>
               Founded in Dubai, <strong>Muhammad Afnan Residential Property Care Services L.L.C</strong> was established with a clear mission: to provide transparent, high-quality, and dependable home maintenance services to residential property owners and tenants across the emirate.
             </p>
@@ -95,18 +98,11 @@ const About = () => {
             <p>
               Whether you reside in a luxury villa in Palm Jumeirah, Emirates Hills, or Arabian Ranches, or an apartment in Dubai Marina, JVC, Downtown, or Deira — our team delivers fast, reliable, and standardized service 7 days a week.
             </p>
-          </motion.div>
-        </motion.div>
+          </div>
+        </FadeIn>
 
         {/* Trade License Certification Card */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-          custom={2}
-          className="my-12 p-8 rounded-2xl bg-accent/5 border border-accent/20 flex flex-col md:flex-row items-center justify-between gap-6"
-        >
+        <FadeIn delay={100} className="my-12 p-8 rounded-2xl bg-accent/5 border border-accent/20 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center md:text-left">
             <span className="inline-block px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-bold uppercase tracking-wider">
               Verified Legal Registration
@@ -124,14 +120,14 @@ const About = () => {
           >
             Verify & Contact Us <ArrowRight className="w-4 h-4" />
           </Link>
-        </motion.div>
+        </FadeIn>
 
         {/* Our Core Values */}
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="mt-16">
-          <motion.h2 variants={fadeUp} custom={0} className="text-3xl font-bold font-['Montserrat'] text-foreground mb-6">
+        <FadeIn delay={100} className="mt-16">
+          <h2 className="text-3xl font-bold font-['Montserrat'] text-foreground mb-6">
             Why Property Owners Trust Afnan Property Care
-          </motion.h2>
-          <motion.div variants={fadeUp} custom={1} className="grid sm:grid-cols-2 gap-6">
+          </h2>
+          <div className="grid sm:grid-cols-2 gap-6">
             {[
               { title: "Licensed LLC & Insured", desc: "Trade License #1571076. Full liability insurance for total property safety." },
               { title: "DEWA-Certified Engineers", desc: "Trained professionals following strict UAE engineering and electrical codes." },
@@ -146,18 +142,11 @@ const About = () => {
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
             </div>)}
-          </motion.div>
-        </motion.div>
+          </div>
+        </FadeIn>
 
         {/* CTA */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-          custom={2}
-          className="mt-16 text-center pt-10 border-t border-border"
-        >
+        <FadeIn delay={100} className="mt-16 text-center pt-10 border-t border-border">
           <h3 className="text-2xl font-bold font-['Montserrat'] text-foreground mb-3">
             Need Reliable Maintenance in Dubai?
           </h3>
@@ -178,7 +167,7 @@ const About = () => {
               <Phone className="w-4 h-4 text-accent" /> Call +971-505387736
             </a>
           </div>
-        </motion.div>
+        </FadeIn>
       </div>
     </section>
 

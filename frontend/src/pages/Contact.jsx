@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
-import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Send, CheckCircle, Clock, Shield } from "lucide-react";
 import { z } from "zod";
 import Navbar from "@/components/Navbar";
@@ -18,14 +17,7 @@ const contactSchema = z.object({
   message: z.string().trim().min(1, "Message is required").max(2e3)
 });
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.5 }
-  })
-};
+
 
 const Contact = () => {
   const [searchParams] = useSearchParams();
@@ -122,17 +114,17 @@ const Contact = () => {
     {/* Hero Header */}
     <section className="pt-28 pb-16 bg-navy text-primary-foreground" aria-label="Contact Us Header">
       <div className="container mx-auto px-4 lg:px-8">
-        <motion.div initial="hidden" animate="visible">
-          <motion.span variants={fadeUp} custom={0} className="text-gold text-sm font-semibold tracking-wider uppercase">
+        <div className="hero-fade-in">
+          <span className="text-gold text-sm font-semibold tracking-wider uppercase">
             Get In Touch
-          </motion.span>
-          <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-5xl font-bold mt-2 font-['Montserrat']">
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold mt-2 font-['Montserrat']">
             Contact Us — Book Home Maintenance in Dubai
-          </motion.h1>
-          <motion.p variants={fadeUp} custom={2} className="text-primary-foreground/70 mt-4 max-w-xl text-lg">
+          </h1>
+          <p className="text-primary-foreground/70 mt-4 max-w-xl text-lg">
             Request a free quote or schedule a site visit. Our team responds within 30 minutes — available 24/7 for emergency callouts.
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
       </div>
     </section>
 
@@ -204,10 +196,8 @@ const Contact = () => {
 
           {/* Form */}
           <div className="lg:col-span-2">
-            {submitted ? <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-20 bg-accent/5 border border-accent/20 rounded-2xl p-8"
+            {submitted ? <div
+              className="text-center py-20 bg-accent/5 border border-accent/20 rounded-2xl p-8 transition-all"
             >
               <CheckCircle className="w-16 h-16 text-accent mx-auto mb-4" />
               <h2 className="text-2xl font-bold font-['Montserrat'] text-foreground">Quote Request Received!</h2>
@@ -220,7 +210,7 @@ const Contact = () => {
               >
                 Send another message
               </button>
-            </motion.div> : <form onSubmit={handleSubmit} className="space-y-5">
+            </div> : <form onSubmit={handleSubmit} className="space-y-5">
               <h2 className="text-2xl font-bold font-['Montserrat'] text-foreground mb-4">
                 Request a Free Quote
               </h2>

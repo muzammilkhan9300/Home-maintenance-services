@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+
 import {
   ArrowRight, CheckCircle, Phone, ArrowLeft, ChevronDown,
   Snowflake, Droplets, Zap, TreePine, Paintbrush, Star, Leaf,
@@ -82,9 +82,7 @@ const fadeUp = {
 const FAQItem = ({ q, a, index }) => {
   const [open, setOpen] = useState(false);
   return (
-    <motion.div
-      variants={fadeUp}
-      custom={index}
+    <div
       className="border border-border rounded-xl overflow-hidden"
     >
       <button
@@ -93,38 +91,28 @@ const FAQItem = ({ q, a, index }) => {
         aria-expanded={open}
       >
         <span className="font-semibold text-foreground text-sm leading-snug">{q}</span>
-        <motion.div
-          animate={{ rotate: open ? 180 : 0 }}
-          transition={{ duration: 0.25 }}
+        <div
           className="shrink-0"
         >
           <ChevronDown className="w-4 h-4 text-accent" />
-        </motion.div>
+        </div>
       </button>
-      <AnimatePresence initial={false}>
+      
         {open && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-          >
+          <div>
             <div className="px-5 py-4 text-sm text-muted-foreground leading-relaxed border-t border-border bg-card/50">
               {a}
             </div>
-          </motion.div>
+          </div>
         )}
-      </AnimatePresence>
-    </motion.div>
+      
+    </div>
   );
 };
 
 // ── Desktop Booking Card ──────────────────────────────────────────────────────
 const DesktopBookingCard = ({ service, Icon, handleWhatsApp }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.35, duration: 0.5 }}
+  <div
     className="rounded-2xl overflow-hidden border border-amber-500/30 shadow-xl"
     style={{ background: "linear-gradient(135deg, rgba(30,27,20,0.95) 0%, rgba(15,12,8,0.98) 100%)" }}
   >
@@ -169,7 +157,7 @@ const DesktopBookingCard = ({ service, Icon, handleWhatsApp }) => (
         ))}
       </div>
     </div>
-  </motion.div>
+  </div>
 );
 
 // ── Section Badge ─────────────────────────────────────────────────────────────
@@ -264,41 +252,29 @@ const ServiceDetail = () => {
       ═══════════════════════════════════════════════════════════════════ */}
       <section className="lg:hidden pt-20 pb-6 px-4" style={{ background: "linear-gradient(160deg, #0f172a 0%, #1e1b12 60%, #0c0a06 100%)" }}>
         {/* Availability badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+        <div
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 mb-5"
         >
           <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
           <span className="text-amber-400 text-xs font-semibold">Available Today Across Dubai</span>
-        </motion.div>
+        </div>
 
         {/* Title */}
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
+        <h1
           className="text-3xl font-extrabold text-white font-['Montserrat'] leading-tight mb-3"
         >
           {service.title}
-        </motion.h1>
+        </h1>
 
         {/* Description */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
+        <p
           className="text-white/60 text-sm leading-relaxed mb-5"
         >
           {service.description}
-        </motion.p>
+        </p>
 
         {/* 2×2 Trust checkmarks */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.4 }}
+        <div
           className="grid grid-cols-2 gap-x-4 gap-y-2.5 mb-6"
         >
           {["Same-Day Service", "Licensed LLC", "Fully Insured", "All Dubai Areas"].map((item) => (
@@ -307,13 +283,10 @@ const ServiceDetail = () => {
               <span className="text-white/80 text-sm font-medium">{item}</span>
             </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.45 }}
+        <div
           className="flex gap-3 mb-6"
         >
           <Link
@@ -333,14 +306,11 @@ const ServiceDetail = () => {
             <WhatsAppIcon />
             WhatsApp Now
           </button>
-        </motion.div>
+        </div>
 
         {/* Stats row */}
         {service.stats && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.35, duration: 0.4 }}
+          <div
             className="flex flex-wrap gap-x-5 gap-y-2"
           >
             {service.stats.map((stat) => (
@@ -349,7 +319,7 @@ const ServiceDetail = () => {
                 <span className="text-white/40 text-xs">{stat.label}</span>
               </div>
             ))}
-          </motion.div>
+          </div>
         )}
       </section>
 
@@ -449,12 +419,11 @@ const ServiceDetail = () => {
       {service.warningSigns && (
         <section className="py-10 lg:py-14" style={{ background: "var(--card, #f9f9f9)" }}>
           <div className="container mx-auto px-4 lg:px-8">
-            <motion.div
+            <div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
             >
-              <motion.div variants={fadeUp} custom={0} className="text-center mb-7">
+              <div className="text-center mb-7">
                 <SectionBadge icon={AlertTriangle} label="Warning Signs" color="red" />
                 <h2 className="text-xl lg:text-3xl font-extrabold font-['Montserrat'] text-foreground">
                   Is Your Property Showing These Signs?
@@ -462,16 +431,14 @@ const ServiceDetail = () => {
                 <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
                   If you're experiencing any of these issues, it's time to call in the professionals.
                 </p>
-              </motion.div>
+              </div>
 
               <div className="flex flex-col gap-3 lg:grid lg:grid-cols-3 lg:gap-5">
                 {service.warningSigns.map((sign, i) => {
                   const SIcon = iconMap[sign.icon] || AlertTriangle;
                   return (
-                    <motion.div
+                    <div
                       key={sign.title}
-                      variants={fadeUp}
-                      custom={i}
                       className="flex gap-4 p-5 rounded-2xl bg-background border border-border"
                     >
                       <div className="w-12 h-12 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
@@ -481,11 +448,11 @@ const ServiceDetail = () => {
                         <h3 className="font-bold text-foreground text-sm mb-1">{sign.title}</h3>
                         <p className="text-muted-foreground text-xs leading-relaxed">{sign.desc}</p>
                       </div>
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
       )}
@@ -496,12 +463,11 @@ const ServiceDetail = () => {
       {service.beforeAfter && (
         <section className="py-10 lg:py-14 border-t border-border">
           <div className="container mx-auto px-4 lg:px-8">
-            <motion.div
+            <div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
             >
-              <motion.div variants={fadeUp} custom={0} className="text-center mb-7">
+              <div className="text-center mb-7">
                 <SectionBadge icon={ArrowLeftRight} label="The Difference" color="blue" />
                 <h2 className="text-xl lg:text-3xl font-extrabold font-['Montserrat'] text-foreground">
                   Before vs After Our Service
@@ -509,13 +475,11 @@ const ServiceDetail = () => {
                 <p className="text-muted-foreground text-sm mt-2 max-w-md mx-auto">
                   See the transformation our professional service delivers.
                 </p>
-              </motion.div>
+              </div>
 
               <div className="flex flex-col lg:grid lg:grid-cols-2 gap-4 max-w-2xl mx-auto">
                 {/* Before card */}
-                <motion.div
-                  variants={fadeUp}
-                  custom={1}
+                <div
                   className="p-5 rounded-2xl border border-red-500/20"
                   style={{ background: "rgba(239,68,68,0.05)" }}
                 >
@@ -535,12 +499,10 @@ const ServiceDetail = () => {
                       </li>
                     ))}
                   </ul>
-                </motion.div>
+                </div>
 
                 {/* After card */}
-                <motion.div
-                  variants={fadeUp}
-                  custom={2}
+                <div
                   className="p-5 rounded-2xl border border-green-500/20"
                   style={{ background: "rgba(34,197,94,0.05)" }}
                 >
@@ -560,9 +522,9 @@ const ServiceDetail = () => {
                       </li>
                     ))}
                   </ul>
-                </motion.div>
+                </div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
       )}
@@ -577,19 +539,16 @@ const ServiceDetail = () => {
               <SectionBadge icon={Zap} label="Key Benefits" color="amber" />
               <h2 className="text-xl font-extrabold text-foreground font-['Montserrat']">Why Choose Us?</h2>
             </div>
-            <motion.div
+            <div
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true }}
               className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-5"
             >
               {service.keyBenefits.map((benefit, i) => {
                 const BIcon = iconMap[benefit.icon] || CheckCircle;
                 return (
-                  <motion.div
+                  <div
                     key={benefit.title}
-                    variants={fadeUp}
-                    custom={i}
                     className="flex gap-4 p-5 rounded-2xl bg-card lg:bg-gradient-to-br lg:from-amber-500/10 lg:to-transparent border border-border lg:border-amber-500/20 hover:border-amber-500/30 transition-all duration-300"
                   >
                     <div className="w-12 h-12 rounded-xl bg-amber-500/15 flex items-center justify-center shrink-0">
@@ -599,10 +558,10 @@ const ServiceDetail = () => {
                       <h3 className="font-bold text-foreground font-['Montserrat'] text-sm mb-1">{benefit.title}</h3>
                       <p className="text-muted-foreground text-xs leading-relaxed">{benefit.desc}</p>
                     </div>
-                  </motion.div>
+                  </div>
                 );
               })}
-            </motion.div>
+            </div>
           </div>
         </section>
       )}
@@ -618,32 +577,30 @@ const ServiceDetail = () => {
             <div className="lg:col-span-2 space-y-10 lg:space-y-12">
 
               {/* What's Included */}
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <motion.div variants={fadeUp} custom={0} className="mb-5">
+              <div initial="hidden" whileInView="visible">
+                <div className="mb-5">
                   <SectionBadge icon={CheckCircle} label="Complete Service" color="amber" />
                   <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground">What's Included</h2>
                   <p className="text-muted-foreground text-sm mt-1">Our comprehensive service covers every detail.</p>
-                </motion.div>
+                </div>
 
                 {/* Mobile: big stacked cards */}
                 <div className="flex flex-col gap-3 lg:hidden">
                   {service.features.map((feature, i) => (
-                    <motion.div
+                    <div
                       key={feature}
-                      variants={fadeUp}
-                      custom={i}
                       className="flex items-center gap-4 p-4 rounded-2xl bg-card border border-border"
                     >
                       <div className="w-11 h-11 rounded-xl bg-amber-500/10 flex items-center justify-center shrink-0">
                         <CheckCircle className="w-5 h-5 text-amber-500" />
                       </div>
                       <span className="text-sm font-semibold text-foreground">{feature}</span>
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
 
                 {/* Desktop: 2-col compact grid */}
-                <motion.div variants={fadeUp} custom={1} className="hidden lg:grid grid-cols-2 gap-3">
+                <div className="hidden lg:grid grid-cols-2 gap-3">
                   {service.features.map((feature) => (
                     <div
                       key={feature}
@@ -655,31 +612,29 @@ const ServiceDetail = () => {
                       <span className="text-sm font-medium text-foreground">{feature}</span>
                     </div>
                   ))}
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
 
               {/* About This Service */}
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <motion.div variants={fadeUp} custom={0}>
+              <div initial="hidden" whileInView="visible">
+                <div>
                   <SectionBadge icon={Sparkles} label="Overview" color="amber" />
                   <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground mb-3">About This Service</h2>
                   <p className="text-muted-foreground text-sm lg:text-base leading-relaxed">{service.description}</p>
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
 
               {/* How It Works */}
               {service.processSteps && (
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                  <motion.div variants={fadeUp} custom={0} className="mb-5">
+                <div initial="hidden" whileInView="visible">
+                  <div className="mb-5">
                     <SectionBadge icon={Clock} label="Our Process" color="amber" />
                     <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground">How It Works</h2>
-                  </motion.div>
+                  </div>
                   <div className="space-y-4">
                     {service.processSteps.map((step, i) => (
-                      <motion.div
+                      <div
                         key={step.step}
-                        variants={fadeUp}
-                        custom={i * 0.5 + 1}
                         className="flex gap-4 items-start"
                       >
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-amber-600 flex items-center justify-center shrink-0 text-slate-900 font-extrabold text-xs shadow-lg shadow-amber-500/20">
@@ -689,21 +644,19 @@ const ServiceDetail = () => {
                           <h3 className="font-bold text-foreground text-sm font-['Montserrat'] mb-1">{step.title}</h3>
                           <p className="text-muted-foreground text-sm leading-relaxed">{step.desc}</p>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               )}
 
               {/* Why Choose Afnan */}
-              <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                <motion.div variants={fadeUp} custom={0} className="mb-5">
+              <div initial="hidden" whileInView="visible">
+                <div className="mb-5">
                   <SectionBadge icon={Shield} label="Our Promise" color="amber" />
                   <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground">Why Choose Afnan?</h2>
-                </motion.div>
-                <motion.div
-                  variants={fadeUp}
-                  custom={1}
+                </div>
+                <div
                   className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-5 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 border border-amber-500/20"
                 >
                   {[
@@ -722,22 +675,22 @@ const ServiceDetail = () => {
                       </div>
                     );
                   })}
-                </motion.div>
-              </motion.div>
+                </div>
+              </div>
 
               {/* FAQ */}
               {service.faqs && service.faqs.length > 0 && (
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                  <motion.div variants={fadeUp} custom={0} className="mb-5">
+                <div initial="hidden" whileInView="visible">
+                  <div className="mb-5">
                     <SectionBadge icon={ChevronDown} label="Common Questions" color="amber" />
                     <h2 className="text-xl lg:text-2xl font-extrabold font-['Montserrat'] text-foreground">Frequently Asked Questions</h2>
-                  </motion.div>
+                  </div>
                   <div className="space-y-3">
                     {service.faqs.map((faq, i) => (
                       <FAQItem key={i} q={faq.q} a={faq.a} index={i} />
                     ))}
                   </div>
-                </motion.div>
+                </div>
               )}
 
             </div>
@@ -775,22 +728,20 @@ const ServiceDetail = () => {
       ═══════════════════════════════════════════════════════════════════ */}
       <section className="py-10 border-t border-border" style={{ background: "var(--card, #f9f9f9)" }}>
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
+          <div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
             className="text-center mb-8"
           >
             <SectionBadge icon={Star} label="Our Track Record" color="amber" />
             <h2 className="text-xl lg:text-3xl font-extrabold font-['Montserrat'] text-foreground">
               Numbers That Speak for Themselves
             </h2>
-          </motion.div>
+          </div>
 
-          <motion.div
+          <div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
             className="grid grid-cols-2 lg:grid-cols-4 gap-4"
           >
             {[
@@ -799,17 +750,15 @@ const ServiceDetail = () => {
               { value: "8+", label: "Years in Dubai" },
               { value: "All", label: "Dubai Areas Covered" },
             ].map((stat, i) => (
-              <motion.div
+              <div
                 key={stat.label}
-                variants={fadeUp}
-                custom={i}
                 className="flex flex-col items-center p-5 rounded-2xl bg-background border border-border text-center"
               >
                 <span className="text-amber-500 font-extrabold text-2xl lg:text-3xl leading-none mb-1">{stat.value}</span>
                 <span className="text-muted-foreground text-xs uppercase tracking-wider">{stat.label}</span>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -818,10 +767,9 @@ const ServiceDetail = () => {
       ═══════════════════════════════════════════════════════════════════ */}
       <section className="py-10 lg:py-14 border-t border-border">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
+          <div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
             className="text-center mb-8"
           >
             <SectionBadge icon={Quote} label="Customer Reviews" color="amber" />
@@ -831,19 +779,16 @@ const ServiceDetail = () => {
             <p className="text-muted-foreground text-sm mt-2">
               Trusted by hundreds of homeowners across Dubai.
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
+          <div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
             className="flex flex-col lg:grid lg:grid-cols-3 gap-4"
           >
             {TESTIMONIALS.map((t, i) => (
-              <motion.div
+              <div
                 key={t.name}
-                variants={fadeUp}
-                custom={i}
                 className="p-5 rounded-2xl bg-card border border-border"
               >
                 {/* Stars */}
@@ -866,9 +811,9 @@ const ServiceDetail = () => {
                     </p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -878,32 +823,27 @@ const ServiceDetail = () => {
       <section className="py-10 lg:py-14 border-t border-border"
         style={{ background: "linear-gradient(135deg, #0f172a 0%, #1e1b12 60%, #0c0a06 100%)" }}>
         <div className="container mx-auto px-4 lg:px-8 text-center">
-          <motion.div
+          <div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
           >
-            <motion.div variants={fadeUp} custom={0} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 mb-5">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 mb-5">
               <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
               <span className="text-amber-400 text-xs font-semibold">Available Today Across Dubai</span>
-            </motion.div>
+            </div>
 
-            <motion.h2
-              variants={fadeUp}
-              custom={1}
+            <h2
               className="text-2xl lg:text-4xl font-extrabold text-white font-['Montserrat'] mb-3"
             >
               Ready to Book?
-            </motion.h2>
-            <motion.p
-              variants={fadeUp}
-              custom={2}
+            </h2>
+            <p
               className="text-white/60 text-sm lg:text-base max-w-md mx-auto mb-7"
             >
               Get a free quote in under 30 minutes. Licensed, certified, and available 24/7 across all Dubai areas.
-            </motion.p>
+            </p>
 
-            <motion.div variants={fadeUp} custom={3} className="flex flex-col sm:flex-row gap-3 justify-center max-w-sm mx-auto">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-sm mx-auto">
               <Link
                 to={`/contact?service=${service.id}`}
                 id={`book-cta-${service.id}`}
@@ -921,15 +861,15 @@ const ServiceDetail = () => {
                 <WhatsAppIcon />
                 WhatsApp Now
               </button>
-            </motion.div>
+            </div>
 
             {/* Trust badges row */}
-            <motion.div variants={fadeUp} custom={4} className="flex flex-wrap justify-center gap-x-5 gap-y-2 mt-6">
+            <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 mt-6">
               {["✅ Trade License No. 1571076", "⏰ 24/7 Emergency", "📍 All Dubai Areas", "🛡️ Fully Insured"].map((t) => (
                 <span key={t} className="text-white/40 text-xs">{t}</span>
               ))}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -938,22 +878,21 @@ const ServiceDetail = () => {
       ═══════════════════════════════════════════════════════════════════ */}
       <section className="py-12 lg:py-16 bg-card border-t border-border">
         <div className="container mx-auto px-4 lg:px-8">
-          <motion.div
+          <div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true }}
             className="text-center mb-8 lg:mb-12"
           >
-            <motion.span variants={fadeUp} custom={0} className="text-amber-500 text-xs font-bold tracking-widest uppercase">
+            <span className="text-amber-500 text-xs font-bold tracking-widest uppercase">
               Explore More
-            </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="text-xl lg:text-3xl font-bold font-['Montserrat'] text-foreground mt-2">
+            </span>
+            <h2 className="text-xl lg:text-3xl font-bold font-['Montserrat'] text-foreground mt-2">
               Our Other Services
-            </motion.h2>
-            <motion.p variants={fadeUp} custom={2} className="text-muted-foreground mt-2 max-w-md mx-auto text-sm">
+            </h2>
+            <p className="text-muted-foreground mt-2 max-w-md mx-auto text-sm">
               Comprehensive property care solutions for every need across Dubai.
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {otherServices.map((s, i) => (

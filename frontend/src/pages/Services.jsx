@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { useRef, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { services } from "@/data/services";
@@ -7,28 +7,28 @@ import { ArrowRight, Snowflake, Droplets, Zap, TreePine, Paintbrush, Wrench, Che
 import SEO from "@/components/SEO";
 
 const iconMap = {
-  Snowflake,
-  Droplets,
-  Zap,
-  TreePine,
-  Paintbrush,
-  Wrench,
-  Fan,
-  Sparkles,
-  Droplet,
-  LayoutGrid,
-  Home,
-  Server,
-  BrickWall
+  Snowflake, Droplets, Zap, TreePine, Paintbrush,
+  Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall
 };
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.1, duration: 0.5 }
-  })
+// CSS fade-in using IntersectionObserver
+const useFadeIn = () => {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.style.opacity = "1"; el.style.transform = "translateY(0)"; obs.unobserve(el); } },
+      { threshold: 0.05 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+};
+const FadeIn = ({ children, delay = 0, className = "" }) => {
+  const ref = useFadeIn();
+  return <div ref={ref} className={className} style={{ opacity: 0, transform: "translateY(20px)", transition: `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms` }}>{children}</div>;
 };
 
 const Services = () => (
@@ -54,17 +54,17 @@ const Services = () => (
     {/* Hero Header */}
     <section className="pt-28 pb-16 bg-navy text-primary-foreground" aria-label="Services Page Hero">
       <div className="container mx-auto px-4 lg:px-8">
-        <motion.div initial="hidden" animate="visible">
-          <motion.span variants={fadeUp} custom={0} className="text-gold text-sm font-semibold tracking-wider uppercase">
+        <div className="hero-fade-in">
+          <span className="text-gold text-sm font-semibold tracking-wider uppercase">
             Our Services in Dubai
-          </motion.span>
-          <motion.h1 variants={fadeUp} custom={1} className="text-4xl md:text-5xl font-bold mt-2 font-['Montserrat']">
+          </span>
+          <h1 className="text-4xl md:text-5xl font-bold mt-2 font-['Montserrat']">
             Complete Home Maintenance Services in Dubai
-          </motion.h1>
-          <motion.p variants={fadeUp} custom={2} className="text-primary-foreground/70 mt-4 max-w-xl text-lg">
+          </h1>
+          <p className="text-primary-foreground/70 mt-4 max-w-xl text-lg">
             From AC deep cleaning to plumbing, electrical fittings, and full property care — we maintain villas and apartments across Dubai.
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
       </div>
     </section>
 
@@ -75,13 +75,9 @@ const Services = () => (
           {services.map((s, i) => {
             const Icon = iconMap[s.icon] || Wrench;
             const isEven = i % 2 === 0;
-            return <motion.article
+            return <FadeIn
               key={s.id}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              custom={0}
+              delay={0}
               className={`grid lg:grid-cols-2 gap-10 items-center ${!isEven ? "lg:direction-rtl" : ""}`}
             >
               <div className={`${!isEven ? "lg:order-2" : ""}`}>
@@ -91,6 +87,7 @@ const Services = () => (
                     alt={`${s.title} service in Dubai by Afnan Property Care`}
                     className="w-full h-72 lg:h-80 object-cover"
                     loading="lazy"
+                    decoding="async"
                     width="600"
                     height="400"
                   />
@@ -129,7 +126,7 @@ const Services = () => (
                   </Link>
                 </div>
               </div>
-            </motion.article>;
+            </FadeIn>;
           })}
         </div>
       </div>

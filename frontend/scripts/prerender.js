@@ -90,12 +90,26 @@ const server = app.listen(PORT, async () => {
         htmlContent = htmlContent.replace(/<meta property="og:description" content="Professional residential property care services in Dubai[^"]*"\s*\/?>/gi, '');
       }
 
-      // ── Find LCP image and inject <link rel="preload" as="image"> into <head> ──
-      const imgMatch = htmlContent.match(/<img[^>]+src="([^">]+\.(?:webp|jpg|png))"[^>]*>/i);
-      if (imgMatch && imgMatch[1] && !htmlContent.includes(`rel="preload" as="image" href="${imgMatch[1]}"`)) {
-        const preloadTag = `<link rel="preload" as="image" href="${imgMatch[1]}" fetchpriority="high" />`;
+      // ── Find LCP hero image and inject <link rel="preload" as="image"> ──────
+      // Skip logo/favicon - look specifically for the large hero/service image
+      const heroImgMatch = htmlContent.match(/<img[^>]+src="([^"]+(?:hero|real_|service)[^"]*\.(?:webp|jpg|png))"[^>]*>/i)
+        || htmlContent.match(/<img[^>]+fetchpriority="high"[^>]+src="([^"]+\.(?:webp|jpg|png))"[^>]*>/i)
+        || htmlContent.match(/<img[^>]+src="([^"]+\.(?:webp|jpg|png))"[^>]+fetchpriority="high"[^>]*>/i);
+      if (heroImgMatch && heroImgMatch[1] && !htmlContent.includes(`rel="preload" as="image" href="${heroImgMatch[1]}"`)) {
+        const preloadTag = `<link rel="preload" as="image" href="${heroImgMatch[1]}" fetchpriority="high" type="image/webp" />`;
         htmlContent = htmlContent.replace('</head>', `${preloadTag}</head>`);
       }
+      // ── Remove framer-motion & heavy admin chunks from modulepreload (reduces TBT) ──
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/framer-[^"]+">/g, '');
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/recharts-[^"]+">/g, '');
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/Admin[^"]+">/g, '');
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/radix-[^"]+">/g, '');
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/tanstack-[^"]+">/g, '');
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/supabase-[^"]+">/g, '');
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/real_[^"]+">/g, '');
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/seo-[^"]+">/g, '');
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/CareerModal-[^"]+">/g, '');
+      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/services-[^"]+">/g, '');
 
       for (const destDir of item.dest) {
         fs.mkdirSync(destDir, { recursive: true });
