@@ -90,13 +90,10 @@ export default defineConfig(({ mode }) => ({
             id.includes("node_modules/scheduler/")
           ) return "react-core";
 
-          // ── Framer Motion — deferred, NOT in critical path ──────────────────
-          if (id.includes("framer-motion")) return "framer";
-
           // ── React Router ────────────────────────────────────────────────────
           if (id.includes("react-router") || id.includes("@remix-run")) return "router";
 
-          // ── Radix UI — grouped to share, only loads when UI appears ─────────
+          // ── Radix UI — grouped, only loads when UI appears ──────────────────
           if (id.includes("@radix-ui")) return "radix";
 
           // ── Lucide icons (aggressively tree-shaken by swc) ─────────────────
@@ -123,6 +120,21 @@ export default defineConfig(({ mode }) => ({
           // ── Admin-only UI components ─────────────────────────────────────────
           if (id.includes("cmdk")) return "cmdk";
           if (id.includes("vaul")) return "vaul";
+
+          // ── Form & validation utils — small, split out of vendor ─────────────
+          if (id.includes("zod") || id.includes("react-hook-form") || id.includes("@hookform")) return "forms";
+
+          // ── Theming & UI utilities — split out of vendor ─────────────────────
+          if (id.includes("next-themes") || id.includes("sonner") || id.includes("input-otp")) return "ui-utils";
+
+          // ── Style utilities — tiny, inline-able but kept separate ────────────
+          if (id.includes("class-variance-authority") || id.includes("clsx") || id.includes("tailwind-merge")) return "style-utils";
+
+          // ── Remaining framer-motion (should now be empty — CareerModal removed) ──
+          if (id.includes("framer-motion")) return "framer";
+
+          // ── react-day-picker, react-resizable-panels — admin only ────────────
+          if (id.includes("react-day-picker") || id.includes("react-resizable-panels")) return "admin-widgets";
 
           // ── Everything else from node_modules ───────────────────────────────
           if (id.includes("node_modules")) return "vendor";
