@@ -46,20 +46,21 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    target: "es2020",
     // Inline small assets under 4KB to save HTTP requests
     assetsInlineLimit: 4096,
     // ── Use Terser for ~15-20% smaller bundles vs default esbuild ─────────────
     minify: "terser",
     terserOptions: {
       compress: {
-        // Remove all console.log/warn/error calls from production
         drop_console: true,
         drop_debugger: true,
         pure_funcs: ["console.log", "console.warn", "console.info"],
-        // Aggressive dead-code elimination
-        passes: 2,
+        passes: 3,
+        unsafe: true,
         unsafe_arrows: true,
         unsafe_methods: true,
+        unsafe_math: true,
       },
       mangle: {
         // Mangle property names in private/internal code

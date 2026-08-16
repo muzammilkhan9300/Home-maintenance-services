@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+
 import {
   Phone, Check, MessageCircle, Building2, Clock, Tag, Zap,
   MapPin, Send, PhoneCall, ShieldCheck, Wind, Droplets, Receipt,

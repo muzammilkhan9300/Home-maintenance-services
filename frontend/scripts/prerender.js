@@ -51,6 +51,7 @@ const server = app.listen(PORT, async () => {
     ];
 
     const routesToPrerender = [
+      { url: '/', dest: [distPath] },
       { url: '/services', dest: [path.join(distPath, 'services')] },
       { url: '/about', dest: [path.join(distPath, 'about')] },
       { url: '/contact', dest: [path.join(distPath, 'contact')] },

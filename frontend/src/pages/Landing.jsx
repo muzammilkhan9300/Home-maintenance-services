@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowRight, Shield, Clock, Award, CheckCircle, Phone, Star, MapPin } from "lucide-react";
+import { useRef, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ServiceCard from "@/components/ServiceCard";
@@ -18,26 +18,45 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: i * 0.12, duration: 0.6, ease: "easeOut" }
-  })
+// ── Lightweight CSS IntersectionObserver fade-in (replaces framer-motion) ─────
+const useFadeIn = () => {
+  const ref = useRef(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { el.style.opacity = "1"; el.style.transform = "translateY(0)"; obs.unobserve(el); } },
+      { threshold: 0.05 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return ref;
+};
+
+const FadeIn = ({ children, delay = 0, className = "", as: Tag = "div" }) => {
+  const ref = useFadeIn();
+  return (
+    <Tag
+      ref={ref}
+      className={className}
+      style={{ opacity: 0, transform: "translateY(20px)", transition: `opacity 0.5s ease ${delay}ms, transform 0.5s ease ${delay}ms` }}
+    >
+      {children}
+    </Tag>
+  );
 };
 
 const SERVICE_LINKS = [
-  { id: "ac-cleaning",       label: "AC Cleaning Dubai",              icon: "❄️" },
-  { id: "ac-ventilation",    label: "AC Maintenance & Ventilation",   icon: "🌀" },
-  { id: "plumbing",          label: "Plumbing Services Dubai",        icon: "🔧" },
-  { id: "electrical",        label: "Electrical Services Dubai",      icon: "⚡" },
-  { id: "building-cleaning", label: "Building Cleaning Dubai",        icon: "✨" },
-  { id: "painting",          label: "Painting Services Dubai",        icon: "🖌️" },
-  { id: "tiling",            label: "Floor & Wall Tiling Dubai",      icon: "🪟" },
-  { id: "plaster-works",     label: "Plaster Works Dubai",            icon: "🏗️" },
-  { id: "property-care",     label: "Residential Property Care",      icon: "🏠" },
-  { id: "systems-maintenance","label": "Smart Home Systems Dubai",    icon: "📡" },
+  { id: "ac-cleaning",        label: "AC Cleaning Dubai",             icon: "❄️" },
+  { id: "plumbing",           label: "Plumbing Services Dubai",       icon: "🔧" },
+  { id: "electrical",         label: "Electrical Services Dubai",     icon: "⚡" },
+  { id: "building-cleaning",  label: "Building Cleaning Dubai",       icon: "✨" },
+  { id: "painting",           label: "Painting Services Dubai",       icon: "🖌️" },
+  { id: "tiling",             label: "Floor & Wall Tiling Dubai",     icon: "🪟" },
+  { id: "plaster-works",      label: "Plaster Works Dubai",           icon: "🏗️" },
+  { id: "property-care",      label: "Residential Property Care",     icon: "🏠" },
+  { id: "systems-maintenance", label: "Smart Home Systems Dubai",     icon: "📡" },
 ];
 
 const Landing = () => {
@@ -77,34 +96,31 @@ const Landing = () => {
           className="w-full h-full object-cover"
           fetchPriority="high"
           loading="eager"
+          decoding="sync"
           width="1920"
           height="1080"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/50 to-transparent" />
       </div>
       <div className="container mx-auto px-4 lg:px-8 relative z-10 pt-20">
-        <motion.div initial="hidden" animate="visible" className="max-w-2xl">
-          <motion.div variants={fadeUp} custom={0}>
+        <div className="max-w-2xl hero-fade-in">
+          <div style={{ animationDelay: "0ms" }}>
             <span className="inline-block px-4 py-1.5 rounded-full bg-accent/20 text-accent text-xs font-semibold tracking-wider uppercase mb-6 border border-accent/30">
               Dubai's Trusted Licensed Property Care — Trade License No. 1571076
             </span>
-          </motion.div>
+          </div>
 
           {/* PRIMARY H1 — contains exact-match keyword for ranking */}
-          <motion.h1
-            variants={fadeUp}
-            custom={1}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-4 font-['Montserrat']"
-          >
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-primary-foreground leading-tight mb-4 font-['Montserrat']">
             Home Maintenance Services{" "}
             <span className="text-gradient-gold">in Dubai</span>
-          </motion.h1>
+          </h1>
 
-          <motion.p variants={fadeUp} custom={1.5} className="text-xl md:text-2xl text-primary-foreground/90 font-medium font-['Montserrat'] mb-6">
+          <p className="text-xl md:text-2xl text-primary-foreground/90 font-medium font-['Montserrat'] mb-6">
             AC Cleaning • Plumbing • Electrical • Painting • More
-          </motion.p>
+          </p>
 
-          <motion.div variants={fadeUp} custom={2} className="flex items-center gap-3 max-w-lg mb-8">
+          <div className="flex items-center gap-3 max-w-lg mb-8">
             <p className="text-lg text-primary-foreground/80 flex-1">
               Licensed residential property maintenance in Dubai — certified technicians, same-day service, 100% satisfaction guarantee.
             </p>
@@ -121,9 +137,9 @@ const Landing = () => {
             >
               <WhatsAppIcon />
             </button>
-          </motion.div>
+          </div>
 
-          <motion.div variants={fadeUp} custom={3} className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Link
               to="/contact"
               id="hero-book-now"
@@ -138,8 +154,8 @@ const Landing = () => {
             >
               View All Services <ArrowRight className="w-5 h-5" />
             </Link>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -147,13 +163,9 @@ const Landing = () => {
     <section className="py-16 bg-gold-light" aria-label="Why choose us">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid md:grid-cols-3 gap-8">
-          {highlights.map((h, i) => <motion.div
+          {highlights.map((h, i) => <FadeIn
             key={h.title}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeUp}
-            custom={i}
+            delay={i * 100}
             className="flex items-start gap-4"
           >
             <div className="w-12 h-12 rounded-md bg-accent/15 flex items-center justify-center shrink-0">
@@ -163,7 +175,7 @@ const Landing = () => {
               <h3 className="font-bold text-foreground font-['Montserrat']">{h.title}</h3>
               <p className="text-sm text-muted-foreground mt-1">{h.desc}</p>
             </div>
-          </motion.div>)}
+          </FadeIn>)}
         </div>
       </div>
     </section>
@@ -171,14 +183,7 @@ const Landing = () => {
     {/* ── Services Preview ──────────────────────────────────────────── */}
     <section className="py-20" id="services" aria-label="Our home maintenance services in Dubai">
       <div className="container mx-auto px-4 lg:px-8">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-          custom={0}
-          className="text-center mb-14"
-        >
+        <FadeIn className="text-center mb-14">
           <span className="text-accent text-sm font-semibold tracking-wider uppercase">What We Offer</span>
           <h2 className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat'] text-foreground">
             Complete Home Maintenance Services in Dubai
@@ -186,7 +191,7 @@ const Landing = () => {
           <p className="text-muted-foreground mt-3 max-w-2xl mx-auto">
             From urgent AC repairs to full property care contracts — Afnan Property Care is Dubai's one-stop licensed maintenance company serving villas, apartments, and townhouses across all areas.
           </p>
-        </motion.div>
+        </FadeIn>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((s, i) => <ServiceCard key={s.id} service={s} index={i} />)}
         </div>
@@ -202,14 +207,14 @@ const Landing = () => {
     <section className="py-20 bg-gold-light" aria-label="About Afnan Property Care Dubai">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <motion.span variants={fadeUp} custom={0} className="text-accent text-sm font-semibold tracking-wider uppercase">
+          <FadeIn>
+            <span className="text-accent text-sm font-semibold tracking-wider uppercase">
               About Us
-            </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat'] text-foreground">
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat'] text-foreground">
               Dubai's Licensed Residential Property Care Company
-            </motion.h2>
-            <motion.div variants={fadeUp} custom={2} className="space-y-4 mt-4">
+            </h2>
+            <div className="space-y-4 mt-4">
               <p className="text-muted-foreground leading-relaxed">
                 <strong>Muhammad Afnan Residential Property Care Services L.L.C</strong> (Trade License No. 1571076) is a fully licensed and insured home maintenance company based in Dubai, UAE. Since 2024, we have served over 500 satisfied clients across Dubai — from luxury villas in Palm Jumeirah and Dubai Marina to apartments in JVC, Downtown, Deira, and Al Barsha.
               </p>
@@ -219,30 +224,29 @@ const Landing = () => {
               <p className="text-muted-foreground leading-relaxed">
                 We offer flexible Annual Maintenance Contracts (AMC) for landlords, property managers, and homeowners who want complete peace of mind. Our transparent pricing model means you receive a fixed quote before work begins — no hidden fees, no surprises.
               </p>
-            </motion.div>
-            <motion.div variants={fadeUp} custom={3} className="mt-6">
+            </div>
+            <div className="mt-6">
               <Link to="/about" className="inline-flex items-center gap-2 text-accent font-semibold hover:underline">
                 Learn more about us <ArrowRight className="w-4 h-4" />
               </Link>
-            </motion.div>
-          </motion.div>
+            </div>
+          </FadeIn>
 
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="space-y-4">
+          <FadeIn delay={100} className="space-y-4">
             {/* Service quick-links for internal linking + keyword signals */}
-            <motion.h3 variants={fadeUp} custom={0} className="text-lg font-bold font-['Montserrat'] text-foreground">
+            <h3 className="text-lg font-bold font-['Montserrat'] text-foreground">
               Our Services in Dubai
-            </motion.h3>
+            </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {SERVICE_LINKS.map((s, i) => (
-                <motion.div key={s.id} variants={fadeUp} custom={i * 0.1}>
-                  <Link
-                    to={`/services/${s.id}`}
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all text-sm font-medium text-foreground/80 hover:text-accent"
-                  >
-                    <span aria-hidden="true">{s.icon}</span>
-                    {s.label}
-                  </Link>
-                </motion.div>
+              {SERVICE_LINKS.map((s) => (
+                <Link
+                  key={s.id}
+                  to={`/services/${s.id}`}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border hover:border-accent hover:bg-accent/5 transition-all text-sm font-medium text-foreground/80 hover:text-accent"
+                >
+                  <span aria-hidden="true">{s.icon}</span>
+                  {s.label}
+                </Link>
               ))}
             </div>
 
@@ -259,7 +263,7 @@ const Landing = () => {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </FadeIn>
         </div>
       </div>
     </section>
@@ -268,23 +272,18 @@ const Landing = () => {
     <section className="py-20 bg-navy text-primary-foreground" aria-label="Why choose Afnan Property Care Dubai">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-            <motion.span variants={fadeUp} custom={0} className="text-gold text-sm font-semibold tracking-wider uppercase">
+          <FadeIn>
+            <span className="text-gold text-sm font-semibold tracking-wider uppercase">
               Why Choose Us
-            </motion.span>
-            <motion.h2 variants={fadeUp} custom={1} className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat']">
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat']">
               Dubai's #1 Residential Property Maintenance Company
-            </motion.h2>
-            <motion.p variants={fadeUp} custom={2} className="text-primary-foreground/70 mt-4 max-w-lg">
+            </h2>
+            <p className="text-primary-foreground/70 mt-4 max-w-lg">
               With Trade License No. 1571076, we are a fully licensed LLC committed to delivering exceptional home maintenance services across Dubai. Our certified technicians serve all Dubai areas — villas, apartments, and commercial properties.
-            </motion.p>
-          </motion.div>
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="space-y-4"
-          >
+            </p>
+          </FadeIn>
+          <FadeIn delay={100} className="space-y-4">
             {[
               "Licensed & fully insured LLC in Dubai (Trade License No. 1571076)",
               "DEWA-certified & experienced technicians",
@@ -294,11 +293,11 @@ const Landing = () => {
               "100% customer satisfaction guarantee",
               "Serving villas, apartments & townhouses",
               "Available 7 days a week including public holidays",
-            ].map((item, i) => <motion.div key={i} variants={fadeUp} custom={i * 0.3} className="flex items-center gap-3">
+            ].map((item, i) => <div key={i} className="flex items-center gap-3">
               <CheckCircle className="w-5 h-5 text-gold shrink-0" />
               <span className="text-primary-foreground/85">{item}</span>
-            </motion.div>)}
-          </motion.div>
+            </div>)}
+          </FadeIn>
         </div>
       </div>
     </section>
@@ -306,17 +305,17 @@ const Landing = () => {
     {/* ── Service Areas ─────────────────────────────────────────────── */}
     <section className="py-16" aria-label="Home maintenance service areas in Dubai">
       <div className="container mx-auto px-4 lg:px-8 text-center">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }}>
-          <motion.span variants={fadeUp} custom={0} className="text-accent text-sm font-semibold tracking-wider uppercase">
+        <FadeIn>
+          <span className="text-accent text-sm font-semibold tracking-wider uppercase">
             Service Areas
-          </motion.span>
-          <motion.h2 variants={fadeUp} custom={1} className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat'] text-foreground">
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat'] text-foreground">
             We Cover All Areas of Dubai
-          </motion.h2>
-          <motion.p variants={fadeUp} custom={2} className="text-muted-foreground mt-3 max-w-xl mx-auto">
+          </h2>
+          <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
             Our licensed home maintenance teams are deployed across every neighbourhood in Dubai for fast, same-day response.
-          </motion.p>
-          <motion.div variants={fadeUp} custom={3} className="flex flex-wrap justify-center gap-3 mt-8">
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 mt-8">
             {[
               "Dubai Marina", "Palm Jumeirah", "JVC", "Downtown Dubai",
               "Business Bay", "Jumeirah", "DIFC", "Al Barsha",
@@ -331,35 +330,31 @@ const Landing = () => {
                 {area}
               </span>
             ))}
-          </motion.div>
-        </motion.div>
+          </div>
+        </FadeIn>
       </div>
     </section>
 
     {/* ── Testimonials ──────────────────────────────────────────────── */}
     <section className="py-20 bg-gold-light" aria-label="Customer reviews for Afnan Property Care Dubai">
       <div className="container mx-auto px-4 lg:px-8">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
-          <motion.span variants={fadeUp} custom={0} className="text-accent text-sm font-semibold tracking-wider uppercase">
+        <FadeIn className="text-center mb-12">
+          <span className="text-accent text-sm font-semibold tracking-wider uppercase">
             Customer Reviews
-          </motion.span>
-          <motion.h2 variants={fadeUp} custom={1} className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat'] text-foreground">
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat'] text-foreground">
             What Our Dubai Clients Say
-          </motion.h2>
-        </motion.div>
+          </h2>
+        </FadeIn>
         <div className="grid md:grid-cols-3 gap-6">
           {[
             { name: "Ahmed Al Rashid",  area: "Dubai Marina",   stars: 5, review: "Excellent AC cleaning service! The team arrived on time, were very professional and completely transformed our units. Highly recommend Afnan Property Care for any home maintenance in Dubai." },
             { name: "Sarah Johnson",    area: "JVC",            stars: 5, review: "Outstanding plumbing work. Very clean, respectful of our home, and the quality was exceptional. Fixed our burst pipe within the hour. Will definitely use them again." },
             { name: "Mohammed Al Zaabi", area: "Palm Jumeirah", stars: 5, review: "Best home maintenance company in Dubai! Fast response, fair pricing, and the technicians really know their stuff. Their electrical work is superb. Five stars." },
           ].map((t, i) => (
-            <motion.div
+            <FadeIn
               key={t.name}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              custom={i}
+              delay={i * 100}
               className="bg-background rounded-xl p-6 border border-border shadow-sm"
             >
               <div className="flex gap-1 mb-3">
@@ -372,7 +367,7 @@ const Landing = () => {
                 <p className="font-semibold text-foreground text-sm">{t.name}</p>
                 <p className="text-xs text-muted-foreground">{t.area}, Dubai</p>
               </div>
-            </motion.div>
+            </FadeIn>
           ))}
         </div>
       </div>
@@ -381,14 +376,14 @@ const Landing = () => {
     {/* ── FAQ Section — for Google Featured Snippets ────────────────── */}
     <section className="py-20" aria-label="Frequently asked questions about home maintenance in Dubai">
       <div className="container mx-auto px-4 lg:px-8 max-w-3xl">
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} className="text-center mb-12">
-          <motion.span variants={fadeUp} custom={0} className="text-accent text-sm font-semibold tracking-wider uppercase">
+        <FadeIn className="text-center mb-12">
+          <span className="text-accent text-sm font-semibold tracking-wider uppercase">
             FAQs
-          </motion.span>
-          <motion.h2 variants={fadeUp} custom={1} className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat'] text-foreground">
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold mt-2 font-['Montserrat'] text-foreground">
             Home Maintenance Dubai — FAQs
-          </motion.h2>
-        </motion.div>
+          </h2>
+        </FadeIn>
         <div className="space-y-4">
           {[
             {
@@ -412,13 +407,8 @@ const Landing = () => {
               a: "Yes. We provide home maintenance for villas, apartments, townhouses, and penthouses across all Dubai communities."
             },
           ].map((faq, i) => (
-            <motion.details
+            <details
               key={faq.q}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={fadeUp}
-              custom={i}
               className="group border border-border rounded-xl overflow-hidden"
             >
               <summary className="flex items-center justify-between gap-4 px-5 py-4 cursor-pointer bg-card hover:bg-accent/5 transition-colors font-semibold text-foreground text-sm">
@@ -428,7 +418,7 @@ const Landing = () => {
               <div className="px-5 py-4 text-sm text-muted-foreground leading-relaxed border-t border-border bg-card/50">
                 {faq.a}
               </div>
-            </motion.details>
+            </details>
           ))}
         </div>
       </div>
@@ -437,14 +427,7 @@ const Landing = () => {
     {/* ── CTA ───────────────────────────────────────────────────────── */}
     <section className="py-20 bg-navy text-primary-foreground" aria-label="Contact Afnan Property Care Dubai">
       <div className="container mx-auto px-4 lg:px-8">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeUp}
-          custom={0}
-          className="text-center max-w-2xl mx-auto"
-        >
+        <FadeIn className="text-center max-w-2xl mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold font-['Montserrat'] mb-4">
             Book Your Home Maintenance in Dubai Today
           </h2>
@@ -466,7 +449,7 @@ const Landing = () => {
               <Phone className="w-5 h-5" /> Call +971-505387736
             </a>
           </div>
-        </motion.div>
+        </FadeIn>
       </div>
     </section>
 
