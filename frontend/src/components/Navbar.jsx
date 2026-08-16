@@ -1,8 +1,9 @@
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
-import { useState, useEffect } from "react";
-import CareerModal from "@/components/CareerModal";
+import { useState, useEffect, lazy, Suspense } from "react";
 import afnanLogo from "@/assets/afnan-logo.png";
+
+const CareerModal = lazy(() => import("@/components/CareerModal"));
 
 const navLinks = [
   { to: "/", label: "Home" },
@@ -124,7 +125,11 @@ const Navbar = () => {
         </div>
       )}
 
-      <CareerModal open={careerOpen} onClose={() => setCareerOpen(false)} />
+      {careerOpen && (
+        <Suspense fallback={null}>
+          <CareerModal open={careerOpen} onClose={() => setCareerOpen(false)} />
+        </Suspense>
+      )}
     </nav>
   );
 };

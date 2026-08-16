@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { ArrowRight, Snowflake, Droplets, Zap, TreePine, Paintbrush, Wrench, Fan, Sparkles, Droplet, LayoutGrid, Home, Server, BrickWall } from "lucide-react";
 import { trackWhatsAppClick } from "@/lib/analytics";
 
@@ -30,59 +29,60 @@ const ServiceCard = ({ service, index }) => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: index * 0.1, duration: 0.5 }}
-    >
+    <div>
       <Link
         to={`/services/${service.id}`}
-        id={`service-card-${service.id}`}
-        className="group block bg-card rounded-lg overflow-hidden shadow-premium hover:shadow-gold transition-all duration-500 border border-border hover:border-accent/40 h-full"
+        className="group relative flex flex-col h-full bg-card rounded-xl overflow-hidden border border-border hover:border-accent/50 hover:shadow-lg transition-all duration-300"
       >
-        <div className="relative h-52 overflow-hidden">
+        <div className="relative h-48 overflow-hidden bg-navy-light/20">
           <img
             src={service.image}
-            alt={`${service.title} service Dubai`}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            alt={service.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
             decoding="async"
             width="400"
-            height="208"
+            height="240"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-foreground/60 to-transparent" />
-          <div className="absolute bottom-4 left-4 right-4 flex items-center gap-2">
-            <div className="w-10 h-10 rounded-md bg-accent flex items-center justify-center shrink-0">
-              <Icon className="w-5 h-5 text-accent-foreground" />
-            </div>
-            <h3 className="text-base font-bold text-primary-foreground font-['Montserrat'] leading-tight flex-1 min-w-0">
-              {service.title}
-            </h3>
+          <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent" />
+          <div className="absolute top-3 right-3 w-9 h-9 rounded-md bg-accent/90 backdrop-blur-sm flex items-center justify-center text-accent-foreground shadow-md">
+            <Icon className="w-5 h-5" />
+          </div>
+        </div>
+
+        <div className="flex flex-col flex-1 p-6">
+          <h3 className="text-xl font-bold font-['Montserrat'] text-foreground group-hover:text-accent transition-colors">
+            {service.title}
+          </h3>
+
+          <p className="text-sm text-muted-foreground mt-2 line-clamp-2 flex-1">
+            {service.description}
+          </p>
+
+          <ul className="mt-4 space-y-1.5 border-t border-border/60 pt-4">
+            {service.features.slice(0, 3).map((f, i) => (
+              <li key={i} className="text-xs text-muted-foreground flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                <span className="truncate">{f}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center gap-2 mt-6 pt-4 border-t border-border">
+            <span className="inline-flex items-center justify-center gap-1.5 flex-1 px-4 py-2.5 rounded-md bg-accent text-accent-foreground font-semibold text-xs group-hover:brightness-110 transition-all">
+              View Details <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </span>
             <button
               onClick={handleWhatsApp}
-              aria-label={`Chat on WhatsApp about ${service.title}`}
-              className="w-9 h-9 rounded-full bg-[#25D366] flex items-center justify-center text-white shrink-0 hover:bg-[#1ebe5d] hover:scale-110 transition-all duration-200 shadow-lg"
+              aria-label={`WhatsApp about ${service.title}`}
+              className="w-9 h-9 rounded-md bg-[#25D366] text-white flex items-center justify-center hover:bg-[#1ebe5d] transition-colors shrink-0"
             >
               <WhatsAppIcon />
             </button>
           </div>
         </div>
-
-        <div className="p-5">
-          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{service.description}</p>
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-accent group-hover:gap-3 transition-all">
-              View Details <ArrowRight className="w-4 h-4" />
-            </span>
-            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-[#25D366]">
-              <WhatsAppIcon />
-              <span>WhatsApp</span>
-            </span>
-          </div>
-        </div>
       </Link>
-    </motion.div>
+    </div>
   );
 };
 
