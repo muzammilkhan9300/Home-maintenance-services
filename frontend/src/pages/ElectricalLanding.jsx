@@ -53,7 +53,7 @@ const FLOATING_CARDS = [
 
 const INTERNAL_LINKS = [
   { to: "/services/plumbing",          emoji: "🚿", label: "emergency plumbing services Dubai" },
-  { to: "/services/systems-maintenance", emoji: "📡", label: "CCTV and smart home systems Dubai" },
+  { to: "/services/systems-maintenance", emoji: "📡", label: "smart home and access control systems Dubai" },
   { to: "/services/ac-cleaning",       emoji: "❄️", label: "professional AC cleaning Dubai" },
 ];
 

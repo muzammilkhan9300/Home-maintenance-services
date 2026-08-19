@@ -19,11 +19,11 @@ const INCLUDED_SERVICES = [
   { icon: Wrench,   title: "Pipe Repair & Replacement",  desc: "uPVC, CPVC, PPR, copper, and GI pipe repair or full replacement with minimal excavation disruption." },
   { icon: Droplets, title: "Drainage System Setup",      desc: "Full drainage network installation including downpipes, inspection chambers, and rainwater outlets." },
   { icon: Package,  title: "Hydro-Jetting Drain Clear",  desc: "High-pressure water jetting to clear severe blockages, scale buildup, and root intrusions from pipes." },
-  { icon: Filter,   title: "Sewer Line CCTV Survey",     desc: "Camera inspection of sewer lines to accurately diagnose blockages and structural damage before repair." },
+  { icon: Filter,   title: "Sewer Camera Inspection",     desc: "Camera inspection of sewer lines to accurately diagnose blockages and structural damage before repair." },
 ];
 
 const PROCESS_STEPS = [
-  { num: "01", title: "Step 1: Site Assessment",     desc: "We map your existing pipe network using CCTV survey and acoustic tools to identify all problem areas." },
+  { num: "01", title: "Step 1: Site Assessment",     desc: "We map your existing pipe network using camera inspection and acoustic tools to identify all problem areas." },
   { num: "02", title: "Step 2: Detailed Proposal",   desc: "Full scope of work with materials list and fixed cost provided upfront — no surprises." },
   { num: "03", title: "Step 3: Precision Repair",    desc: "Work executed by specialist technicians using uPVC and copper rated for Dubai's high-pressure systems." },
   { num: "04", title: "Step 4: Flow & Pressure Test",desc: "Full pressure and flow test confirming all connections are perfectly sealed and compliant." },
@@ -39,7 +39,7 @@ const REVIEWS = [
 const FAQS = [
   { q: "What pipe materials do you work with?",          a: "We work with all pipe types: uPVC, CPVC, PPR, copper, GI, and HDPE pipes — for both hot and cold water systems and sewer networks." },
   { q: "Can you fix slow-draining sinks and showers?",   a: "Yes. We use hydro-jetting equipment to clear stubborn blockages in drains, grease traps, and sewer lines without damaging the pipe interior." },
-  { q: "Do you handle underground pipe leaks?",          a: "Yes. Using acoustic leak detection equipment and CCTV survey, we locate the exact leak point and repair it with minimal excavation and disruption." },
+  { q: "Do you handle underground pipe leaks?",          a: "Yes. Using acoustic leak detection equipment and pipe camera inspection, we locate the exact leak point and repair it with minimal excavation and disruption." },
   { q: "Is pipe replacement covered by insurance?",      a: "Many home insurance policies in the UAE cover sudden pipe damage. We provide detailed, itemized invoices and reports to fully support your insurance claim." },
   { q: "Can you replace galvanized pipes with modern materials?", a: "Yes. Old galvanized iron pipes are prone to scale and corrosion. We replace them with durable uPVC or copper pipe networks that last 25+ years." },
   { q: "Do you do complete drainage system installations?", a: "Yes. We design and install complete drainage systems for new builds, extensions, and full property renovation projects in Dubai." },
@@ -49,7 +49,7 @@ const FAQS = [
 const FLOATING_CARDS = [
   { icon: Tag,     label: "Starting Price",  value: "AED 199",      colorClass: "bg-gold/15 text-gold",           valueClass: "text-gold" },
   { icon: Zap,     label: "Emergency",       value: "24/7 Response", colorClass: "bg-[#22c55e]/15 text-[#22c55e]", valueClass: "text-slate-900" },
-  { icon: Shield,  label: "CCTV Survey",     value: "Available",    colorClass: "bg-gold/15 text-gold",           valueClass: "text-slate-900" },
+  { icon: Shield,  label: "Camera Survey",   value: "Available",    colorClass: "bg-gold/15 text-gold",           valueClass: "text-slate-900" },
 ];
 
 const INTERNAL_LINKS = [
@@ -62,8 +62,8 @@ const SanitaryPipesLanding = () => (
   <ServiceLandingTemplate
     seo={{
       title: "Sanitary & Pipe Repair Services Dubai | Afnan",
-      description: "Expert sanitary installation & pipe repair in Dubai. Sewer line repair, hydro-jetting, CCTV survey, uPVC & copper pipe replacement. Licensed LLC. Get a free quote!",
-      keywords: "sanitary installation Dubai, pipe repair Dubai, sewer line repair Dubai, drain cleaning Dubai, hydro jetting Dubai, underground pipe leak Dubai, CCTV drain survey Dubai, pipe replacement Dubai, drainage system Dubai",
+      description: "Expert sanitary installation & pipe repair in Dubai. Sewer line repair, hydro-jetting, camera drain survey, uPVC & copper pipe replacement. Licensed LLC. Get a free quote!",
+      keywords: "sanitary installation Dubai, pipe repair Dubai, sewer line repair Dubai, drain cleaning Dubai, hydro jetting Dubai, underground pipe leak Dubai, drain camera survey Dubai, pipe replacement Dubai, drainage system Dubai",
       canonicalUrl: "/services/sanitary-pipes",
       ogImage: "https://maresidentialpropertycareservicellc.com/og-images/sanitary-pipes-dubai.jpg",
     }}
@@ -72,8 +72,8 @@ const SanitaryPipesLanding = () => (
     h1Gradient="& Pipe Repair Dubai"
     heroTag="Emergency Pipe Repair Available 24/7"
     heroSubtitle="Complete Sanitary & Drainage Solutions for Villas, Apartments & Commercial Properties"
-    heroDesc="From sewer line blockages to full pipe network replacement — specialist technicians with CCTV survey equipment and hydro-jetting tools."
-    heroBadges={["24/7 Emergency", "CCTV Survey", "Licensed LLC", "All Dubai Areas"]}
+    heroDesc="From sewer line blockages to full pipe network replacement — specialist technicians with camera inspection equipment and hydro-jetting tools."
+    heroBadges={["24/7 Emergency", "Camera Survey", "Licensed LLC", "All Dubai Areas"]}
     floatingCards={FLOATING_CARDS}
     warningSigns={WARNING_SIGNS}
     warningTitle="Is Your Drainage System Giving You These Problems?"
@@ -86,7 +86,7 @@ const SanitaryPipesLanding = () => (
     }}
     includedServices={INCLUDED_SERVICES}
     includedTitle="Complete Sanitary & Pipe Services in Dubai"
-    includedSubtitle="Specialist technicians handling pipe repair, sewer line clearing, CCTV surveys, and full drainage system installation."
+    includedSubtitle="Specialist technicians handling pipe repair, sewer line clearing, camera surveys, and full drainage system installation."
     processSteps={PROCESS_STEPS}
     processTitle="Our 5-Step Pipe Repair & Sanitary Process"
     processSubtitle="Precision diagnostics and expert repair — minimizing disruption to your property at every stage."
@@ -106,7 +106,7 @@ const SanitaryPipesLanding = () => (
       { value: "Bad Smell",      label: "Sewage Smell / Odor" },
       { value: "Replacement",    label: "Pipe Replacement" },
       { value: "New Install",    label: "New Drainage Installation" },
-      { value: "CCTV Survey",    label: "CCTV Drain Survey" },
+      { value: "Camera Survey",  label: "Drain Camera Survey" },
     ]}
     internalLinks={INTERNAL_LINKS}
   />

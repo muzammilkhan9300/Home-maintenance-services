@@ -7,8 +7,8 @@ import {
 import serviceElectrical from "@/assets/real_electrical_fittings.webp";
 
 const WARNING_SIGNS = [
-  { icon: Shield,  title: "No Security System",    desc: "Your property has no CCTV or alarm — leaving it completely vulnerable to theft and intrusion." },
-  { icon: Server,  title: "Outdated CCTV",          desc: "Old, low-resolution cameras that provide blurry, unusable footage when an incident occurs." },
+  { icon: Shield,  title: "No Security System",    desc: "Your property has no alarm or access control — leaving it completely vulnerable to theft and intrusion." },
+  { icon: Server,  title: "Outdated Intercom",      desc: "Old, broken intercom or door entry systems causing daily inconvenience and security gaps." },
   { icon: Zap,     title: "Faulty Intercom",        desc: "Broken intercom or door access system causing daily inconvenience and security gaps." },
   { icon: Wrench,  title: "Manual Controls",        desc: "Still using manual switches for everything when smart automation could save you time and energy." },
   { icon: Clock,   title: "Systems Going Offline",  desc: "Security panels or smart systems frequently losing connection, leaving your property unmonitored." },
@@ -16,40 +16,40 @@ const WARNING_SIGNS = [
 ];
 
 const INCLUDED_SERVICES = [
-  { icon: Eye,      title: "CCTV Installation",          desc: "Full HD IP cameras with NVR storage, mobile viewing app, night vision, and 4K resolution options." },
-  { icon: Shield,   title: "Access Control Systems",     desc: "Keypad entry, card readers, biometric fingerprint access, and video intercom systems." },
-  { icon: Package,  title: "Smart Home Automation",      desc: "Voice-controlled lighting, automated blinds, smart climate control, and complete scene programming." },
+  { icon: Eye,      title: "Smart Home Automation",     desc: "Voice-controlled lighting, automated blinds, smart climate control, and complete scene programming." },
+  { icon: Shield,   title: "Access Control Systems",    desc: "Keypad entry, card readers, biometric fingerprint access, and video intercom systems." },
+  { icon: Package,  title: "Intercom & Door Systems",   desc: "Video intercoms, smart doorbells, and integrated door release systems for villas and apartments." },
   { icon: Server,   title: "System Maintenance & Support", desc: "Ongoing technical support, remote monitoring setup, and regular software updates for all systems." },
 ];
 
 const PROCESS_STEPS = [
   { num: "01", title: "Step 1: Needs Analysis",        desc: "We assess your security and automation requirements and recommend the right systems for your property." },
-  { num: "02", title: "Step 2: System Design",         desc: "A custom layout plan showing camera positions, sensor placements, and cabling routes is presented." },
+  { num: "02", title: "Step 2: System Design",         desc: "A custom layout plan showing sensor placements, intercom positions, and cabling routes is presented." },
   { num: "03", title: "Step 3: Professional Install",  desc: "Neat, fully concealed cabling with all devices properly mounted, configured, and tested on-site." },
-  { num: "04", title: "Step 4: App Setup & Training",  desc: "Mobile app configured for live remote viewing. You're shown how to use every system completely." },
+  { num: "04", title: "Step 4: App Setup & Training",  desc: "Mobile app configured for remote access. You're shown how to use every system completely." },
   { num: "05", title: "Step 5: Ongoing Support",       desc: "Remote support available for troubleshooting, system updates, and adding new devices anytime." },
 ];
 
 const REVIEWS = [
-  { name: "Nasser Al Hamdan",   area: "Palm Jumeirah",  review: "Full smart home setup with lighting automation, CCTV, and smart locks. The installation was clean, professional, and the app works perfectly." },
-  { name: "Marina Petrov",      area: "JLT",            review: "4-camera CCTV system installed in our apartment building. Crystal clear HD footage and the mobile app lets me check live from anywhere in the world." },
+  { name: "Nasser Al Hamdan",   area: "Palm Jumeirah",  review: "Full smart home setup with lighting automation, smart locks, and access control. The installation was clean, professional, and the app works perfectly." },
+  { name: "Marina Petrov",      area: "JLT",            review: "Video intercom and access control installed in our apartment building. Crystal clear quality and the mobile app lets me manage entry from anywhere in the world." },
   { name: "Arjun Malhotra",     area: "Business Bay",   review: "Smart switches and dimmers installed throughout the apartment. The retrofit was seamless — no major wall work needed. Excellent team and fair pricing." },
 ];
 
 const FAQS = [
-  { q: "What CCTV brands do you install?",              a: "We install Hikvision, Dahua, and Axis IP cameras with NVR/DVR storage, mobile viewing apps, and night vision. Both indoor and outdoor cameras are available." },
+  { q: "What smart home systems do you install?",       a: "We install smart switches, dimmers, thermostats, smart locks, video doorbells, blinds motors, and voice assistant integrations (Alexa, Google Home)." },
   { q: "Can you add smart home to an existing property?", a: "Yes — we retrofit smart switches, dimmers, thermostats, and video doorbells into existing properties with minimal wall work required." },
   { q: "Do you install intercoms and access control?",  a: "Yes. Video intercoms, keypad entry, card readers, and biometric access systems for villas, apartments, and offices across Dubai." },
-  { q: "How long does CCTV installation take?",         a: "A standard 4-camera outdoor system for a villa takes approximately 4–6 hours. Larger systems are quoted individually following a site survey." },
-  { q: "Can I view my CCTV remotely from overseas?",    a: "Yes. We set up remote viewing apps (Hik-Connect, DMSS) so you can watch live or recorded footage from your smartphone anywhere in the world." },
-  { q: "Do you service and maintain installed systems?", a: "Yes. We provide ongoing maintenance contracts for CCTV and smart home systems — including software updates, health checks, and priority support." },
+  { q: "How long does a smart home installation take?", a: "A standard smart lighting setup for a 2-bedroom apartment takes approximately 4–6 hours. Larger projects are quoted individually following a site survey." },
+  { q: "Can I control my home remotely from overseas?", a: "Yes. We set up remote access apps so you can control lighting, locks, and intercoms from your smartphone anywhere in the world." },
+  { q: "Do you service and maintain installed systems?", a: "Yes. We provide ongoing maintenance contracts for smart home and access control systems — including software updates, health checks, and priority support." },
   { q: "What smart home devices can you integrate?",    a: "We integrate smart switches, dimmers, thermostats, smart locks, video doorbells, blinds motors, and voice assistants (Alexa, Google Home) into one unified system." },
 ];
 
 const FLOATING_CARDS = [
-  { icon: Tag,     label: "4-Camera Setup",  value: "From AED 899", colorClass: "bg-gold/15 text-gold",           valueClass: "text-gold" },
-  { icon: Zap,     label: "Remote View",     value: "Anywhere",     colorClass: "bg-[#22c55e]/15 text-[#22c55e]", valueClass: "text-slate-900" },
-  { icon: Shield,  label: "Professional",    value: "Installation",  colorClass: "bg-gold/15 text-gold",           valueClass: "text-slate-900" },
+  { icon: Tag,     label: "Smart Setup",   value: "From AED 499", colorClass: "bg-gold/15 text-gold",           valueClass: "text-gold" },
+  { icon: Zap,     label: "Remote Access", value: "Anywhere",     colorClass: "bg-[#22c55e]/15 text-[#22c55e]", valueClass: "text-slate-900" },
+  { icon: Shield,  label: "Professional",  value: "Installation",  colorClass: "bg-gold/15 text-gold",           valueClass: "text-slate-900" },
 ];
 
 const INTERNAL_LINKS = [
@@ -61,52 +61,52 @@ const INTERNAL_LINKS = [
 const SystemsMaintenanceLanding = () => (
   <ServiceLandingTemplate
     seo={{
-      title: "CCTV & Smart Home Installation Dubai | Afnan",
-      description: "Professional CCTV installation, smart home automation & access control in Dubai. Hikvision, Dahua, and smart systems. Licensed LLC. Remote viewing setup. Book now!",
-      keywords: "CCTV installation Dubai, smart home Dubai, security system Dubai, access control Dubai, intercom Dubai, home automation Dubai, CCTV camera Dubai, smart switches Dubai, security camera Dubai, alarm system Dubai",
+      title: "Smart Home & Access Control Installation Dubai | Afnan",
+      description: "Professional smart home automation, access control & intercom installation in Dubai. Smart switches, video doorbells, keypad entry & more. Licensed LLC. Book now!",
+      keywords: "smart home Dubai, access control Dubai, intercom Dubai, home automation Dubai, smart switches Dubai, video doorbell Dubai, smart locks Dubai, biometric access Dubai, alarm system Dubai, smart home installation Dubai",
       canonicalUrl: "/services/systems-maintenance",
       ogImage: "https://maresidentialpropertycareservicellc.com/og-images/systems-maintenance-dubai.jpg",
     }}
     heroImage={serviceElectrical}
-    h1Plain="CCTV & Smart Home"
+    h1Plain="Smart Home & Access Control"
     h1Gradient="Systems in Dubai"
-    heroTag="Professional Security Systems Specialist"
-    heroSubtitle="CCTV, Access Control & Smart Home Automation for Dubai Villas & Apartments"
-    heroDesc="Protect your property and automate your home with professional-grade security systems and smart home technology — installed, configured, and remotely accessible."
-    heroBadges={["Remote Viewing App", "Licensed LLC", "Certified Engineers", "All Dubai Areas"]}
+    heroTag="Professional Smart Systems Specialist"
+    heroSubtitle="Smart Home Automation, Access Control & Intercom Systems for Dubai Villas & Apartments"
+    heroDesc="Automate your home and secure your property with professional-grade smart home and access control systems — installed, configured, and remotely accessible."
+    heroBadges={["Remote Access App", "Licensed LLC", "Certified Engineers", "All Dubai Areas"]}
     floatingCards={FLOATING_CARDS}
     warningSigns={WARNING_SIGNS}
     warningTitle="Is Your Property Security Up To Standard?"
     warningSubtitle="Don't leave your Dubai property vulnerable. If any of these apply to you, it's time to upgrade your security and smart systems."
     beforeAfter={{
       title: "Before vs After Smart Systems Installation",
-      subtitle: "See how our professional CCTV and smart home services transform your property's security and convenience.",
-      before: ["No visibility of who enters or exits", "Manual, inefficient home controls", "Security blind spots and vulnerabilities", "Systems offline with no monitoring"],
-      after: ["Full HD CCTV coverage 24/7 anywhere", "Smart, automated home control via app", "Complete security from every angle", "Remote monitoring from anywhere in the world"],
+      subtitle: "See how our professional smart home and access control services transform your property's security and convenience.",
+      before: ["No remote control of home devices", "Manual, inefficient home controls", "Security blind spots and vulnerabilities", "Systems offline with no monitoring"],
+      after: ["Full smart home control via app", "Smart, automated home control from anywhere", "Complete access control from every entry point", "Remote monitoring from anywhere in the world"],
     }}
     includedServices={INCLUDED_SERVICES}
-    includedTitle="Complete Security & Smart Home Services in Dubai"
-    includedSubtitle="Certified engineers installing and maintaining CCTV, smart home, and access control systems across Dubai."
+    includedTitle="Complete Smart Home & Access Control Services in Dubai"
+    includedSubtitle="Certified engineers installing and maintaining smart home, intercom, and access control systems across Dubai."
     processSteps={PROCESS_STEPS}
     processTitle="Our 5-Step Systems Installation Process"
     processSubtitle="From needs assessment to remote app setup — professional installation with ongoing support."
     stats={[["500+", "Systems Installed"], ["4.8★", "Customer Rating"], ["15+", "Brands Available"], ["24/7", "Remote Support"]]}
     reviews={REVIEWS}
     faqs={FAQS}
-    faqTitle="Frequently Asked Questions About CCTV & Smart Home in Dubai"
-    faqSubtitle="Answers to the most common questions about our security systems and smart home installation services."
+    faqTitle="Frequently Asked Questions About Smart Home & Access Control in Dubai"
+    faqSubtitle="Answers to the most common questions about our smart home automation and access control installation services."
     serviceSlug="systems-maintenance"
-    serviceName="CCTV & Smart Home Systems"
-    ctaHeading="Secure Your Dubai Property Today."
-    ctaSubtitle="Get a free site survey and quote for CCTV or smart home installation anywhere in Dubai."
+    serviceName="Smart Home & Access Control Systems"
+    ctaHeading="Automate & Secure Your Dubai Property Today."
+    ctaSubtitle="Get a free site survey and quote for smart home or access control installation anywhere in Dubai."
     formUnitLabel="Type of System"
     formUnitOptions={[
-      { value: "CCTV-Small",     label: "CCTV (1–4 Cameras)" },
-      { value: "CCTV-Large",     label: "CCTV (5+ Cameras)" },
-      { value: "Access Control", label: "Access Control / Intercom" },
       { value: "Smart Home",     label: "Smart Home Automation" },
+      { value: "Access Control", label: "Access Control / Intercom" },
+      { value: "Smart Lighting", label: "Smart Lighting & Dimmers" },
+      { value: "Video Doorbell", label: "Video Doorbell / Intercom" },
       { value: "Alarm System",   label: "Alarm / Security System" },
-      { value: "Full Package",   label: "Full Security Package" },
+      { value: "Full Package",   label: "Full Smart Home Package" },
     ]}
     internalLinks={INTERNAL_LINKS}
   />

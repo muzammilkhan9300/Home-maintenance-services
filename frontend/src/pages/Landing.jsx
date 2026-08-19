@@ -388,7 +388,7 @@ const Landing = () => {
           {[
             {
               q: "What home maintenance services do you offer in Dubai?",
-              a: "Afnan Property Care offers AC cleaning & maintenance, plumbing & sanitary repair, electrical fittings, building cleaning, painting contracting, floor & wall tiling, plaster works, CCTV & systems installation, and comprehensive residential property care across all areas of Dubai."
+              a: "Afnan Property Care offers AC cleaning & maintenance, plumbing & sanitary repair, electrical fittings, building cleaning, painting contracting, floor & wall tiling, plaster works, smart home & access control installation, and comprehensive residential property care across all areas of Dubai."
             },
             {
               q: "Are you a licensed home maintenance company in Dubai?",
