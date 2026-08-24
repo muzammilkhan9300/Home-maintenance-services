@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { useState, useEffect, lazy, Suspense } from "react";
-import afnanLogo from "@/assets/afnan-logo.png";
+import afnanLogo from "@/assets/afnan-logo.webp";
 
 const CareerModal = lazy(() => import("@/components/CareerModal"));
 
@@ -52,7 +52,6 @@ const Navbar = () => {
             width="56"
             height="56"
             decoding="async"
-            fetchPriority="high"
           />
           <div className="flex flex-col">
             <span className={`text-base font-bold font-['Montserrat'] tracking-tight leading-tight transition-colors ${logoColor}`}>

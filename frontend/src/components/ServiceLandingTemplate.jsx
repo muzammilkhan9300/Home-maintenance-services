@@ -319,8 +319,9 @@ const ServiceLandingTemplate = ({
               </div>
             </div>
 
-            {/* Right: hero image */}
-            <div className="hero-fade-in relative aspect-[4/5] max-w-md mx-auto lg:max-w-none w-full rounded-3xl overflow-hidden border border-gold/10 shadow-gold/20 shadow-2xl" style={{ animationDelay: "150ms" }}>
+            {/* Right: hero image — visible immediately, no fade (this is the LCP element;
+                an opacity animation here would delay its paint and hurt LCP) */}
+            <div className="relative aspect-[4/5] max-w-md mx-auto lg:max-w-none w-full rounded-3xl overflow-hidden border border-gold/10 shadow-gold/20 shadow-2xl">
               <img
                 src={heroImage}
                 alt={`Afnan Professional ${serviceName} service in Dubai`}

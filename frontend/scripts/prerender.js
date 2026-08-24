@@ -15,13 +15,22 @@ const CHROME_PATH =
   process.env.CHROME_PATH ||
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 
+// Capture the pristine Vite-built shell BEFORE any prerendering starts.
+// Routes are prerendered in sequence and each one WRITES its optimized HTML
+// back into dist/ (e.g. '/' overwrites dist/index.html). If the catch-all
+// below re-read that file from disk, every route prerendered AFTER '/' would
+// navigate against the *homepage's* already-optimized markup instead of the
+// real SPA shell — silently inheriting the homepage's baked-in resource
+// hints (like its hero image preload) into every other page's snapshot.
+const pristineIndexHtml = fs.readFileSync(path.join(distPath, 'index.html'), 'utf8');
+
 // Start Express server to host the build
 const app = express();
 app.use(express.static(distPath));
 
-// Catch-all route to serve index.html for React router (Express 5 compatible)
+// Catch-all route to serve the pristine shell for React router (Express 5 compatible)
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(distPath, 'index.html'));
+  res.type('html').send(pristineIndexHtml);
 });
 
 // ── Chunks that NEVER need to load on initial paint ──────────────────────────
@@ -61,6 +70,19 @@ function optimizeHtml(htmlContent, routeUrl) {
     htmlContent = htmlContent.replace(/<meta property="og:title" content="Afnan Property Care - Dubai Home Maintenance"\s*\/?>/gi, '');
     htmlContent = htmlContent.replace(/<meta property="og:description" content="Professional residential property care services in Dubai[^"]*"\s*\/?>/gi, '');
   }
+
+  // ── 1b. Un-flip the Google Fonts link back to non-blocking preload ────────
+  // Puppeteer snapshots the DOM AFTER the page's own onload handler already
+  // fired and flipped rel="preload" -> rel="stylesheet" (see index.html's
+  // "NON-RENDER-BLOCKING ASYNC FONT LOAD" trick). Capturing that post-onload
+  // state bakes a RENDER-BLOCKING stylesheet into the static HTML that ships
+  // to every real visitor and to Lighthouse/PSI. Detect the tag by its
+  // `onload=` attribute (unique to the async link; the <noscript> fallback
+  // has no onload and must stay untouched) and force rel back to "preload".
+  htmlContent = htmlContent.replace(
+    /<link(?=[^>]*\sonload="[^"]*")(?=[^>]*\shref="https:\/\/fonts\.googleapis\.com\/css2\?)([^>]*)>/gi,
+    (match, attrs) => `<link rel="preload"${attrs.replace(/\srel="[^"]*"/i, '')}>`
+  );
 
   // ── 2. Strip heavy modulepreload hints (they trigger early fetch of all chunks) ─
   for (const chunk of CHUNKS_TO_STRIP_PRELOAD) {
