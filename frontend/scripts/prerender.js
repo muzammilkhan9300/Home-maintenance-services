@@ -24,6 +24,104 @@ app.get(/.*/, (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
+// ── Chunks that NEVER need to load on initial paint ──────────────────────────
+// These are deferred: they are still loaded but AFTER the page is interactive
+const CHUNKS_TO_DEFER = [
+  'recharts-',
+  'Admin',
+  'supabase-',
+  'date-fns-',
+  'cmdk-',
+  'vaul-',
+  'admin-widgets-',
+  'carousel-',
+];
+
+// ── Chunks that are completely removed from preloads (never needed on page load)
+const CHUNKS_TO_STRIP_PRELOAD = [
+  'recharts-',
+  'Admin',
+  'supabase-',
+  'real_',       // image JS wrappers
+  'CareerModal-',
+  'services-',   // service list data (not needed on landing page)
+  'date-fns-',
+  'cmdk-',
+  'vaul-',
+  'admin-widgets-',
+  'carousel-',
+  'framer-',
+];
+
+function optimizeHtml(htmlContent, routeUrl) {
+  // ── 1. Strip duplicate static fallback tags ───────────────────────────────
+  if (htmlContent.includes('data-rh="true"')) {
+    htmlContent = htmlContent.replace(/<title>Afnan Property Care - Premium Home Maintenance Services in Dubai<\/title>/gi, '');
+    htmlContent = htmlContent.replace(/<meta name="description" content="Licensed property maintenance company in Dubai[^"]*"\s*\/?>/gi, '');
+    htmlContent = htmlContent.replace(/<meta property="og:title" content="Afnan Property Care - Dubai Home Maintenance"\s*\/?>/gi, '');
+    htmlContent = htmlContent.replace(/<meta property="og:description" content="Professional residential property care services in Dubai[^"]*"\s*\/?>/gi, '');
+  }
+
+  // ── 2. Strip heavy modulepreload hints (they trigger early fetch of all chunks) ─
+  for (const chunk of CHUNKS_TO_STRIP_PRELOAD) {
+    const re = new RegExp(`<link rel="modulepreload" as="script" crossorigin="" href="/assets/${chunk}[^"]*">`, 'g');
+    htmlContent = htmlContent.replace(re, '');
+  }
+  // Always strip seo- and tanstack- from preloads (not needed for initial render)
+  htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/seo-[^"]*">/g, '');
+  htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/tanstack-[^"]*">/g, '');
+  htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/forms-[^"]*">/g, '');
+  htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/ui-utils-[^"]*">/g, '');
+  htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/style-utils-[^"]*">/g, '');
+
+  // ── 3. Convert heavy <script type="module"> tags to defer ─────────────────
+  // This is CRITICAL for TBT: deferred scripts don't block the main thread
+  for (const chunk of CHUNKS_TO_DEFER) {
+    const re = new RegExp(`(<script type="module" crossorigin src="/assets/${chunk}[^"]*")>`, 'g');
+    htmlContent = htmlContent.replace(re, '$1 defer>');
+  }
+
+  // ── 4. Add defer to vendor and non-critical shared chunks ─────────────────
+  // vendor, forms, ui-utils, style-utils, tanstack — not needed for first paint
+  htmlContent = htmlContent.replace(
+    /(<script type="module" crossorigin src="\/assets\/vendor-[^"]*")>/g,
+    '$1 defer>'
+  );
+  htmlContent = htmlContent.replace(
+    /(<script type="module" crossorigin src="\/assets\/forms-[^"]*")>/g,
+    '$1 defer>'
+  );
+  htmlContent = htmlContent.replace(
+    /(<script type="module" crossorigin src="\/assets\/ui-utils-[^"]*")>/g,
+    '$1 defer>'
+  );
+  htmlContent = htmlContent.replace(
+    /(<script type="module" crossorigin src="\/assets\/style-utils-[^"]*")>/g,
+    '$1 defer>'
+  );
+  htmlContent = htmlContent.replace(
+    /(<script type="module" crossorigin src="\/assets\/tanstack-[^"]*")>/g,
+    '$1 defer>'
+  );
+  htmlContent = htmlContent.replace(
+    /(<script type="module" crossorigin src="\/assets\/seo-[^"]*")>/g,
+    '$1 defer>'
+  );
+
+  // ── 5. Inject hero image <link rel="preload"> ─────────────────────────────
+  const heroImgMatch =
+    htmlContent.match(/<img[^>]+src="([^"]+(?:hero|real_|service)[^"]*\.(?:webp|jpg|png))"[^>]*>/i) ||
+    htmlContent.match(/<img[^>]+fetchpriority="high"[^>]+src="([^"]+\.(?:webp|jpg|png))"[^>]*>/i) ||
+    htmlContent.match(/<img[^>]+src="([^"]+\.(?:webp|jpg|png))"[^>]+fetchpriority="high"[^>]*>/i);
+
+  if (heroImgMatch && heroImgMatch[1] && !htmlContent.includes(`rel="preload" as="image" href="${heroImgMatch[1]}"`)) {
+    const preloadTag = `<link rel="preload" as="image" href="${heroImgMatch[1]}" fetchpriority="high" type="image/webp" />`;
+    htmlContent = htmlContent.replace('</head>', `${preloadTag}</head>`);
+  }
+
+  return htmlContent;
+}
+
 const server = app.listen(PORT, async () => {
   console.log(`[prerender] Local server running on port ${PORT}`);
   try {
@@ -73,43 +171,14 @@ const server = app.listen(PORT, async () => {
         timeout: 30000
       });
 
-      // Wait additional time for DOM mounts and CSS animation states to stabilize
+      // Wait for DOM mounts and CSS animation states to stabilize
       await new Promise(resolve => setTimeout(resolve, 1500));
 
       // Extract fully rendered HTML from the live DOM
       let htmlContent = await page.content();
 
-      // Clean up duplicate template fallback tags if React Helmet dynamic tags are present
-      if (htmlContent.includes('data-rh="true"')) {
-        // Remove static fallback title from index.html template
-        htmlContent = htmlContent.replace(/<title>Afnan Property Care - Premium Home Maintenance Services in Dubai<\/title>/gi, '');
-        // Remove static fallback description from index.html template
-        htmlContent = htmlContent.replace(/<meta name="description" content="Licensed property maintenance company in Dubai[^"]*"\s*\/?>/gi, '');
-        // Remove static fallback OG tags from index.html template
-        htmlContent = htmlContent.replace(/<meta property="og:title" content="Afnan Property Care - Dubai Home Maintenance"\s*\/?>/gi, '');
-        htmlContent = htmlContent.replace(/<meta property="og:description" content="Professional residential property care services in Dubai[^"]*"\s*\/?>/gi, '');
-      }
-
-      // ── Find LCP hero image and inject <link rel="preload" as="image"> ──────
-      // Skip logo/favicon - look specifically for the large hero/service image
-      const heroImgMatch = htmlContent.match(/<img[^>]+src="([^"]+(?:hero|real_|service)[^"]*\.(?:webp|jpg|png))"[^>]*>/i)
-        || htmlContent.match(/<img[^>]+fetchpriority="high"[^>]+src="([^"]+\.(?:webp|jpg|png))"[^>]*>/i)
-        || htmlContent.match(/<img[^>]+src="([^"]+\.(?:webp|jpg|png))"[^>]+fetchpriority="high"[^>]*>/i);
-      if (heroImgMatch && heroImgMatch[1] && !htmlContent.includes(`rel="preload" as="image" href="${heroImgMatch[1]}"`)) {
-        const preloadTag = `<link rel="preload" as="image" href="${heroImgMatch[1]}" fetchpriority="high" type="image/webp" />`;
-        htmlContent = htmlContent.replace('</head>', `${preloadTag}</head>`);
-      }
-      // ── Remove framer-motion & heavy admin chunks from modulepreload (reduces TBT) ──
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/framer-[^"]+">/g, '');
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/recharts-[^"]+">/g, '');
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/Admin[^"]+">/g, '');
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/radix-[^"]+">/g, '');
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/tanstack-[^"]+">/g, '');
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/supabase-[^"]+">/g, '');
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/real_[^"]+">/g, '');
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/seo-[^"]+">/g, '');
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/CareerModal-[^"]+">/g, '');
-      htmlContent = htmlContent.replace(/<link rel="modulepreload" as="script" crossorigin="" href="\/assets\/services-[^"]+">/g, '');
+      // Apply all optimizations
+      htmlContent = optimizeHtml(htmlContent, item.url);
 
       for (const destDir of item.dest) {
         fs.mkdirSync(destDir, { recursive: true });

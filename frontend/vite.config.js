@@ -46,9 +46,9 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
-    target: "es2020",
-    // Inline small assets under 4KB to save HTTP requests
-    assetsInlineLimit: 4096,
+    target: "es2022",
+    // Inline small assets under 8KB to save HTTP requests
+    assetsInlineLimit: 8192,
     // ── Use Terser for ~15-20% smaller bundles vs default esbuild ─────────────
     minify: "terser",
     terserOptions: {

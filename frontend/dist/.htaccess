@@ -3,9 +3,6 @@
 # Afnan Property Care (maresidentialpropertycareservicellc.com)
 # ══════════════════════════════════════════════════════════════════════════════
 
-# ── DirectoryIndex: always try index.html in directory first ─────────────
-DirectoryIndex index.html
-
 # ── Enable Rewrite Engine (required for SPA routing) ─────────────────────
 Options -MultiViews
 RewriteEngine On
@@ -28,8 +25,8 @@ RewriteCond %{REQUEST_URI} ^/(.+)/+$
 RewriteRule ^ /%1 [R=301,L]
 
 # ── Serve prerendered static HTML from directory index.html ──────────────
-# CRITICAL for Google indexing: Googlebot gets full HTML without needing JS
-# e.g. /services/ac-cleaning → serves /services/ac-cleaning/index.html
+# After trailing-slash redirect, /services/ac-cleaning hits this rule and
+# is served services/ac-cleaning/index.html as 200 OK (internal rewrite).
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}/index.html -f
 RewriteRule ^(.*)$ /$1/index.html [L]
