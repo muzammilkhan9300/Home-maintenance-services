@@ -145,3 +145,25 @@
   descent-override: 22%;
   line-gap-override: 0%;
 }
+
+/* ═══ PERFORMANCE: Self-hosted variable fonts ═════════════════════════════
+   Previously loaded from Google Fonts (fonts.googleapis.com + a separate
+   fonts.gstatic.com origin), which cost a DNS lookup + connection + CSS
+   round trip to a third-party origin before the actual font file could
+   even start downloading. Both Inter and Montserrat are shipped by Google
+   as single variable-weight files, so self-hosting needs only these two
+   files to cover every weight (400-900) used across the site. */
+@font-face {
+  font-family: 'Inter';
+  src: url('./assets/fonts/inter-variable.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Montserrat';
+  src: url('./assets/fonts/montserrat-variable.woff2') format('woff2');
+  font-weight: 700 900;
+  font-style: normal;
+  font-display: swap;
+}

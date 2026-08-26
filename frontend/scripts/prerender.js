@@ -71,18 +71,13 @@ function optimizeHtml(htmlContent, routeUrl) {
     htmlContent = htmlContent.replace(/<meta property="og:description" content="Professional residential property care services in Dubai[^"]*"\s*\/?>/gi, '');
   }
 
-  // ── 1b. Un-flip the Google Fonts link back to non-blocking preload ────────
-  // Puppeteer snapshots the DOM AFTER the page's own onload handler already
-  // fired and flipped rel="preload" -> rel="stylesheet" (see index.html's
-  // "NON-RENDER-BLOCKING ASYNC FONT LOAD" trick). Capturing that post-onload
-  // state bakes a RENDER-BLOCKING stylesheet into the static HTML that ships
-  // to every real visitor and to Lighthouse/PSI. Detect the tag by its
-  // `onload=` attribute (unique to the async link; the <noscript> fallback
-  // has no onload and must stay untouched) and force rel back to "preload".
-  htmlContent = htmlContent.replace(
-    /<link(?=[^>]*\sonload="[^"]*")(?=[^>]*\shref="https:\/\/fonts\.googleapis\.com\/css2\?)([^>]*)>/gi,
-    (match, attrs) => `<link rel="preload"${attrs.replace(/\srel="[^"]*"/i, '')}>`
-  );
+  // NOTE: deliberately NOT preloading the self-hosted fonts here. Measured
+  // with Lighthouse: a high-priority preload for both font files (86KB
+  // combined) competed with the hero image for bandwidth under throttled
+  // conditions and pushed LCP out rather than in, since the LCP element on
+  // most pages is that image, not text. Letting the browser discover the
+  // fonts through normal CSS parsing (same-origin, no DNS/connection
+  // overhead now) scores better in practice than preloading them.
 
   // ── 2. Strip heavy modulepreload hints (they trigger early fetch of all chunks) ─
   for (const chunk of CHUNKS_TO_STRIP_PRELOAD) {
