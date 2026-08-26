@@ -6,6 +6,17 @@ import servicePlumbing from "@/assets/real_plumbing_sanitary.webp";
 import serviceTiling from "@/assets/real_tiling_works.webp";
 import servicePlaster from "@/assets/real_plaster_works.webp";
 
+// Smaller, right-sized variants for the homepage service-card grid (displayed
+// at ~400x240 vs the full hero images above, which run up to 900x900 —
+// reusing the hero images there wastes ~200KB of transfer on the homepage).
+import serviceAcCleaningCard from "@/assets/real_ac_cleaning-card.webp";
+import serviceCleaningCard from "@/assets/real_building_cleaning-card.webp";
+import servicePaintingCard from "@/assets/real_painting_contracting-card.webp";
+import serviceElectricalCard from "@/assets/real_electrical_fittings-card.webp";
+import servicePlumbingCard from "@/assets/real_plumbing_sanitary-card.webp";
+import serviceTilingCard from "@/assets/real_tiling_works-card.webp";
+import servicePlasterCard from "@/assets/real_plaster_works-card.webp";
+
 export const services = [
   {
     id: "ac-cleaning",
@@ -13,6 +24,7 @@ export const services = [
     description: "Professional AC Cleaning Services For Villas, Apartments & Offices. Improve cooling performance, remove dust and odors, and reduce electricity consumption with certified AC technicians.",
     features: ["Indoor Unit Deep Cleaning", "Outdoor Unit Cleaning", "Filter Sanitization", "Drain Line Inspection"],
     image: serviceAcCleaning,
+    cardImage: serviceAcCleaningCard,
     icon: "Snowflake",
     warningSigns: [
       { icon: "Snowflake", title: "Weak Cooling", desc: "Your AC runs constantly but the air coming out isn't cold enough to cool the room." },
@@ -51,6 +63,7 @@ export const services = [
     description: "Professional cleaning services delivering spotless exteriors and interiors for office buildings, luxury villas, and apartments.",
     features: ["Deep Cleaning", "Window & Facade Washing", "Post-Construction Cleanup", "Regular Maintenance", "Sanitization Services"],
     image: serviceCleaning,
+    cardImage: serviceCleaningCard,
     icon: "Sparkles",
     warningSigns: [
       { icon: "Sparkles", title: "Accumulated Dust", desc: "Thick dust on surfaces, shelves, and behind furniture affecting health and air quality." },
@@ -89,6 +102,7 @@ export const services = [
     description: "High-quality, durable interior and exterior painting services executed by skilled professionals for a flawless finish.",
     features: ["Interior Wall Painting", "Exterior Villa Painting", "Texture & Feature Walls", "Waterproofing", "Epoxy Floor Coatings"],
     image: servicePainting,
+    cardImage: servicePaintingCard,
     icon: "Paintbrush",
     warningSigns: [
       { icon: "BrickWall", title: "Peeling Paint", desc: "Paint peeling or bubbling off walls — a sign of moisture or old adhesion failure." },
@@ -127,6 +141,7 @@ export const services = [
     description: "Safe, compliant, and reliable electrical services handled by certified technicians for all building types.",
     features: ["Wiring & Rewiring", "Distribution Board Repair", "Lighting Installation", "Fault Finding", "Safety Inspections"],
     image: serviceElectrical,
+    cardImage: serviceElectricalCard,
     icon: "Zap",
     warningSigns: [
       { icon: "Zap", title: "Frequent Tripping", desc: "Circuit breakers tripping repeatedly — a sign of overloaded or faulty circuits." },
@@ -165,6 +180,7 @@ export const services = [
     description: "Expert plumbing solutions ranging from routine maintenance to full-scale sanitary and water network installations.",
     features: ["Leak Detection & Repair", "Water Heater Services", "Pump Installation", "Bathroom & Kitchen Fixtures", "Drain Unblocking"],
     image: servicePlumbing,
+    cardImage: servicePlumbingCard,
     icon: "Droplet",
     warningSigns: [
       { icon: "Droplets", title: "Dripping Faucets", desc: "Constant dripping wastes hundreds of liters daily and significantly inflates DEWA bills." },
@@ -203,6 +219,7 @@ export const services = [
     description: "Comprehensive installation and repair of structural sanitary networks, drainage systems, and external water piping.",
     features: ["PVC & Copper Pipe Repair", "Drainage System Setup", "Sewer Line Maintenance", "Underground Piping", "Valve Replacements"],
     image: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=80&w=800&auto=format&fit=crop",
+    cardImage: "https://images.unsplash.com/photo-1585704032915-c3400ca199e7?q=75&w=400&auto=format&fit=crop",
     icon: "Wrench",
     warningSigns: [
       { icon: "Droplets", title: "Sewage Smells", desc: "Foul odors from drains or around the property indicating a sewer blockage or break." },
@@ -241,6 +258,7 @@ export const services = [
     description: "Precision installation of premium ceramic, porcelain, and marble tiles for stunning and durable floors and walls.",
     features: ["Ceramic & Porcelain Laying", "Marble Installation", "Grout Restoration", "Bathroom Wall Tiling", "Outdoor Pavers"],
     image: serviceTiling,
+    cardImage: serviceTilingCard,
     icon: "LayoutGrid",
     warningSigns: [
       { icon: "BrickWall", title: "Cracked Tiles", desc: "Cracked or broken tiles that are a tripping hazard and look unsightly." },
@@ -279,6 +297,7 @@ export const services = [
     description: "All-encompassing care for your home ensuring longevity, aesthetic appeal, and structural integrity year-round.",
     features: ["Annual Maintenance Contracts", "Routine Inspections", "General Handyman", "Preventative Care", "Emergency Callouts"],
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop",
+    cardImage: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=75&w=400&auto=format&fit=crop",
     icon: "Home",
     warningSigns: [
       { icon: "Wrench", title: "Small Issues Ignored", desc: "Minor problems like dripping taps or flickering lights left unattended for months." },
@@ -317,6 +336,7 @@ export const services = [
     description: "Modern integration and upkeep of smart home systems, security panels, and intricate property management setups.",
     features: ["Smart Home Automation", "Access Control", "Video Intercoms", "Smart Lighting", "Control Panel Calibration"],
     image: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=80&w=800&auto=format&fit=crop",
+    cardImage: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?q=75&w=400&auto=format&fit=crop",
     icon: "Server",
     warningSigns: [
       { icon: "Shield", title: "No Security System", desc: "Your property has no alarm or access control — leaving it vulnerable to intrusion." },
@@ -355,6 +375,7 @@ export const services = [
     description: "Professional plastering and skimming services delivering perfectly smooth walls ready for premium paint or wallpaper.",
     features: ["Wall Skimming", "Crack Repairs", "Decorative Plastering", "Ceiling Repairs", "Drywall Installation"],
     image: servicePlaster,
+    cardImage: servicePlasterCard,
     icon: "BrickWall",
     warningSigns: [
       { icon: "BrickWall", title: "Visible Cracks", desc: "Hairline or growing cracks in walls and ceilings — a structural or moisture warning." },
