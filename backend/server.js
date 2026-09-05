@@ -361,6 +361,24 @@ app.use('/assets', express.static(path.join(frontendPath, 'assets'), {
 // separately via /api/bootstrap and isn't affected by this.
 const HTML_CACHE_CONTROL = 'public, max-age=60, s-maxage=600, stale-while-revalidate=86400, stale-if-error=86400';
 
+// Every prerendered page's own <link rel="canonical"> declares the NO-slash
+// URL as canonical (e.g. /services/ac-cleaning), but express.static's default
+// behavior 301-redirects that exact request to add a trailing slash before
+// serving dist/services/ac-cleaning/index.html — meaning the canonical URL
+// redirected to a different URL, costing an extra round trip before the real
+// page even started loading for anyone (including PageSpeed Insights) who
+// hit the URL the site itself claims is canonical. Serve the directory's
+// index.html directly for these instead, ahead of express.static, so the
+// canonical URL itself returns 200 with the right content.
+app.get(/^(?!\/api)[^.]*[^/]$/, (req, res, next) => {
+  const indexPath = path.join(frontendPath, req.path, 'index.html');
+  if (fs.existsSync(indexPath)) {
+    res.set('Cache-Control', HTML_CACHE_CONTROL);
+    return res.sendFile(indexPath);
+  }
+  next();
+});
+
 app.use(express.static(frontendPath, {
   setHeaders: (res, filePath) => {
     if (filePath.endsWith('.html')) {
