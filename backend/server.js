@@ -349,10 +349,28 @@ app.use('/assets', express.static(path.join(frontendPath, 'assets'), {
   immutable: true
 }));
 
-// Serve other static assets normally
-app.use(express.static(frontendPath));
+// Serve other static assets normally — HTML gets a short edge-cacheable TTL
+// with stale-while-revalidate/stale-if-error so Hostinger's CDN can absorb
+// traffic (and origin hiccups) instead of forwarding every single page view
+// straight to this Node process. Without this, Cache-Control defaulted to
+// "max-age=0" and the CDN treated every HTML response as DYNAMIC (see
+// x-hcdn-cache-status), meaning any origin slowdown or restart was directly
+// exposed to every visitor and to tools like PageSpeed Insights. The pages
+// themselves only change on redeploy, so a few minutes of edge caching is
+// safe — dynamic content (settings, notices, testimonials) is fetched
+// separately via /api/bootstrap and isn't affected by this.
+const HTML_CACHE_CONTROL = 'public, max-age=60, s-maxage=600, stale-while-revalidate=86400, stale-if-error=86400';
+
+app.use(express.static(frontendPath, {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith('.html')) {
+      res.setHeader('Cache-Control', HTML_CACHE_CONTROL);
+    }
+  }
+}));
 
 app.get(/^(?!\/api).*$/, (req, res) => {
+  res.set('Cache-Control', HTML_CACHE_CONTROL);
   res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
