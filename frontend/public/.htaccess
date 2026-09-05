@@ -82,8 +82,8 @@ RewriteRule ^ /index.html [L]
 <IfModule mod_expires.c>
   ExpiresActive On
 
-  # ── HTML: short TTL (see Cache-Control header below for the full policy) ─
-  ExpiresByType text/html                         "access plus 60 seconds"
+  # ── HTML: (see Cache-Control header below for the full, authoritative policy) ─
+  ExpiresByType text/html                         "access plus 300 seconds"
 
   # ── Vite-hashed JS & CSS: 1 year immutable ───────────────────────────────
   ExpiresByType application/javascript            "access plus 1 year"
@@ -118,14 +118,15 @@ RewriteRule ^ /index.html [L]
 # CACHE-CONTROL HEADERS — Explicit Cache-Control for hashed assets
 # ══════════════════════════════════════════════════════════════════════════════
 <IfModule mod_headers.c>
-  # ── HTML: short edge-cacheable TTL + X-Robots-Tag on HTML responses ──────
-  # Kept in sync with backend/server.js's HTML_CACHE_CONTROL. A short TTL
-  # with stale-while-revalidate/stale-if-error lets Hostinger's CDN absorb
-  # traffic and origin hiccups instead of forwarding every page view straight
-  # to the Node process — the prior "no-store" here forced 100% of requests
-  # to origin with zero buffer against slowdowns or restarts.
+  # ── HTML: day-long edge-cacheable TTL + X-Robots-Tag on HTML responses ───
+  # Kept in sync with backend/server.js's HTML_CACHE_CONTROL — see that file
+  # for why s-maxage is a full day rather than minutes (Hostinger's Node
+  # process can be recycled by the platform at will, with no way to prevent
+  # it; a longer TTL means far fewer requests ever need to touch a possibly
+  # mid-recycle origin). Deploy + flush Hostinger's CDN cache to see changes
+  # immediately, otherwise they surface within the hour via SWR anyway.
   <FilesMatch "\.(html)$">
-    Header set Cache-Control "public, max-age=60, s-maxage=600, stale-while-revalidate=86400, stale-if-error=86400"
+    Header set Cache-Control "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800, stale-if-error=604800"
     Header set X-Robots-Tag "index, follow, max-image-preview:large"
   </FilesMatch>
 

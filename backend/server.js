@@ -349,17 +349,28 @@ app.use('/assets', express.static(path.join(frontendPath, 'assets'), {
   immutable: true
 }));
 
-// Serve other static assets normally — HTML gets a short edge-cacheable TTL
-// with stale-while-revalidate/stale-if-error so Hostinger's CDN can absorb
-// traffic (and origin hiccups) instead of forwarding every single page view
-// straight to this Node process. Without this, Cache-Control defaulted to
-// "max-age=0" and the CDN treated every HTML response as DYNAMIC (see
-// x-hcdn-cache-status), meaning any origin slowdown or restart was directly
-// exposed to every visitor and to tools like PageSpeed Insights. The pages
-// themselves only change on redeploy, so a few minutes of edge caching is
-// safe — dynamic content (settings, notices, testimonials) is fetched
-// separately via /api/bootstrap and isn't affected by this.
-const HTML_CACHE_CONTROL = 'public, max-age=60, s-maxage=600, stale-while-revalidate=86400, stale-if-error=86400';
+// Serve other static assets normally — HTML gets an edge-cacheable TTL with
+// stale-while-revalidate/stale-if-error so Hostinger's CDN can absorb traffic
+// (and origin hiccups) instead of forwarding every single page view straight
+// to this Node process. Without this, Cache-Control defaulted to "max-age=0"
+// and the CDN treated every HTML response as DYNAMIC (see x-hcdn-cache-status),
+// meaning any origin slowdown was directly exposed to every visitor and to
+// tools like PageSpeed Insights.
+//
+// s-maxage is intentionally a full day, not a few minutes: Hostinger confirmed
+// this plan's Node process can be recycled by the platform at any time, with
+// no way to prevent it or keep a worker always warm — confirmed by repeated
+// PageSpeed runs swinging from 90+ to 40s straight through this fix's first
+// version (s-maxage=600). Every 10-minute revalidation was another window for
+// a real visitor, a Google Ads click, or a PSI run to land exactly when a
+// worker was mid-recycle. A day-long TTL means any single edge only needs to
+// touch origin roughly once a day instead of ~144 times, cutting exposure to
+// that instability by the same factor. The pages only change on redeploy —
+// deploy a change and flush Hostinger's CDN cache (hPanel > CDN > Flush
+// cache) to see it immediately, otherwise it surfaces within the hour anyway
+// via stale-while-revalidate. Dynamic content (settings, notices,
+// testimonials) is fetched separately via /api/bootstrap and is unaffected.
+const HTML_CACHE_CONTROL = 'public, max-age=300, s-maxage=86400, stale-while-revalidate=604800, stale-if-error=604800';
 
 // Every prerendered page's own <link rel="canonical"> declares the NO-slash
 // URL as canonical (e.g. /services/ac-cleaning), but express.static's default
